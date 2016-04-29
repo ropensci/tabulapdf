@@ -1,6 +1,5 @@
 .travis.yml
 .gitmodules
-java/*
 CONTRIBUTING.md
 README.Rmd
 drat.sh
