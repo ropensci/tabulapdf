@@ -1,0 +1,47 @@
+# Extract Tables from PDFs #
+
+**tabulizer** provides R bindings to the [Tabula java library](https://github.com/tabulapdf/tabula-java/), which can be used to computationaly extract tables from PDF documents.
+
+Note: tabulizer is released under the MIT license, as is Tabula itself.
+
+## Code Examples ##
+
+There is currently only one function:
+
+```{r}
+library("tabulizer")
+out <- extract_tables("example.pdf")
+str(out)
+```
+
+
+## Installation ##
+
+[![CRAN](http://www.r-pkg.org/badges/version/tabulizer)](http://cran.r-project.org/package=tabulizer)
+[![Build Status](https://travis-ci.org/leeper/tabulizer.png?branch=master)](https://travis-ci.org/leeper/tabulizer)
+[![codecov.io](http://codecov.io/github/leeper/tabulizer/coverage.svg?branch=master)](http://codecov.io/github/leeper/tabulizer?branch=master)
+
+This package is not yet on CRAN. To install the latest development version you can:
+
+```R
+if(!require("ghit")){
+    install.packages("ghit")
+}
+ghit::install_github("leeper/tabulizer")
+```
+
+Note that this package depends on [rJava](https://cran.r-project.org/package=rJava), which implies a system requirement for Java. This can be frustrating, especially on Windows. My preferred setup routine is to use [Chocolatey](https://chocolatey.org/) to obtain, configure, and update Java. You should do this before loading tabulizer.
+
+In command prompt, install Chocolately if you don't already have it:
+
+```
+@powershell -NoProfile -ExecutionPolicy Bypass -Command "iex ((new-object net.webclient).DownloadString('https://chocolatey.org/install.ps1'))" && SET PATH=%PATH%;%ALLUSERSPROFILE%\chocolatey\bin
+```
+
+Then, install java:
+
+```
+choco install jdk7 -y
+```
+
+You should now be able to safely use tabulizer.

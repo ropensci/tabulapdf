@@ -1,0 +1,33 @@
+\documentclass{article}
+
+\begin{document}
+
+<<setup, echo=FALSE>>=
+library("knitr")
+library("datasets")
+@
+
+<<mtcars, echo=FALSE, results="asis">>=
+kable(mtcars)
+@
+
+\clearpage
+
+<<iris1, echo=FALSE, results="asis">>=
+kable(head(iris))
+@
+
+\vspace{20em}
+
+<<iris2, echo=FALSE, results="asis">>=
+kable(tail(iris))
+@
+
+\clearpage
+
+<<ToothGrowth, echo=FALSE, results="asis">>=
+kable(head(ToothGrowth, 15))
+@
+
+
+\end{document}

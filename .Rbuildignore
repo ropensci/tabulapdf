@@ -1,0 +1,10 @@
+.travis.yml
+.gitmodules
+java/*
+CONTRIBUTING.md
+README.Rmd
+drat.sh
+knitreadme.sh
+man-roxygen/
+^.*\.Rproj$
+^\.Rproj\.user$
