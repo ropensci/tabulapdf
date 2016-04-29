@@ -7,3 +7,5 @@
 *.aux
 *.sty
 *.csv
+*.tsv
+*.json

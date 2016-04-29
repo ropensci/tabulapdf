@@ -3,30 +3,30 @@
 \begin{document}
 
 <<setup, echo=FALSE>>=
-library("knitr")
+library("xtable")
 library("datasets")
 @
 
 <<mtcars, echo=FALSE, results="asis">>=
-kable(mtcars)
+xtable(mtcars, align = "|l|r|r|r|r|r|r|r|r|r|r|r|")
 @
 
 \clearpage
 
 <<iris1, echo=FALSE, results="asis">>=
-kable(head(iris))
+xtable(head(iris), align = "|l|r|r|r|r|r|")
 @
 
 \vspace{20em}
 
 <<iris2, echo=FALSE, results="asis">>=
-kable(tail(iris))
+xtable(tail(iris), align = "|l|r|r|r|r|r|")
 @
 
 \clearpage
 
 <<ToothGrowth, echo=FALSE, results="asis">>=
-kable(head(ToothGrowth, 15))
+xtable(ToothGrowth, align = "|l|r|r|r|")
 @
 
 

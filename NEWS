@@ -1,3 +1,7 @@
-# CHANGES TO PACKAGENAME 0.1.1 #
+# CHANGES TO tabulizer 0.1.3 #
+
+* Added multiple table writing options beyond the default list of matrices. (#1)
+
+# CHANGES TO tabulizer 0.1.1 #
 
 * Initial release.

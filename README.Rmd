@@ -19,6 +19,9 @@ str(out)
 ##  $ : chr [1:15, 1] "supp" "VC" "VC" "VC" ...
 ```
 
+By default, it returns the most table-like R structure available: a matrix. It can also write the tables to disk or attempt to coerce them to data.frames.
+
+It is also possible to select tables from only specified pages. It should also be possible to specify smaller areas within pages to look for tables.
 
 ## Installation ##
 

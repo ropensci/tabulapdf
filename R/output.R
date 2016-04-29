@@ -1,4 +1,4 @@
-write_tables <- function(file, tables) {
+write_csvs <- function(tables, file, ...) {
     writer <- new(J("technology.tabula.writers.CSVWriter"))
     
     tablesIterator <- tables$iterator()
@@ -12,10 +12,44 @@ write_tables <- function(file, tables) {
         bufferedWriter$close()
         p <- p + 1L
     }
-    TRUE
+    normalizePath(dirname(file))
 }
 
-list_tables <- function(tables) {
+write_tsvs <- function(tables, file, ...) {
+    writer <- new(J("technology.tabula.writers.TSVWriter"))
+    
+    tablesIterator <- tables$iterator()
+    p <- 1L
+    while (tablesIterator$hasNext()) {
+        outfile <- paste0(file_path_sans_ext(file), "-", p, ".tsv")
+        bufferedWriter <- new(J("java.io.BufferedWriter"), new(J("java.io.FileWriter"), outfile))
+        tab <- J(tablesIterator, "next")
+        writer$write(bufferedWriter, tab)
+        rm(tab)
+        bufferedWriter$close()
+        p <- p + 1L
+    }
+    normalizePath(dirname(file))
+}
+
+write_jsons <- function(tables, file, ...) {
+    writer <- new(J("technology.tabula.writers.JSONWriter"))
+    
+    tablesIterator <- tables$iterator()
+    p <- 1L
+    while (tablesIterator$hasNext()) {
+        outfile <- paste0(file_path_sans_ext(file), "-", p, ".json")
+        bufferedWriter <- new(J("java.io.BufferedWriter"), new(J("java.io.FileWriter"), outfile))
+        tab <- J(tablesIterator, "next")
+        writer$write(bufferedWriter, tab)
+        rm(tab)
+        bufferedWriter$close()
+        p <- p + 1L
+    }
+    normalizePath(dirname(file))
+}
+
+list_matrices <- function(tables, ...) {
     out <- list()
     n <- 1L
     tablesIterator <- tables$iterator()
@@ -33,4 +67,23 @@ list_tables <- function(tables) {
         n <- n + 1L
     }
     out
+}
+
+list_characters <- function(tables, sep = "\t", ...) {
+    m <- list_matrices(tables, ...)
+    lapply(m, function(x) {
+        paste0(apply(x, 1, paste, collapse = sep), collapse = "\n")
+    })
+}
+
+list_data_frames <- function(tables, sep = "\t", ...) {
+    char <- list_characters(tables = tables, sep = sep)
+    lapply(char, function(x) {
+        o <- try(read.delim(text = x, ...))
+        if (inherits(o, "try-error")) {
+            return(x)
+        } else {
+            return(o)
+        }
+    })
 }
