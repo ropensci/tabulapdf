@@ -76,10 +76,10 @@ list_characters <- function(tables, sep = "\t", ...) {
     })
 }
 
-list_data_frames <- function(tables, sep = "\t", ...) {
+list_data_frames <- function(tables, sep = "\t", stringsAsFactors = FALSE, ...) {
     char <- list_characters(tables = tables, sep = sep)
     lapply(char, function(x) {
-        o <- try(read.delim(text = x, ...))
+        o <- try(read.delim(text = x, stringsAsFactors = stringsAsFactors, ...))
         if (inherits(o, "try-error")) {
             return(x)
         } else {
