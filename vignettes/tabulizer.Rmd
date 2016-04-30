@@ -1,0 +1,45 @@
+<!--
+%\VignetteEngine{knitr}
+%\VignetteIndexEntry{Introduction to tabulizer}
+-->
+
+# Introduction to tabulizer #
+
+**tabulizer** provides R bindings to the [Tabula java library](https://github.com/tabulapdf/tabula-java/), which can be used to computationaly extract tables from PDF documents. The main function `extract_tables()` mimics the command-line behavior of the Tabula, by extracting all tables from a PDF file and, by default, returns those tables as a list of character matrices in R.
+
+```{r}
+library("tabulizer")
+f <- system.file("examples", "data.pdf", package = "tabulizer")
+
+# extract table from first page of example PDF
+tab <- extract_tables(f, pages = 1)
+head(tab[[1]])
+```
+
+The `pages` argument allows you to select which pages to attempt to extract tables from. By default, Tabula (and thus tabulizer) checks every page for tables using a detection algorithm and returns all of them. `pages` can be an integer vector of any length; pages are indexed from 1.
+
+It is possible to specify a remote file, which will be copied to R's temporary directory before processing:
+
+```{r}
+f2 <- "https://github.com/leeper/tabulizer/raw/master/inst/examples/data.pdf"
+extract_tables(f2, pages = 2)
+```
+
+## Modifying the Return Value ##
+
+By default, `extract_tables()` returns a list of character matrices. This is because many tables might be malformed or irregular and thus not be easily coerced to an R data.frame. This can easily be changed by specifying the `method` argument:
+
+```{r}
+# attempt to coerce tables to data.frames
+extract_tables(f, pages = 2, method = "data.frame")
+```
+
+Tabula itself implements three "writer" methods that write extracted tables to disk as CSV, TSV, or JSON files. These can be specified by `method = "csv"`, `method = "tsv"`, and `method = "json"`, respectively. For CSV and TSV, one file is written to disk for each table, in the same directory as the original file (or the temporary directory if the file is a remote PDF). For JSON, one file is written containing information about all tables. For these methods, `extract_tables()` returns a path to the directory containing the output files.
+
+```{r}
+# extract tables to CSVs
+extract_tables(f, method = "csv")
+```
+
+If none of the standard methods works well, you can specify `method = "asis"` to return an rJava "jobjRef" object, which is a pointer to a Java ArrayList of Tabula Table objects. Working with that object might be quite awkward as it requires knowledge of Java and Tabula's internals, but might be useful to advanced users for debugging purposes.
+
