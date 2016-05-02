@@ -9,7 +9,7 @@
 Bindings for \dQuote{Tabula} PDF Table Extractor Library
 }
 \details{
-Tabula is a Java library designed to computationally extract tables from PDF documents. tabulizer provides a thin R package with bindings to the library. It presently offers one function: \code{\link{extract_tables}}, which mimics the command line functionality of Tabula.
+Tabula is a Java library designed to computationally extract tables from PDF documents. tabulizer provides a thin R package with bindings to the library. It presently offers two principal functions: \code{\link{extract_tables}}, which mimics the command line functionality of Tabula, and \code{\link{extract_areas}} which provides an interactive interface to the former.
 }
 \author{
 Thomas J. Leeper <thosjleeper@gmail.com>
@@ -18,7 +18,7 @@ Thomas J. Leeper <thosjleeper@gmail.com>
 \href{http://tabula.technology/}{tabula}
 }
 \seealso{
-\code{\link{extract_tables}}
+\code{\link{extract_tables}}, \code{\link{extract_areas}}
 }
 \keyword{package}
 

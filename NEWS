@@ -1,3 +1,9 @@
+# CHANGES TO tabulizer 0.1.7 #
+
+* Added a function, `extract_areas()`, to interactively identify and extract page areas. Another new function, `locates_areas()` implements the locator functionality without performing any extraction.
+* Added a function, `make_thumbnails()`, to convert pages into individual image files.
+* Added a function, `get_page_dims()`, to extract page dimensions.
+
 # CHANGES TO tabulizer 0.1.6 #
 
 * Fixed a bug in the repeating of the `area` argument when `length(area) == 1 & length(pages) > 1`. (#5, #6)

@@ -6,7 +6,7 @@ Note: tabulizer is released under the MIT license, as is Tabula itself.
 
 ## Code Examples ##
 
-There is currently only one function:
+The main function, `extract_tables()` provides an R clone of the Tabula command line application:
 
 ```R
 library("tabulizer")
@@ -41,7 +41,14 @@ List of 1
   ..$ carb: int [1:33] 4 4 1 1 2 1 4 2 2 4 ...
 ```
 
-It should also be possible to specify smaller areas within pages to look for tables using the `area` and `columns` arguments.
+It is also possible to manually specify smaller areas within pages to look for tables using the `area` and `columns` arguments to `extract_tables()`. This facilitates extraction from smaller portions of a page, such as when a table is embeded in a larger section of text or graphics.
+
+Another function, `extract_areas()` implements this through an interactive style in which each page of the PDF is loaded as an R graphic and the user can use their mouse to specify upper-left and lower-right bounds of an area. Those areas are then extracted auto-magically and the return value is the same as for `extract_tables()`. `locate_areas()` handles the area identification process without performing the extraction, which may be useful as a debugger.
+
+Some other utility functions are also provided (and made possible by the [Java PDFBox library](https://pdfbox.apache.org/)):
+
+ - `get_page_dims()` determines the width and height of each page in pt (the unit used by `area` and `columns` arguments)
+ - `make_thumbnails()` converts specified pages of a PDF file to image files.
 
 ## Installation ##
 
