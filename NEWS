@@ -1,6 +1,10 @@
-# CHANGES TO tabulizer 0.1.4 #
+# CHANGES TO tabulizer 0.1.6 #
 
-* Fixed a bug in the handling of the `area` argument. (#6)
+* Fixed a bug in the repeating of the `area` argument when `length(area) == 1 & length(pages) > 1`. (#5, #6)
+
+# CHANGES TO tabulizer 0.1.5 #
+
+* Fixed a bug in the handling of the `area` argument. (#5, #6)
 
 # CHANGES TO tabulizer 0.1.4 #
 

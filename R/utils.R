@@ -22,7 +22,7 @@ make_area <- function(area = NULL, pages = NULL) {
         }
         if (!is.null(pages)) {
             if ((length(area) == 1L) && (length(pages) != 1L)) {
-                area <- rep(area[[1]], length(pages))
+                area <- rep(area[1], length(pages))
             } else if (length(area) != length(pages)) {
                 stop("'area' must be a list of length 1 or length equal to number of pages")
             }

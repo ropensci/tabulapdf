@@ -2,8 +2,8 @@
 #' @description Extract tables from a file
 #' @param file A character string specifying the path to a PDF file.
 #' @param pages An optional integer vector specifying pages to extract from.
-#' @param area An optional list, of length equal to the number of pages specified, where each entry contains a four-element numeric vector of coordinates (top,left,bottom,right) containing the table for the corresponding page. Specify \code{area} xor \code{columns}.
-#' @param columns An optional list, of length equal to the number of pages specified, where each entry contains a numeric vector of horizontal (x) coordinates separating columns of data for the corresponding page. Specify \code{area} xor \code{columns}.
+#' @param area An optional list, of length equal to the number of pages specified, where each entry contains a four-element numeric vector of coordinates (top,left,bottom,right) containing the table for the corresponding page. As a convenience, a list of length 1 can be used to extract the same area from all specifed pages. Only specify \code{area} xor \code{columns}.
+#' @param columns An optional list, of length equal to the number of pages specified, where each entry contains a numeric vector of horizontal (x) coordinates separating columns of data for the corresponding page. As a convenience, a list of length 1 can be used to specify the same columns for all specified pages. Only specify \code{area} xor \code{columns}.
 #' @param guess A logical indicating whether to guess the locations of tables on each page. If \code{FALSE}, \code{area} or \code{columns} must be specified; if \code{TRUE}, columns is ignored.
 #' @param spreadsheet A logical indicating whether to use Tabula's spreadsheet extraction algorithm. If \code{NULL} (the default), an automated assessment is made about whether it is appropriate.
 #' @param method A function to coerce the Java response object (a Java ArrayList of Tabula Tables) to some output format. The default method, \dQuote{matrices}, returns a list of character matrices. See Details for other options.
