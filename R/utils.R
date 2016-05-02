@@ -28,7 +28,7 @@ make_area <- function(area = NULL, pages = NULL) {
             }
         }
         area <- lapply(area, function(x) {
-            new(J("technology.tabula.Rectangle"), .jfloat(x[1]), .jfloat(x[2]), .jfloat(x[3]), .jfloat(x[4]))
+            new(J("technology.tabula.Rectangle"), .jfloat(x[1]), .jfloat(x[2]), .jfloat(x[4]-x[2]), .jfloat(x[3]-x[1]))
         })
     }
     area

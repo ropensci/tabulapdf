@@ -1,5 +1,9 @@
 # CHANGES TO tabulizer 0.1.4 #
 
+* Fixed a bug in the handling of the `area` argument. (#6)
+
+# CHANGES TO tabulizer 0.1.4 #
+
 * Added vignette. (#4)
 * Added tests of guess parameter. (#3)
 * Added a `spreadsheet` argument, a la Tabula itself.
