@@ -12,6 +12,8 @@ URL: https://github.com/leeper/tabulizer
 BugReports: https://github.com/leeper/tabulizer/issues
 Imports:
     graphics,
+    grDevices,
+    utils,
     tools,
     rJava,
     png

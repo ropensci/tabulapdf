@@ -25,7 +25,8 @@
 #' @importFrom rJava J new
 #' @seealso \code{\link{extract_tables}}, \code{\link{make_thumbnails}}, , \code{\link{get_page_dims}}
 #' @importFrom png readPNG
-#' @importFrom graphics par rasterImage locator
+#' @importFrom grDevices dev.capabilities dev.off
+#' @importFrom graphics par rasterImage locator plot
 #' @export
 locate_areas <- function(file, pages = NULL, silent = TRUE) {
     capable <- dev.capabilities("locator")$locator

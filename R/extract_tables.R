@@ -28,6 +28,7 @@
 #' extract_tables(f, pages = 2, method = "data.frame")
 #' }
 #' @seealso \code{\link{extract_areas}}, \code{\link{get_page_dims}}, \code{\link{make_thumbnails}}
+#' @importFrom utils read.delim download.file
 #' @importFrom tools file_path_sans_ext
 #' @importFrom rJava J new  .jpackage .jfloat
 #' @export
