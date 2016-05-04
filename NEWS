@@ -1,3 +1,7 @@
+# CHANGES TO tabulizer 0.1.9 #
+
+* Fixed the same bug in `make_columns()` as was corrected for `make_areas()`. (#5)
+
 # CHANGES TO tabulizer 0.1.8 #
 
 * Fixed a bug in `make_areas()` internal when `area` was specified as a length 1 list for a multi-page document. (#5, h/t Tony Hirst)

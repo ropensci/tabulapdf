@@ -60,7 +60,7 @@ function(file = "../inst/examples/mtcars.pdf",
     }
     npages <- pdfDocument$getDocumentCatalog()$getAllPages()$size()
     area <- make_area(area = area, pages = pages, npages = npages)
-    columns <- make_columns(columns = columns, pages = pages)
+    columns <- make_columns(columns = columns, pages = pages, npages = npages)
     
     # setup extractors
     basicExtractor <- new(J("technology.tabula.extractors.BasicExtractionAlgorithm"))

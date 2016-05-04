@@ -40,7 +40,7 @@ make_area <- function(area = NULL, pages = NULL, npages = NULL) {
     area
 }
 
-make_columns <- function(columns = NULL, pages = NULL) {
+make_columns <- function(columns = NULL, pages = NULL, npages = NULL) {
     if (!is.null(columns)) {
         if (!is.list(columns)) {
             stop("'columns' must be a list of length 1 or length equal to number of pages")
@@ -49,6 +49,12 @@ make_columns <- function(columns = NULL, pages = NULL) {
             if ((length(columns) == 1L) && (length(pages) != 1L)) {
                 columns <- rep(columns, length(pages))
             } else if (length(columns) != length(pages)) {
+                stop("'columns' must be a list of length 1 or length equal to number of pages")
+            }
+        } else {
+            if ((length(columns) == 1L) && (npages != 1L)) {
+                columns <- rep(columns[1], npages)
+            } else if (length(columns) != npages) {
                 stop("'columns' must be a list of length 1 or length equal to number of pages")
             }
         }
