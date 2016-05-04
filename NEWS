@@ -1,5 +1,6 @@
 # CHANGES TO tabulizer 0.1.9 #
 
+* Expanded test suite to cover `areas` and `columns` arguments and utilities. (#3)
 * Fixed the same bug in `make_columns()` as was corrected for `make_areas()`. (#5)
 
 # CHANGES TO tabulizer 0.1.8 #

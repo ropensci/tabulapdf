@@ -3,17 +3,51 @@ context("Test Utilities")
 pdffile <- system.file("examples", "data.pdf", package = "tabulizer")
     
 test_that("Page dimensions", {
-    d <- get_page_dims(pdffile)
-    expect_true(is.list(d))
-    expect_true(length(d) == 3)
-    expect_true(all.equal(d[[1]], c(612, 792)))
+    d1 <- get_page_dims(pdffile)
+    expect_true(is.list(d1))
+    expect_true(length(d1) == 3)
+    expect_true(all.equal(d1[[1]], c(612, 792)))
+    d2 <- get_page_dims(pdffile, pages = 1)
+    expect_true(length(d2) == 1)
 })
 
-test_that("Page dimensions", {
+test_that("Make thumbnails", {
     tmp <- tempfile(fileext = ".pdf")
     file.copy(pdffile, tmp)
-    m <- make_thumbnails(tmp)
-    expect_true(length(m) == 3)
-    unlink(m)
+    m1 <- make_thumbnails(tmp)
+    expect_true(length(m1) == 3)
+    unlink(m1)
+    m2 <- make_thumbnails(tmp, pages = 1)
+    expect_true(length(m2) == 1)
+    unlink(m2)
 })
 
+test_that("Repeat areas", {
+    a1 <- tabulizer:::make_area(list(c(0, 0, 10, 10)), pages = 1)
+    a2 <- tabulizer:::make_area(list(c(0, 0, 10, 10)), pages = 1:2)
+    a3 <- tabulizer:::make_area(list(c(0, 0, 10, 10)), npages = 2)
+    expect_true(length(a1) == 1)
+    expect_true(length(a2) == 2)
+    expect_true(length(a3) == 2)
+})
+
+test_that("make_area errors", {
+    expect_error(tabulizer:::make_area(1L))
+    expect_error(tabulizer:::make_area(list(c(0,0,10,10), c(0,0,10,10)), pages = 1))
+    expect_error(tabulizer:::make_area(list(c(0,0,10,10), c(0,0,10,10)), npages = 3))
+})
+
+test_that("Repeat columns", {
+    c1 <- tabulizer:::make_columns(list(c(0, 0, 10, 10)), pages = 1)
+    c2 <- tabulizer:::make_columns(list(c(0, 0, 10, 10)), pages = 1:2)
+    c3 <- tabulizer:::make_columns(list(c(0, 0, 10, 10)), npages = 2)
+    expect_true(length(c1) == 1)
+    expect_true(length(c2) == 2)
+    expect_true(length(c3) == 2)
+})
+
+test_that("make_columns errors", {
+    expect_error(tabulizer:::make_columns(1L))
+    expect_error(tabulizer:::make_columns(list(c(0,1,2,3), c(0,1,2,3)), pages = 1))
+    expect_error(tabulizer:::make_columns(list(c(0,1,2,3), c(0,1,2,3)), npages = 3))
+})
