@@ -1,3 +1,7 @@
+# CHANGES TO tabulizer 0.1.8 #
+
+* Fixed a bug in `make_areas()` internal when `area` was specified as a length 1 list for a multi-page document. (#5, h/t Tony Hirst)
+
 # CHANGES TO tabulizer 0.1.7 #
 
 * Added a function, `extract_areas()`, to interactively identify and extract page areas. Another new function, `locates_areas()` implements the locator functionality without performing any extraction.

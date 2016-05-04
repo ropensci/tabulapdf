@@ -15,7 +15,7 @@ make_pages <- function(pages, oe) {
     return(x)
 }
 
-make_area <- function(area = NULL, pages = NULL) {
+make_area <- function(area = NULL, pages = NULL, npages = NULL) {
     if (!is.null(area)) {
         if (!is.list(area)) {
             stop("'area' must be a list of length 1 or length equal to number of pages")
@@ -24,6 +24,12 @@ make_area <- function(area = NULL, pages = NULL) {
             if ((length(area) == 1L) && (length(pages) != 1L)) {
                 area <- rep(area[1], length(pages))
             } else if (length(area) != length(pages)) {
+                stop("'area' must be a list of length 1 or length equal to number of pages")
+            }
+        } else {
+            if ((length(area) == 1L) && (npages != 1L)) {
+                area <- rep(area[1], npages)
+            } else if (length(area) != npages) {
                 stop("'area' must be a list of length 1 or length equal to number of pages")
             }
         }
