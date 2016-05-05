@@ -33,7 +33,7 @@
 #' @importFrom rJava J new  .jpackage .jfloat
 #' @export
 extract_tables <- 
-function(file = "../inst/examples/mtcars.pdf", 
+function(file, 
          pages = NULL, 
          area = NULL, 
          columns = NULL,

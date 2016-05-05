@@ -4,9 +4,8 @@
 \alias{extract_tables}
 \title{extract_tables}
 \usage{
-extract_tables(file = "../inst/examples/mtcars.pdf", pages = NULL,
-  area = NULL, columns = NULL, guess = TRUE, spreadsheet = NULL,
-  method = "matrix", ...)
+extract_tables(file, pages = NULL, area = NULL, columns = NULL,
+  guess = TRUE, spreadsheet = NULL, method = "matrix", ...)
 }
 \arguments{
 \item{file}{A character string specifying the path to a PDF file.}
