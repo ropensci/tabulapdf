@@ -24,6 +24,7 @@ By default, it returns the most table-like R structure available: a matrix. It c
 
 ```R
 out2 <- extract_tables(f, pages = 1, guess = FALSE, method = "data.frame")
+str(out2)
 List of 1
  $ :'data.frame':       33 obs. of  13 variables:
   ..$ X   : chr [1:33] "Mazda RX4 " "Mazda RX4 Wag " "Datsun 710 " "Hornet 4 Drive " ...
@@ -49,8 +50,35 @@ Another function, `extract_areas()` implements this through an interactive style
 
 `locate_areas()` handles the area identification process without performing the extraction, which may be useful as a debugger.
 
+`extract_text()` simply returns text, possibly separately for each (specified) page:
+
+```R
+out3 <- extract_text(f, page = 3)
+cat(out3, sep = "\n")
+
+len supp dose
+4.2 VC 0.5
+11.5 VC 0.5
+7.3 VC 0.5
+5.8 VC 0.5
+6.4 VC 0.5
+10.0 VC 0.5
+11.2 VC 0.5
+11.2 VC 0.5
+5.2 VC 0.5
+7.0 VC 0.5
+16.5 VC 1.0
+16.5 VC 1.0
+15.2 VC 1.0
+17.3 VC 1.0
+22.5 VC 1.0
+3
+```
+
 Some other utility functions are also provided (and made possible by the [Java PDFBox library](https://pdfbox.apache.org/)):
 
+ - `extract_text()` converts the text of an entire file or specified pages into an R character vector.
+ - `extract_metadata()` extracts PDF metadata as a list.
  - `get_page_dims()` determines the width and height of each page in pt (the unit used by `area` and `columns` arguments)
  - `make_thumbnails()` converts specified pages of a PDF file to image files.
 

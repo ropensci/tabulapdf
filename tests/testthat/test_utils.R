@@ -22,6 +22,17 @@ test_that("Make thumbnails", {
     unlink(m2)
 })
 
+test_that("Extract Metadata", {
+    expect_true(is.list(extract_metadata(pdffile)))
+})
+
+test_that("Extract text", {
+    expect_true(is.character(extract_text(pdffile)))
+    expect_true(length(extract_text(pdffile)) == 1)
+    expect_true(length(extract_text(pdffile, pages = 2)) == 1)
+    expect_true(length(extract_text(pdffile, pages = c(1,3))) == 2)
+})
+
 test_that("Repeat areas", {
     a1 <- tabulizer:::make_area(list(c(0, 0, 10, 10)), pages = 1)
     a2 <- tabulizer:::make_area(list(c(0, 0, 10, 10)), pages = 1:2)

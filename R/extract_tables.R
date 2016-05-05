@@ -42,6 +42,8 @@ function(file,
          method = "matrix",
          ...) {
 
+    file <- localize_file(path = file)
+
     # load PDF file into Tabula
     PDDocumentClass <- new(J("org.apache.pdfbox.pdmodel.PDDocument"))
     pdfDocument <- PDDocumentClass$load(file)

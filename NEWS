@@ -1,6 +1,8 @@
 # CHANGES TO tabulizer 0.1.10 #
 
-* Removed an internal function because PDFBox can read PDF files directly from a URL.
+* Added a new function `extract_metadata()` to extract PDF metadata as a list.
+* Added a new function `extract_text()` to convert PDF contents to an R character vector.
+* Changed the internal `localize_file()` function to use PDFBox to natively read from a URL.
 * Removed illogical default `file` argument value in `extract_tables()`.
 
 # CHANGES TO tabulizer 0.1.9 #

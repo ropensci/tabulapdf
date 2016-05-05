@@ -1,6 +1,6 @@
 #' @title make_thumbnails
 #' @description Convert Pages to Image Thumbnails
-#' @param file A character string specifying the path to a PDF file.
+#' @param file A character string specifying the path or URL to a PDF file.
 #' @param pages An optional integer vector specifying pages to extract from.
 #' @param format A character string specifying an image file format.
 #' @param resolution An integer specifying the image resolution in DPI.
@@ -18,13 +18,10 @@
 #' }
 #' @importFrom tools file_path_sans_ext
 #' @importFrom rJava J new
-#' @seealso \code{\link{extract_tables}}, \code{\link{make_thumbnails}}
+#' @seealso \code{\link{extract_tables}}, \code{\link{extract_text}}, \code{\link{make_thumbnails}}
 #' @export
 make_thumbnails <- function(file, pages = NULL, format = c("png", "jpeg", "bmp", "gif"), resolution = 72L) {
-    
-    # copy remote files to temp directory
     file <- localize_file(path = file)
-    
     pdfDocument <- new(J("org.apache.pdfbox.pdmodel.PDDocument"))
     doc <- pdfDocument$load(file)
     pdfDocument$close()

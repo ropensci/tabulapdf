@@ -1,6 +1,6 @@
 #' @title get_page_dims
 #' @description Get Page Dimensions
-#' @param file A character string specifying the path to a PDF file.
+#' @param file A character string specifying the path or URL to a PDF file.
 #' @param pages An optional integer vector specifying pages to extract from.
 #' @details This function extracts the dimensions of pages in a PDF document. This can be useful for figuring out how to specify the \code{area} argument in \code{\link{extract_tables}}
 #' @return A list of two-element numeric vectors specifying the width and height of each page, respectively.
@@ -15,12 +15,10 @@
 #' }
 #' @importFrom tools file_path_sans_ext
 #' @importFrom rJava J new
-#' @seealso \code{\link{extract_tables}}, \code{\link{make_thumbnails}}
+#' @seealso \code{\link{extract_tables}}, \code{\link{extract_text}}, \code{\link{make_thumbnails}}
 #' @export
 get_page_dims <- function(file, pages = NULL) {
-    # copy remote files to temp directory
     file <- localize_file(path = file)
-    
     pdfDocument <- new(J("org.apache.pdfbox.pdmodel.PDDocument"))
     doc <- pdfDocument$load(file)
     pdfDocument$close()

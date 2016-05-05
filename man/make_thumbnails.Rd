@@ -8,7 +8,7 @@ make_thumbnails(file, pages = NULL, format = c("png", "jpeg", "bmp", "gif"),
   resolution = 72L)
 }
 \arguments{
-\item{file}{A character string specifying the path to a PDF file.}
+\item{file}{A character string specifying the path or URL to a PDF file.}
 
 \item{pages}{An optional integer vector specifying pages to extract from.}
 
@@ -43,6 +43,6 @@ Thomas J. Leeper <thosjleeper@gmail.com>
 \href{http://tabula.technology/}{Tabula}
 }
 \seealso{
-\code{\link{extract_tables}}, \code{\link{make_thumbnails}}
+\code{\link{extract_tables}}, \code{\link{extract_text}}, \code{\link{make_thumbnails}}
 }
 
