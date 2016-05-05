@@ -1,8 +1,6 @@
 localize_file <- function(path) {
     if (grepl("^http.*://", path)) {
-        tmp <- tempfile(fileext = basename(path))
-        download.file(path, destfile = tmp, method = "libcurl", quiet = TRUE, mode = "wb")
-        return(tmp)
+        path <- new(J("java.net.URL"), path)
     }
     path
 }

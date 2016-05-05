@@ -8,7 +8,7 @@ extract_tables(file, pages = NULL, area = NULL, columns = NULL,
   guess = TRUE, spreadsheet = NULL, method = "matrix", ...)
 }
 \arguments{
-\item{file}{A character string specifying the path to a PDF file.}
+\item{file}{A character string specifying the path or URL to a PDF file.}
 
 \item{pages}{An optional integer vector specifying pages to extract from.}
 

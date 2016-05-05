@@ -1,3 +1,8 @@
+# CHANGES TO tabulizer 0.1.10 #
+
+* Removed an internal function because PDFBox can read PDF files directly from a URL.
+* Removed illogical default `file` argument value in `extract_tables()`.
+
 # CHANGES TO tabulizer 0.1.9 #
 
 * Expanded test suite to cover `areas` and `columns` arguments and utilities. (#3)
