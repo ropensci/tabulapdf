@@ -97,7 +97,7 @@ tabulizer is not yet on CRAN. To install the latest development version you can:
 if(!require("ghit")){
     install.packages("ghit")
 }
-ghit::install_github("leeper/tabulizer", INSTALL_opts = "--no-multiarch")
+ghit::install_github(c("leeper/tabulizerjars", "leeper/tabulizer"), INSTALL_opts = "--no-multiarch")
 ```
 
 ### Installing Java on Windows with Chocolatey ###
