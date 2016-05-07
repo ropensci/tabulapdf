@@ -56,6 +56,6 @@ Thomas J. Leeper <thosjleeper@gmail.com>
 \href{http://tabula.technology/}{Tabula}
 }
 \seealso{
-\code{\link{extract_areas}}, \code{\link{get_page_dims}}, \code{\link{make_thumbnails}}
+\code{\link{extract_areas}}, \code{\link{get_page_dims}}, \code{\link{make_thumbnails}}, \code{\link{split_pdf}}
 }
 

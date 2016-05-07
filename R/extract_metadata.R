@@ -11,14 +11,11 @@
 #' 
 #' extract_metadata(f)
 #' }
-#' @seealso \code{\link{extract_tables}}, \code{\link{extract_areas}}, \code{\link{extract_text}}
+#' @seealso \code{\link{extract_tables}}, \code{\link{extract_areas}}, \code{\link{extract_text}}, \code{\link{split_pdf}}
 #' @importFrom rJava J new
 #' @export
 extract_metadata <- function(file) {
-    file <- localize_file(path = file)
-    PDDocumentClass <- new(J("org.apache.pdfbox.pdmodel.PDDocument"))
-    pdfDocument <- PDDocumentClass$load(file)
-    PDDocumentClass$close()
+    pdfDocument <- load_doc(file)
     on.exit(pdfDocument$close())
     
     info <- pdfDocument$getDocumentInformation()

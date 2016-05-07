@@ -2,6 +2,11 @@ context("Test Utilities")
 
 pdffile <- system.file("examples", "data.pdf", package = "tabulizer")
     
+test_that("Page length", {
+    np <- get_n_pages(file = pdffile)
+    expect_true(np == 3)
+})
+
 test_that("Page dimensions", {
     d1 <- get_page_dims(pdffile)
     expect_true(is.list(d1))

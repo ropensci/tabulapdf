@@ -27,7 +27,7 @@
 #' # return data.frames
 #' extract_tables(f, pages = 2, method = "data.frame")
 #' }
-#' @seealso \code{\link{extract_areas}}, \code{\link{get_page_dims}}, \code{\link{make_thumbnails}}
+#' @seealso \code{\link{extract_areas}}, \code{\link{get_page_dims}}, \code{\link{make_thumbnails}}, \code{\link{split_pdf}}
 #' @import tabulizerjars
 #' @importFrom utils read.delim download.file
 #' @importFrom tools file_path_sans_ext
@@ -43,12 +43,7 @@ function(file,
          method = "matrix",
          ...) {
 
-    file <- localize_file(path = file)
-
-    # load PDF file into Tabula
-    PDDocumentClass <- new(J("org.apache.pdfbox.pdmodel.PDDocument"))
-    pdfDocument <- PDDocumentClass$load(file)
-    PDDocumentClass$close()
+    pdfDocument <- load_doc(file)
     on.exit(pdfDocument$close())
     oe <- new(J("technology.tabula.ObjectExtractor"), pdfDocument)
     

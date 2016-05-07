@@ -5,6 +5,14 @@ localize_file <- function(path) {
     path
 }
 
+load_doc <- function(file) {
+    file <- localize_file(path = file)
+    pdfDocument <- new(J("org.apache.pdfbox.pdmodel.PDDocument"))
+    doc <- pdfDocument$load(file)
+    pdfDocument$close()
+    doc
+}
+
 make_pages <- function(pages, oe) {
     x <- new(J("java.util.ArrayList"))
     sapply(pages, function(z) {

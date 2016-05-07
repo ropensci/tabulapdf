@@ -77,8 +77,10 @@ cat(out3, sep = "\n")
 Some other utility functions are also provided (and made possible by the [Java PDFBox library](https://pdfbox.apache.org/)):
 
  - `extract_text()` converts the text of an entire file or specified pages into an R character vector.
+ - `split_pdf()` and `merge_pdfs()` split and merge PDF documents, respectively.
  - `extract_metadata()` extracts PDF metadata as a list.
- - `get_page_dims()` determines the width and height of each page in pt (the unit used by `area` and `columns` arguments)
+ - `get_n_pages()` determines the number of pages in a document.
+ - `get_page_dims()` determines the width and height of each page in pt (the unit used by `area` and `columns` arguments).
  - `make_thumbnails()` converts specified pages of a PDF file to image files.
 
 ## Installation ##

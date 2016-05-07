@@ -1,5 +1,7 @@
 # CHANGES TO tabulizer 0.1.11 #
 
+* Exposed new functions `split_pdf()` and `merge_pdfs()` to split and merge PDFs, respectively. (#9)
+* Exposed a `get_n_pages()` to determine the page length of a PDF document.
 * Moved tabula .jar file to separate package, tabulizerjars. (#2)
 
 # CHANGES TO tabulizer 0.1.10 #

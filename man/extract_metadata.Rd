@@ -30,6 +30,6 @@ extract_metadata(f)
 Thomas J. Leeper <thosjleeper@gmail.com>
 }
 \seealso{
-\code{\link{extract_tables}}, \code{\link{extract_areas}}, \code{\link{extract_text}}
+\code{\link{extract_tables}}, \code{\link{extract_areas}}, \code{\link{extract_text}}, \code{\link{split_pdf}}
 }
 

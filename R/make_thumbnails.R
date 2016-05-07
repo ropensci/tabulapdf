@@ -21,23 +21,20 @@
 #' @seealso \code{\link{extract_tables}}, \code{\link{extract_text}}, \code{\link{make_thumbnails}}
 #' @export
 make_thumbnails <- function(file, pages = NULL, format = c("png", "jpeg", "bmp", "gif"), resolution = 72L) {
-    file <- localize_file(path = file)
-    pdfDocument <- new(J("org.apache.pdfbox.pdmodel.PDDocument"))
-    doc <- pdfDocument$load(file)
-    pdfDocument$close()
-    on.exit(doc$close())
+    pdfDocument <- load_doc(file)
+    on.exit(pdfDocument$close())
     
     if (!is.null(pages)) {
         pages <- as.integer(pages)
     } else {
-        pages <- 1L:(doc$getDocumentCatalog()$getAllPages()$size())
+        pages <- 1L:(get_n_pages(doc = pdfDocument))
     }
     
     format <- match.arg(format)
     
     out <- lapply(pages, function(x) {
         PDFImageWriter <- new(J("org.apache.pdfbox.util.PDFImageWriter"))
-        PDFImageWriter$writeImage(doc, format, "", x, x, file_path_sans_ext(file), 1L, as.integer(resolution))
+        PDFImageWriter$writeImage(pdfDocument, format, "", x, x, file_path_sans_ext(file), 1L, as.integer(resolution))
     })
     out <- unlist(out)
     ifelse(out, paste0(file_path_sans_ext(file), pages, ".", format), NA_character_)

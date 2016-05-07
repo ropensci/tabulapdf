@@ -16,14 +16,11 @@
 #' # extract all text
 #' extract_text(f)
 #' }
-#' @seealso \code{\link{extract_tables}}, \code{\link{extract_areas}}
+#' @seealso \code{\link{extract_tables}}, \code{\link{extract_areas}}, \code{\link{split_pdf}}
 #' @importFrom rJava J new
 #' @export
 extract_text <- function(file, pages = NULL) {
-    file <- localize_file(path = file)
-    PDDocumentClass <- new(J("org.apache.pdfbox.pdmodel.PDDocument"))
-    pdfDocument <- PDDocumentClass$load(file)
-    PDDocumentClass$close()
+    pdfDocument <- load_doc(file)
     on.exit(pdfDocument$close())
     
     stripper <- new(J("org.apache.pdfbox.util.PDFTextStripper"))

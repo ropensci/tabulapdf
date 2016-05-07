@@ -36,6 +36,6 @@ extract_text(f)
 Thomas J. Leeper <thosjleeper@gmail.com>
 }
 \seealso{
-\code{\link{extract_tables}}, \code{\link{extract_areas}}
+\code{\link{extract_tables}}, \code{\link{extract_areas}}, \code{\link{split_pdf}}
 }
 
