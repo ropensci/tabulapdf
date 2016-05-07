@@ -4,6 +4,8 @@ r_packages:
 - knitr
 - covr
 - drat
+r_github_packages:
+- leeper/tabulizerjars
 after_failure:
   email: 
     recipients:

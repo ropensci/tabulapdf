@@ -1,3 +1,7 @@
+# CHANGES TO tabulizer 0.1.11 #
+
+* Moved tabula .jar file to separate package, tabulizerjars. (#2)
+
 # CHANGES TO tabulizer 0.1.10 #
 
 * Added a new function `extract_metadata()` to extract PDF metadata as a list.

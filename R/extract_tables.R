@@ -28,9 +28,10 @@
 #' extract_tables(f, pages = 2, method = "data.frame")
 #' }
 #' @seealso \code{\link{extract_areas}}, \code{\link{get_page_dims}}, \code{\link{make_thumbnails}}
+#' @import tabulizerjars
 #' @importFrom utils read.delim download.file
 #' @importFrom tools file_path_sans_ext
-#' @importFrom rJava J new  .jpackage .jfloat
+#' @importFrom rJava J new .jfloat
 #' @export
 extract_tables <- 
 function(file, 
