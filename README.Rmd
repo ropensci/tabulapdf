@@ -20,7 +20,7 @@ str(out1)
 ##  $ : chr [1:15, 1] "supp" "VC" "VC" "VC" ...
 ```
 
-By default, it returns the most table-like R structure available: a matrix. It can also write the tables to disk or attempt to coerce them to data.frames usin the `method` argument. It is also possible to select tables from only specified pages using the `pages` argument.
+By default, it returns the most table-like R structure available: a matrix. It can also write the tables to disk or attempt to coerce them to data.frames using the `method` argument. It is also possible to select tables from only specified pages using the `pages` argument.
 
 ```R
 out2 <- extract_tables(f, pages = 1, guess = FALSE, method = "data.frame")
@@ -97,7 +97,10 @@ tabulizer is not yet on CRAN. To install the latest development version you can:
 if(!require("ghit")){
     install.packages("ghit")
 }
+# on 64-bit Windows
 ghit::install_github(c("leeper/tabulizerjars", "leeper/tabulizer"), INSTALL_opts = "--no-multiarch")
+# elsewhere
+ghit::install_github(c("leeper/tabulizerjars", "leeper/tabulizer"))
 ```
 
 ### Installing Java on Windows with Chocolatey ###
@@ -108,10 +111,17 @@ In command prompt, install Chocolately if you don't already have it:
 @powershell -NoProfile -ExecutionPolicy Bypass -Command "iex ((new-object net.webclient).DownloadString('https://chocolatey.org/install.ps1'))" && SET PATH=%PATH%;%ALLUSERSPROFILE%\chocolatey\bin
 ```
 
-Then, install java:
+Then, install java using Chocolately's `choco install` command:
 
 ```
 choco install jdk7 -y
 ```
 
-You should now be able to safely use rJava and tabulizer.
+You may also need to then set the `JAVA_HOME` environment variable to the path to your Java installation (e.g., `C:\Program Files\Java\jdk1.8.0_92`). This can be done:
+
+ 1. within R using `Sys.setenv(JAVA_HOME = "C:/Program Files/Java/jdk1.8.0_92")` (note slashes), or
+ 2. from command prompt using the `setx` command: `setx JAVA_HOME C:\Program Files\Java\jdk1.8.0_92`, or
+ 3. from PowerShell, using the .NET framework: `[Environment]::SetEnvironmentVariable("JAVA_HOME", "C:\Program Files\Java\jdk1.8.0_92", "User")`, or
+ 4. from the Start Menu, via `Control Panel » System » Advanced » Environment Variables` ([instructions here](http://superuser.com/a/284351/221772)).
+
+You should now be able to safely open R, and use rJava and tabulizer.
