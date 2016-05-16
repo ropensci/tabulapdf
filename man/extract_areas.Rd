@@ -10,7 +10,7 @@ locate_areas(file, pages = NULL, silent = TRUE)
 extract_areas(file, pages = NULL, guess = FALSE, ...)
 }
 \arguments{
-\item{file}{A character string specifying the path to a PDF file.}
+\item{file}{A character string specifying the path to a PDF file. This can also be a URL, in which case the file will be downloaded to the R temporary directory using \code{download.file}.}
 
 \item{pages}{An optional integer vector specifying pages to extract from. To extract multiple tables from a given page, repeat the page number (e.g., \code{c(1,2,2,3)}).}
 

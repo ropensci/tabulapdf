@@ -1,3 +1,7 @@
+# CHANGES TO tabulizer 0.1.12 #
+
+* Improve handling of URLs when using `extract_areas()` by downloading PDF to temporary directory.
+
 # CHANGES TO tabulizer 0.1.11 #
 
 * Exposed new functions `split_pdf()` and `merge_pdfs()` to split and merge PDFs, respectively. (#9)

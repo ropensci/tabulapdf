@@ -1,7 +1,7 @@
 #' @rdname extract_areas
 #' @title extract_areas
 #' @description Interactively identify areas and extract
-#' @param file A character string specifying the path to a PDF file.
+#' @param file A character string specifying the path to a PDF file. This can also be a URL, in which case the file will be downloaded to the R temporary directory using \code{download.file}.
 #' @param pages An optional integer vector specifying pages to extract from. To extract multiple tables from a given page, repeat the page number (e.g., \code{c(1,2,2,3)}).
 #' @param silent A logical indicating whether to silence the \code{\link[graphics]{locator}} function.
 #' @param guess See \code{\link{extract_tables}} (note the different default value).
@@ -29,6 +29,7 @@
 #' @importFrom graphics par rasterImage locator plot
 #' @export
 locate_areas <- function(file, pages = NULL, silent = TRUE) {
+    file <- localize_file(file, copy = TRUE)
     capable <- dev.capabilities("locator")$locator
     if (!capable) {
         stop("'locator()' is not supported on this device")
