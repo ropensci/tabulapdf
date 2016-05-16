@@ -43,3 +43,40 @@ extract_tables(f, method = "csv")
 
 If none of the standard methods works well, you can specify `method = "asis"` to return an rJava "jobjRef" object, which is a pointer to a Java ArrayList of Tabula Table objects. Working with that object might be quite awkward as it requires knowledge of Java and Tabula's internals, but might be useful to advanced users for debugging purposes.
 
+## Extracting Areas ##
+
+By default, tabulizer uses Tabula's table detection algorithms to automatically identify tables within each page of a PDF. This automatic detection can be toggled off by setting `guess = FALSE` and specifying an "area" within each PDF page to extract the table from. Here is a comparison of the default settings, versus extracting from two alternative areas within a page:
+
+```{r}
+str(extract_tables(f, pages = 2, guess = TRUE, method = "data.frame"))
+str(extract_tables(f, pages = 2, area = list(c(126, 149, 212, 462)), guess = FALSE, method = "data.frame"))
+str(extract_tables(f, pages = 2, area = list(c(126, 284, 174, 417)), guess = FALSE, method = "data.frame"))
+```
+
+The `area` argument should be a list either of length 1 (to use the same area for each specified page) or equal to the number of pages specified. This also means that you can extract multiple areas from one page, but specifying the page twice and indicating the two areas separately:
+
+```{r}
+a2 <- list(c(126, 149, 212, 462), c(126, 284, 174, 417))
+str(extract_tables(f, pages = c(2,2), area = a2, guess = FALSE, method = "data.frame"))
+```
+
+## Interactive Table Extraction ##
+
+In addition to the programmatic extraction offered by `extract_tables()`, it is also possible to work interactively with PDFs via the `extract_areas()` function. This function triggers a process by which each (specified) page of a PDF is converted to a PNG image file and then loaded as an R graphic. From there, you can use your mouse to specify upper-left and lower-right bounds of an area on each page. Pages are cycled through automatically and, after selecting areas for each page, those areas are extracted auto-magically (and the return value is the same as for `extract_tables()`). Here's a shot of it in action:
+
+[![extract_areas()](http://i.imgur.com/USTyQl7.gif)](http://i.imgur.com/USTyQl7.gif)
+
+`locate_areas()` handles the area identification process without performing the extraction, which may be useful as a debugger, or simply to define areas to be used in a programmatic extraction.
+
+## Miscellaneous Functionality ##
+
+Tabula is built on top of the [Java PDFBox library](https://pdfbox.apache.org/)), which provides low-level functionality for working with PDFs. A few of these tools are exposed through tabulizer, as they might be useful for debugging or generally for working with PDFs. These functions include:
+
+
+ - `extract_text()` converts the text of an entire file or specified pages into an R character vector.
+ - `split_pdf()` and `merge_pdfs()` split and merge PDF documents, respectively.
+ - `extract_metadata()` extracts PDF metadata as a list.
+ - `get_n_pages()` determines the number of pages in a document.
+ - `get_page_dims()` determines the width and height of each page in pt (the unit used by `area` and `columns` arguments).
+ - `make_thumbnails()` converts specified pages of a PDF file to image files.
+

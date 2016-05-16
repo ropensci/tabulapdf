@@ -45,6 +45,12 @@ extract_tables(f)
 # extract tables from only second page
 extract_tables(f, pages = 2)
 
+# extract areas from a page
+## full table
+extract_tables(f, pages = 2, area = list(c(126, 149, 212, 462)))
+## part of the table
+extract_tables(f, pages = 2, area = list(c(126, 284, 174, 417)))
+
 # return data.frames
 extract_tables(f, pages = 2, method = "data.frame")
 }
