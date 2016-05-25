@@ -21,6 +21,7 @@
 #' @seealso \code{\link{extract_tables}}, \code{\link{extract_text}}, \code{\link{make_thumbnails}}
 #' @export
 make_thumbnails <- function(file, pages = NULL, format = c("png", "jpeg", "bmp", "gif"), resolution = 72L) {
+    file <- localize_file(file)
     pdfDocument <- load_doc(file)
     on.exit(pdfDocument$close())
     

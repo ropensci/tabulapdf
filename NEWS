@@ -1,3 +1,7 @@
+# CHANGES TO tabulizer 0.1.13 #
+
+* Expand file paths where needed. (h/t David Gohel)
+
 # CHANGES TO tabulizer 0.1.12 #
 
 * Improve handling of URLs when using `extract_areas()` by downloading PDF to temporary directory.

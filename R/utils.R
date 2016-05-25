@@ -7,6 +7,8 @@ localize_file <- function(path, copy = FALSE) {
         } else {
             path <- new(J("java.net.URL"), path)
         }
+    } else {
+        path <- path.expand(path)
     }
     path
 }

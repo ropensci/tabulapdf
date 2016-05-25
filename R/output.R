@@ -1,6 +1,6 @@
 write_csvs <- function(tables, file, ...) {
+    file <- path.expand(file)
     writer <- new(J("technology.tabula.writers.CSVWriter"))
-    
     tablesIterator <- tables$iterator()
     p <- 1L
     while (tablesIterator$hasNext()) {
@@ -16,8 +16,8 @@ write_csvs <- function(tables, file, ...) {
 }
 
 write_tsvs <- function(tables, file, ...) {
+    file <- path.expand(file)
     writer <- new(J("technology.tabula.writers.TSVWriter"))
-    
     tablesIterator <- tables$iterator()
     p <- 1L
     while (tablesIterator$hasNext()) {
@@ -33,8 +33,8 @@ write_tsvs <- function(tables, file, ...) {
 }
 
 write_jsons <- function(tables, file, ...) {
+    file <- path.expand(file)
     writer <- new(J("technology.tabula.writers.JSONWriter"))
-    
     tablesIterator <- tables$iterator()
     p <- 1L
     while (tablesIterator$hasNext()) {

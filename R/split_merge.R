@@ -25,7 +25,7 @@
 #' @importFrom tools file_path_sans_ext
 #' @export
 split_pdf <- function(file) {
-
+    file <- localize_file(file)
     pdfDocument <- load_doc(file)
     on.exit(pdfDocument$close())
     splitter <- new(J("org.apache.pdfbox.util.Splitter"))
@@ -46,6 +46,8 @@ split_pdf <- function(file) {
 #' @rdname split_merge
 #' @export
 merge_pdfs <- function(file, outfile) {
+    file <- localize_file(file)
+    outfile <- path.expand(outfile)
     merger <- new(J("org.apache.pdfbox.util.PDFMergerUtility"))
     merger$setDestinationFileName(outfile)
     lapply(file, merger$addSource)
