@@ -13,11 +13,15 @@ localize_file <- function(path, copy = FALSE) {
     path
 }
 
-load_doc <- function(file) {
-    file <- localize_file(path = file)
+load_doc <- function(file, password = NULL) {
+    file <- localize_file(path = file, copy = TRUE)
     pdfDocument <- new(J("org.apache.pdfbox.pdmodel.PDDocument"))
     doc <- pdfDocument$load(file)
     pdfDocument$close()
+    if (!is.null(password)) {
+        pm <- new(J("org.apache.pdfbox.pdmodel.encryption.StandardDecryptionMaterial"), password)
+        doc$openProtection(pm)
+    }
     doc
 }
 

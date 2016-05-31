@@ -4,12 +4,14 @@
 \alias{extract_text}
 \title{extract_text}
 \usage{
-extract_text(file, pages = NULL)
+extract_text(file, pages = NULL, password = NULL)
 }
 \arguments{
 \item{file}{A character string specifying the path or URL to a PDF file.}
 
 \item{pages}{An optional integer vector specifying pages to extract from.}
+
+\item{password}{Optionally, a character string containing a user password to access a secured PDF.}
 }
 \value{
 If \code{pages = NULL} (the default), a length 1 character vector, otherwise a vector of length \code{length(pages)}.

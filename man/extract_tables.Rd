@@ -5,7 +5,8 @@
 \title{extract_tables}
 \usage{
 extract_tables(file, pages = NULL, area = NULL, columns = NULL,
-  guess = TRUE, spreadsheet = NULL, method = "matrix", ...)
+  guess = TRUE, spreadsheet = NULL, method = "matrix", password = NULL,
+  ...)
 }
 \arguments{
 \item{file}{A character string specifying the path or URL to a PDF file.}
@@ -21,6 +22,8 @@ extract_tables(file, pages = NULL, area = NULL, columns = NULL,
 \item{spreadsheet}{A logical indicating whether to use Tabula's spreadsheet extraction algorithm. If \code{NULL} (the default), an automated assessment is made about whether it is appropriate.}
 
 \item{method}{A function to coerce the Java response object (a Java ArrayList of Tabula Tables) to some output format. The default method, \dQuote{matrices}, returns a list of character matrices. See Details for other options.}
+
+\item{password}{Optionally, a character string containing a user password to access a secured PDF.}
 
 \item{\dots}{These are additional arguments passed to the internal functions dispatched by \code{method}.}
 }

@@ -5,7 +5,7 @@
 \title{make_thumbnails}
 \usage{
 make_thumbnails(file, pages = NULL, format = c("png", "jpeg", "bmp", "gif"),
-  resolution = 72L)
+  resolution = 72L, password = NULL)
 }
 \arguments{
 \item{file}{A character string specifying the path or URL to a PDF file.}
@@ -15,6 +15,8 @@ make_thumbnails(file, pages = NULL, format = c("png", "jpeg", "bmp", "gif"),
 \item{format}{A character string specifying an image file format.}
 
 \item{resolution}{An integer specifying the image resolution in DPI.}
+
+\item{password}{Optionally, a character string containing a user password to access a secured PDF.}
 }
 \value{
 A character vector of file paths.

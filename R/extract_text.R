@@ -2,6 +2,7 @@
 #' @description Extract text from a file
 #' @param file A character string specifying the path or URL to a PDF file.
 #' @param pages An optional integer vector specifying pages to extract from.
+#' @param password Optionally, a character string containing a user password to access a secured PDF.
 #' @details This function converts the contents of a PDF file into a single unstructured character string.
 #' @return If \code{pages = NULL} (the default), a length 1 character vector, otherwise a vector of length \code{length(pages)}.
 #' @author Thomas J. Leeper <thosjleeper@gmail.com>
@@ -19,8 +20,8 @@
 #' @seealso \code{\link{extract_tables}}, \code{\link{extract_areas}}, \code{\link{split_pdf}}
 #' @importFrom rJava J new
 #' @export
-extract_text <- function(file, pages = NULL) {
-    pdfDocument <- load_doc(file)
+extract_text <- function(file, pages = NULL, password = NULL) {
+    pdfDocument <- load_doc(file, password = password)
     on.exit(pdfDocument$close())
     
     stripper <- new(J("org.apache.pdfbox.util.PDFTextStripper"))

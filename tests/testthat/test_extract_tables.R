@@ -58,3 +58,12 @@ test_that("Test 'columns' argument", {
     expect_true(ncol(tab5[[1]]) == 2)
     expect_true(nrow(tab5[[1]]) == 34)
 })
+
+test_that("Extract from encrypted PDF", {
+    f6 <- "https://github.com/tabulapdf/tabula-java/raw/98957221950af4b90620b51a29e0bbe502eea9ad/src/test/resources/technology/tabula/encrypted.pdf"
+    expect_error(extract_tables(f6, password = "wrongpassword"))
+    tab6 <- extract_tables(f6, password = "userpassword")
+    expect_true(is.list(tab6))
+    expect_true(is.matrix(tab6[[1]]))
+})
+

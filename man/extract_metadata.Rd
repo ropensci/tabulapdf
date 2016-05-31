@@ -4,10 +4,12 @@
 \alias{extract_metadata}
 \title{extract_metadata}
 \usage{
-extract_metadata(file)
+extract_metadata(file, password = NULL)
 }
 \arguments{
 \item{file}{A character string specifying the path or URL to a PDF file.}
+
+\item{password}{Optionally, a character string containing a user password to access a secured PDF.}
 }
 \value{
 A list.

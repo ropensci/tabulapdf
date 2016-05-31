@@ -1,3 +1,7 @@
+# CHANGES TO tabulizer 0.1.14 #
+
+* Added support for password-protected PDF files. (#11)
+
 # CHANGES TO tabulizer 0.1.13 #
 
 * Expand file paths where needed. (h/t David Gohel)

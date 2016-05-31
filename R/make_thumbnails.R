@@ -4,6 +4,7 @@
 #' @param pages An optional integer vector specifying pages to extract from.
 #' @param format A character string specifying an image file format.
 #' @param resolution An integer specifying the image resolution in DPI.
+#' @param password Optionally, a character string containing a user password to access a secured PDF.
 #' @details This function save each (specified) page of a document as an image with 720 dpi resolution. Images are saved in the same directory as the original file, with file names specified by the original file name, a page number, and the corresponding file format extension.
 #' @note This may generate Java \dQuote{INFO} messages in the console, which can be safely ignored.
 #' @return A character vector of file paths.
@@ -20,9 +21,10 @@
 #' @importFrom rJava J new
 #' @seealso \code{\link{extract_tables}}, \code{\link{extract_text}}, \code{\link{make_thumbnails}}
 #' @export
-make_thumbnails <- function(file, pages = NULL, format = c("png", "jpeg", "bmp", "gif"), resolution = 72L) {
+make_thumbnails <- 
+function(file, pages = NULL, format = c("png", "jpeg", "bmp", "gif"), resolution = 72L, password = NULL) {
     file <- localize_file(file)
-    pdfDocument <- load_doc(file)
+    pdfDocument <- load_doc(file, password = password)
     on.exit(pdfDocument$close())
     
     if (!is.null(pages)) {
