@@ -1,3 +1,7 @@
+# CHANGES TO tabulizer 0.1.15 #
+
+* Added better support for specifying character encoding. (#10)
+
 # CHANGES TO tabulizer 0.1.14 #
 
 * Added support for password-protected PDF files. (#11)

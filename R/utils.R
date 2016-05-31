@@ -1,8 +1,8 @@
-localize_file <- function(path, copy = FALSE) {
+localize_file <- function(path, copy = FALSE, quiet = TRUE) {
     if (grepl("^http.*://", path)) {
         if (copy) {
             tmp <- tempfile(fileext = ".pdf")
-            download.file(path, tmp, mode = "wb")
+            download.file(path, tmp, quiet = quiet, mode = "wb")
             path <- tmp
         } else {
             path <- new(J("java.net.URL"), path)

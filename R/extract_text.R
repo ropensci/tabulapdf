@@ -3,6 +3,7 @@
 #' @param file A character string specifying the path or URL to a PDF file.
 #' @param pages An optional integer vector specifying pages to extract from.
 #' @param password Optionally, a character string containing a user password to access a secured PDF.
+#' @param encoding Optionally, a character string specifying an encoding for the text, to be passed to the assignment method of \code{\link[base]{Encoding}}.
 #' @details This function converts the contents of a PDF file into a single unstructured character string.
 #' @return If \code{pages = NULL} (the default), a length 1 character vector, otherwise a vector of length \code{length(pages)}.
 #' @author Thomas J. Leeper <thosjleeper@gmail.com>
@@ -20,7 +21,7 @@
 #' @seealso \code{\link{extract_tables}}, \code{\link{extract_areas}}, \code{\link{split_pdf}}
 #' @importFrom rJava J new
 #' @export
-extract_text <- function(file, pages = NULL, password = NULL) {
+extract_text <- function(file, pages = NULL, password = NULL, encoding = NULL) {
     pdfDocument <- load_doc(file, password = password)
     on.exit(pdfDocument$close())
     
@@ -35,6 +36,9 @@ extract_text <- function(file, pages = NULL, password = NULL) {
         }))
     } else {
         out <- stripper$getText(pdfDocument)
+    }
+    if (!is.null(encoding)) {
+        Encoding(out) <- encoding
     }
     out
 }

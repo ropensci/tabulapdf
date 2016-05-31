@@ -6,7 +6,7 @@
 \usage{
 extract_tables(file, pages = NULL, area = NULL, columns = NULL,
   guess = TRUE, spreadsheet = NULL, method = "matrix", password = NULL,
-  ...)
+  encoding = NULL, ...)
 }
 \arguments{
 \item{file}{A character string specifying the path or URL to a PDF file.}
@@ -24,6 +24,8 @@ extract_tables(file, pages = NULL, area = NULL, columns = NULL,
 \item{method}{A function to coerce the Java response object (a Java ArrayList of Tabula Tables) to some output format. The default method, \dQuote{matrices}, returns a list of character matrices. See Details for other options.}
 
 \item{password}{Optionally, a character string containing a user password to access a secured PDF.}
+
+\item{encoding}{Optionally, a character string specifying an encoding for the text, to be passed to the assignment method of \code{\link[base]{Encoding}}.}
 
 \item{\dots}{These are additional arguments passed to the internal functions dispatched by \code{method}.}
 }
