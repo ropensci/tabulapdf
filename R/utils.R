@@ -21,6 +21,8 @@ load_doc <- function(file, password = NULL) {
     if (!is.null(password)) {
         pm <- new(J("org.apache.pdfbox.pdmodel.encryption.StandardDecryptionMaterial"), password)
         doc$openProtection(pm)
+    } else if (doc$getDocument()$isEncrypted()) {
+        warning("PDF appears to be password protected and no password was supplied.")
     }
     doc
 }
