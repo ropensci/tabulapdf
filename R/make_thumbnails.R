@@ -1,6 +1,7 @@
 #' @title make_thumbnails
 #' @description Convert Pages to Image Thumbnails
 #' @param file A character string specifying the path or URL to a PDF file.
+#' @param outdir An optional character string specifying a directory into which to split the resulting files. If \code{NULL}, the directory of the original PDF is used, unless \code{file} is a URL in which case a temporary directory is used.
 #' @param pages An optional integer vector specifying pages to extract from.
 #' @param format A character string specifying an image file format.
 #' @param resolution An integer specifying the image resolution in DPI.
@@ -22,7 +23,7 @@
 #' @seealso \code{\link{extract_tables}}, \code{\link{extract_text}}, \code{\link{make_thumbnails}}
 #' @export
 make_thumbnails <- 
-function(file, pages = NULL, format = c("png", "jpeg", "bmp", "gif"), resolution = 72L, password = NULL) {
+function(file, outdir = NULL, pages = NULL, format = c("png", "jpeg", "bmp", "gif"), resolution = 72L, password = NULL) {
     file <- localize_file(file)
     pdfDocument <- load_doc(file, password = password)
     on.exit(pdfDocument$close())
@@ -35,10 +36,17 @@ function(file, pages = NULL, format = c("png", "jpeg", "bmp", "gif"), resolution
     
     format <- match.arg(format)
     
-    out <- lapply(pages, function(x) {
+    fileseq <- formatC(pages, width = max(nchar(pages)), flag = 0)
+    if (is.null(outdir)) {
+        outfile <- paste0(file_path_sans_ext(file), fileseq, ".pdf")
+    } else {
+        outfile <- file.path(outdir, paste0(basename(file_path_sans_ext(file)), fileseq, ".pdf"))
+    }
+    
+    for (i in seq_along(pages)) {
         PDFImageWriter <- new(J("org.apache.pdfbox.util.PDFImageWriter"))
-        PDFImageWriter$writeImage(pdfDocument, format, "", x, x, file_path_sans_ext(file), 1L, as.integer(resolution))
-    })
-    out <- unlist(out)
-    ifelse(out, paste0(file_path_sans_ext(file), pages, ".", format), NA_character_)
+        PDFImageWriter$writeImage(pdfDocument, format, "", pages[i], pages[i], 
+                                  outfile[i], 1L, as.integer(resolution))
+    }
+    ifelse(file.exists(outfile), outfile, NA_character_)
 }

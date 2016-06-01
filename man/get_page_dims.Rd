@@ -5,18 +5,18 @@
 \alias{get_page_dims}
 \title{Page length and dimensions}
 \usage{
-get_page_dims(file, pages = NULL, password = NULL)
+get_page_dims(file, doc, pages = NULL, password = NULL)
 
-get_n_pages(doc, file, password = NULL)
+get_n_pages(file, doc, password = NULL)
 }
 \arguments{
 \item{file}{A character string specifying the path or URL to a PDF file.}
 
+\item{doc}{Optionally,, in lieu of \code{file}, an rJava reference to a PDDocument Java object.}
+
 \item{pages}{An optional integer vector specifying pages to extract from.}
 
 \item{password}{Optionally, a character string containing a user password to access a secured PDF.}
-
-\item{doc}{Optionally, an rJava reference to a PDDocument Java object.}
 }
 \value{
 For \code{get_n_pages}, an integer. For \code{get_page_dims}, a list of two-element numeric vectors specifying the width and height of each page, respectively.

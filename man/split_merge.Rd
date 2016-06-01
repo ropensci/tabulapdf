@@ -5,16 +5,18 @@
 \alias{split_pdf}
 \title{Split and merge PDFs}
 \usage{
-split_pdf(file, password = NULL)
+split_pdf(file, outdir = NULL, password = NULL)
 
 merge_pdfs(file, outfile)
 }
 \arguments{
 \item{file}{For \code{merge_pdfs}, a character vector specifying the path to one or more \emph{local} PDF files. For \code{split_pdf}, a character string specifying the path or URL to a PDF file.}
 
+\item{outdir}{For \code{split_pdf}, an optional character string specifying a directory into which to split the resulting files. If \code{NULL}, the directory of the original PDF is used, unless \code{file} is a URL in which case a temporary directory is used.}
+
 \item{password}{Optionally, a character string containing a user password to access a secured PDF. Currently, encrypted PDFs cannot be merged with \code{merge_pdfs}.}
 
-\item{outfile}{A character string specifying the path to the PDF file to create from the merged documents.}
+\item{outfile}{For \code{merge_pdfs}, a character string specifying the path to the PDF file to create from the merged documents.}
 }
 \value{
 For \code{split_pdfs}, a character vector specifying the output file names, which are patterned after the value of \code{file}. For \code{merge_pdfs}, the value of \code{outfile}.

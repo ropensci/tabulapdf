@@ -1,5 +1,12 @@
 # CHANGES TO tabulizer 0.1.15 #
 
+* `split_pdfs()` and `make_thumbnails()` gain an `outdir` argument to specify where to save the output. The file numbering of output files is also now zero-padded.
+* An warning in `merge_pdfs()` has been fixed.
+* `stop_logging()` is called when the package is attached to the search path.
+* `get_page_dims()` earns a `doc` argument and argument order in `get_n_pages()` is reversed.
+
+# CHANGES TO tabulizer 0.1.15 #
+
 * Added better support for specifying character encoding. (#10)
 
 # CHANGES TO tabulizer 0.1.14 #

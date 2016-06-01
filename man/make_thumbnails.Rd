@@ -4,11 +4,13 @@
 \alias{make_thumbnails}
 \title{make_thumbnails}
 \usage{
-make_thumbnails(file, pages = NULL, format = c("png", "jpeg", "bmp", "gif"),
-  resolution = 72L, password = NULL)
+make_thumbnails(file, outdir = NULL, pages = NULL, format = c("png",
+  "jpeg", "bmp", "gif"), resolution = 72L, password = NULL)
 }
 \arguments{
 \item{file}{A character string specifying the path or URL to a PDF file.}
+
+\item{outdir}{An optional character string specifying a directory into which to split the resulting files. If \code{NULL}, the directory of the original PDF is used, unless \code{file} is a URL in which case a temporary directory is used.}
 
 \item{pages}{An optional integer vector specifying pages to extract from.}
 
