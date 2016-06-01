@@ -1,4 +1,4 @@
-# CHANGES TO tabulizer 0.1.15 #
+# CHANGES TO tabulizer 0.1.16 #
 
 * `split_pdfs()` and `make_thumbnails()` gain an `outdir` argument to specify where to save the output. The file numbering of output files is also now zero-padded.
 * An warning in `merge_pdfs()` has been fixed.
