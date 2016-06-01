@@ -54,7 +54,11 @@ list_matrices <- function(tables, encoding = NULL, ...) {
     n <- 1L
     tablesIterator <- tables$iterator()
     while (tablesIterator$hasNext()) {
-        tab <- J(tablesIterator, "next")$get(0L)
+        nxt <- J(tablesIterator, "next")
+        if (nxt$size() == 0L) {
+            break
+        }
+        tab <- nxt$get(0L)
         out[[n]] <- matrix(NA_character_, 
                            nrow = tab$getRows()$size(), 
                            ncol = tab$getCols()$size())

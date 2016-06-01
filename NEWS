@@ -1,3 +1,7 @@
+# CHANGES TO tabulizer 0.1.16 #
+
+* Fixed a bug in `extract_tables()` such that when no tables are found, an empty list is returned (for `method` values with list response structures). (h/t Lincoln Mullen)
+
 # CHANGES TO tabulizer 0.1.15 #
 
 * `split_pdfs()` and `make_thumbnails()` gain an `outdir` argument to specify where to save the output. The file numbering of output files is also now zero-padded.
