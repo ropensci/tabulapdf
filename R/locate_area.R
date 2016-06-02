@@ -29,32 +29,23 @@
 #' @importFrom graphics par rasterImage locator plot
 #' @export
 locate_areas <- function(file, pages = NULL, silent = TRUE) {
-    file <- localize_file(file, copy = TRUE)
-    capable <- dev.capabilities("locator")$locator
-    if (!capable) {
-        stop("'locator()' is not supported on this device")
+    if (!interactive()) {
+        stop("locate_areas() is only available in an interactive session")
+    } else {
+        requireNamespace("graphics")
+        requireNamespace("grDevices")
     }
-    dims <- get_page_dims(file, pages = pages)
-    paths <- make_thumbnails(file, pages = pages, format = "png")
-    on.exit(unlink(paths))
-    pngs <- lapply(paths, function(x) {
-        if (!is.na(x)) {
-            readPNG(x)
-        } else {
-            NA
-        }
-    })
     
-    pre_op <- options()
-    on.exit(options(pre_op), add = TRUE)
-    options(locatorBell = !silent)
-    pre_par <- par(mar=c(0,0,0,0), xaxs = "i", yaxs = "i", bty = "n")
-    on.exit(par(pre_par), add = TRUE)
-    on.exit(dev.off(), add = TRUE)
+    file <- localize_file(file, copy = TRUE)
+    on.exit(unlink(file), add = TRUE)
+    dims <- get_page_dims(file, pages = pages)
+    paths <- make_thumbnails(file, outdir = tempdir(), pages = pages, format = "png")
+    on.exit(unlink(paths), add = TRUE)
+    
     areas <- list()
-    for (i in seq_along(pngs)) {
+    for (i in seq_along(paths)) {
         if (!is.na(paths[i])) {
-            areas[[i]] <- try_area(dims = dims[[i]], thispng = pngs[[i]])
+            areas[[i]] <- try_area(file = paths[[i]], dims = dims[[i]])
         } else {
             areas[[i]] <- NA_real_
         }
@@ -69,14 +60,88 @@ extract_areas <- function(file, pages = NULL, guess = FALSE, ...) {
     extract_tables(file = file, pages = pages, area = areas, guess = guess, ...)
 }
 
-try_area <- function(dims, thispng) {
-    plot(c(0, dims[1]), c(0, dims[2]), type = "n", xlab = "", ylab = "", asp = 1)
-    rasterImage(thispng, 0, 0, dims[1], dims[2])
-    tmp <- locator(2)
-    #rect(tmp$x[1], tmp$y[1], tmp$x[2], tmp$y[2], col = rgb(1,0,0,.5))
-    #Sys.sleep(1.5)
+try_area <- function(file, dims) {
+    deviceCoord <- "nfc"
+    cairoDevice::Cairo(width = dims[1], height = dims[2], pointsize = 12, surface = "screen")
+    if (dev.capabilities()[["rasterImage"]] != "yes") {
+        stop("Graphics device does not support rasterImage plotting")
+    }
+    thispng <- readPNG(file, native = TRUE)
+    drawPage <- function() {
+        graphics::plot(c(0, dims[1]), c(0, dims[2]), type = "n", xlab = "", ylab = "", asp = 1)
+        graphics::rasterImage(thispng, 0, 0, dims[1], dims[2])
+    }
     
-    # convert to: top,left,bottom,right
-    area <- c(dims[2] - max(tmp$y), min(tmp$x), dims[2] - min(tmp$y), max(tmp$x))
-    return(area)
+    pre_par <- par(mar=c(0,0,0,0), xaxs = "i", yaxs = "i", bty = "n")
+    on.exit(par(pre_par), add = TRUE)
+    drawPage()
+    on.exit(dev.off(), add = TRUE)
+
+    clicked <- FALSE
+    startx <- 0
+    starty <- 0
+    endx <- 0
+    endy <- 0
+    
+    devset <- function() {
+        if (dev.cur() != eventEnv$which) dev.set(eventEnv$which)
+    }
+    
+    mousedown <- function(buttons, x, y) {
+        devset()
+        if (clicked) {
+            endx <<- graphics::grconvertX(x, deviceCoord, "user")
+            endy <<- graphics::grconvertY(y, deviceCoord, "user")
+            clicked <<- FALSE
+            eventEnv$onMouseMove <- NULL
+        } else {
+            startx <<- graphics::grconvertX(x, deviceCoord, "user")
+            starty <<- graphics::grconvertY(y, deviceCoord, "user")
+            clicked <<- TRUE
+            eventEnv$onMouseMove <- dragmousemove
+        }
+        NULL
+    }
+
+    dragmousemove <- function(buttons, x, y) {
+        devset()
+        if (clicked) {
+            endx <<- graphics::grconvertX(x, "nfc", "user")
+            endy <<- graphics::grconvertY(y, "nfc", "user")
+            drawPage()
+            graphics::rect(startx, starty, endx, endy, col = rgb(1,0,0,.2) )
+        }
+        NULL
+    }
+
+    keydown <- function(key) {
+        devset()
+        eventEnv$onMouseMove <- NULL
+        TRUE
+    }
+
+    p <- "Click and drag to select a table area, press any key to confirm"
+    grDevices::setGraphicsEventHandlers(
+        prompt = p,
+        onMouseDown = mousedown,
+        onKeybd = keydown)
+    eventEnv <- grDevices::getGraphicsEventEnv()
+    grDevices::getGraphicsEvent()
+    
+    backToPageSize <- function() {
+        width <- dims[1]
+        height <- dims[2]
+        x1 <- graphics::grconvertX(startx, "user", "nfc")
+        y1 <- graphics::grconvertY(starty, "user", "nfc")
+        x2 <- graphics::grconvertX(endx, "user", "nfc")
+        y2 <- graphics::grconvertY(endy, "user", "nfc")
+        
+        # convert to: top,left,bottom,right
+        c(top = height - (max(c(y1, y2)) * height),
+          left = min(c(x1,x2)) * width,
+          bottom = height - (min(c(y1,y2)) * height),
+          right = max(c(x1,x2)) * width
+          )
+    }
+    return(backToPageSize())
 }

@@ -8,7 +8,13 @@ localize_file <- function(path, copy = FALSE, quiet = TRUE) {
             path <- new(J("java.net.URL"), path)
         }
     } else {
-        path <- path.expand(path)
+        if (copy) {
+            tmp <- file.path(tempdir(), paste0(basename(file_path_sans_ext(path.expand(path))), ".pdf"))
+            file.copy(from = path.expand(path), to = tmp)
+            path <- tmp
+        } else {
+            path <- path.expand(path)
+        }
     }
     path
 }

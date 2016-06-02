@@ -35,18 +35,19 @@ function(file, outdir = NULL, pages = NULL, format = c("png", "jpeg", "bmp", "gi
     }
     
     format <- match.arg(format)
-    
     fileseq <- formatC(pages, width = max(nchar(pages)), flag = 0)
     if (is.null(outdir)) {
-        outfile <- paste0(file_path_sans_ext(file), fileseq, ".pdf")
+        prefix <- basename(file_path_sans_ext(file))
+        outfile <- paste0(file_path_sans_ext(file), fileseq, ".", format)
     } else {
-        outfile <- file.path(outdir, paste0(basename(file_path_sans_ext(file)), fileseq, ".pdf"))
+        prefix <- file.path(outdir, basename(file_path_sans_ext(file)))
+        outfile <- file.path(outdir, paste0(basename(file_path_sans_ext(file)), fileseq, ".", format))
     }
-    
     for (i in seq_along(pages)) {
         PDFImageWriter <- new(J("org.apache.pdfbox.util.PDFImageWriter"))
         PDFImageWriter$writeImage(pdfDocument, format, "", pages[i], pages[i], 
-                                  outfile[i], 1L, as.integer(resolution))
+                                  prefix, 1L, as.integer(resolution))
     }
+    file.rename(from = paste0(prefix, pages, ".", format), to = outfile)
     ifelse(file.exists(outfile), outfile, NA_character_)
 }
