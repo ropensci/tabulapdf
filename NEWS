@@ -1,3 +1,7 @@
+# CHANGES TO tabulizer 0.1.18 #
+
+* Completely rewrite the `locate_areas()` interface to rely on graphics device event handling where possible. This may behave differently across platforms or in RStudio. (#8)
+
 # CHANGES TO tabulizer 0.1.17 #
 
 * Fixed a bug in `extract_tables()` such that when no tables are found, an empty list is returned (for `method` values with list response structures). (h/t Lincoln Mullen)

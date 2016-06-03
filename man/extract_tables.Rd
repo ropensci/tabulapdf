@@ -36,7 +36,13 @@ By default, a list of character matrices. This can be changed by specifying an a
 Extract tables from a file
 }
 \details{
-This function mimics the behavior of the Tabula command line utility. It returns a list of R character matrices containing tables extracted from a file by default. This response behavior can be changed by using the following options. \code{method = "character"} returns a list of single-element character vectors, where each vector is a tab-delimited, line-separate string of concatenated table cells. \code{method = "data.frame"} attempts to coerce the structure returned by \code{method = "character"} into a list of data.frames and returns character strings where this fails. \code{method = "csv"} writes the tables to comma-separated (CSV) files using Tabula's CSVWriter method in the same directory as the original PDF. \code{method = "tsv"} does the same but with tab-separated (TSV) files using Tabula's TSVWriter and \code{method = "json"} does the same using Tabula's JSONWriter method. The previous three methods all return the path to the directory containing the extract table files. \code{method = "asis"} returns the Java object reference, which can be useful for debugging or for writing a custom parser.
+This function mimics the behavior of the Tabula command line utility. It returns a list of R character matrices containing tables extracted from a file by default. This response behavior can be changed by using the following options.
+\itemize{
+  \item \code{method = "character"} returns a list of single-element character vectors, where each vector is a tab-delimited, line-separate string of concatenated table cells.
+  \item \code{method = "data.frame"} attempts to coerce the structure returned by \code{method = "character"} into a list of data.frames and returns character strings where this fails.
+  \item \code{method = "csv"} writes the tables to comma-separated (CSV) files using Tabula's CSVWriter method in the same directory as the original PDF. \code{method = "tsv"} does the same but with tab-separated (TSV) files using Tabula's TSVWriter and \code{method = "json"} does the same using Tabula's JSONWriter method. Any of these three methods return the path to the directory containing the extract table files. 
+  \item \code{method = "asis"} returns the Java object reference, which can be useful for debugging or for writing a custom parser.
+}
 \code{\link{extract_areas}} implements this functionality in an interactive mode allowing the user to specify extraction areas for each page.
 }
 \examples{

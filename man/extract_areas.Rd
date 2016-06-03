@@ -5,7 +5,7 @@
 \alias{locate_areas}
 \title{extract_areas}
 \usage{
-locate_areas(file, pages = NULL, silent = TRUE)
+locate_areas(file, pages = NULL, resolution = 60L)
 
 extract_areas(file, pages = NULL, guess = FALSE, ...)
 }
@@ -14,7 +14,7 @@ extract_areas(file, pages = NULL, guess = FALSE, ...)
 
 \item{pages}{An optional integer vector specifying pages to extract from. To extract multiple tables from a given page, repeat the page number (e.g., \code{c(1,2,2,3)}).}
 
-\item{silent}{A logical indicating whether to silence the \code{\link[graphics]{locator}} function.}
+\item{resolution}{An integer specifying the resolution of the PNG images conversions. A low resolution is used by default to speed image loading.}
 
 \item{guess}{See \code{\link{extract_tables}} (note the different default value).}
 
@@ -27,10 +27,15 @@ For \code{extract_areas}, see \code{\link{extract_tables}}. For \code{locate_are
 Interactively identify areas and extract
 }
 \details{
-\code{extract_areas} is an interactive mode for \code{\link{extract_tables}} allowing the user to specify areas of each PDF page in a file that they would like extracted. In interactive mode, each page is rendered to a PNG file and displayed in an R graphics window sequentially, pausing on each page to call \code{\link[graphics]{locator}} so the user can specify two points (e.g., upper-left and lower-right) to define bounds of page area. \code{extract_areas} then passes these user-defined areas to \code{\link{extract_tables}}. \code{locate_areas} implements the interactive component only, without actually extracting; this might be useful for interactive work that needs some modification before executing \code{extract_tables} computationally.
-}
-\note{
-Currently, attempting to resize the graphics window at any point during this process will cause problems.
+\code{extract_areas} is an interactive mode for \code{\link{extract_tables}} allowing the user to specify areas of each PDF page in a file that they would like extracted. When used, each page is rendered to a PNG file and displayed in an R graphics window sequentially, pausing on each page to call \code{\link[graphics]{locator}} so the user can click and highlight an area to extract.
+
+The exact behaviour is a somewhat platform-dependent. If graphics events are supported, then it is possibly to interactively highlight a page region, make changes to that region, and navigate through the pages of the document while retaining the area highlighted on each page. If graphics events are not supported (e.g., in RStudio), then some of this functionality is not available (see below).
+
+In \emph{full functionality mode}, the first mouse click initializes a highlighting rectangle; the second click confirms it. If unsatisfied with the selection, the process can be repeated. The window also responds to keystrokes. \kbd{PgDn}, \kbd{Right}, and \kbd{Down} advance to the next page image, while \kbd{PgUp}, \kbd{Left}, and \kbd{Up} return to the previous page image. \kbd{Home} returns to the first page image and \kbd{End} advances to the final page image. \kbd{Q} quits the interactive mode and proceeds with extraction. When navigating between pages, any selected areas will be displayed and can be edited. \kbd{Delete} removes a highlighted area from a page (and then displays it again).
+
+In \emph{reduced functionality mode}, the interface requires users to indicate the upper-left and lower-right (or upper-right and lower-left) corners of an area on each page, this area will be briefly confirmed with a highlighted rectangle and the next page will be displayed. Dynamic page navigation and area editing are not possible.
+
+In either mode, after the areas are selected, \code{extract_areas} passes these user-defined areas to \code{\link{extract_tables}}. \code{locate_areas} implements the interactive component only, without actually extracting; this might be useful for interactive work that needs some modification before executing \code{extract_tables} computationally.
 }
 \examples{
 \dontrun{
