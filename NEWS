@@ -1,3 +1,7 @@
+# CHANGES TO tabulizer 0.1.19 #
+
+* Further expand the `locate_areas()` interface to use a Shiny gadget when working within RStudio, or otherwise rely on the full functionality interface (based on graphics device events) or reduced functionality interface (relying on `locator()`). (#8)
+
 # CHANGES TO tabulizer 0.1.18 #
 
 * Completely rewrite the `locate_areas()` interface to rely on graphics device event handling where possible. This may behave differently across platforms or in RStudio. (#8)
