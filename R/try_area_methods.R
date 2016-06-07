@@ -26,6 +26,8 @@ try_area_rstudio <- function(file, dims, area = NULL) {
             showArea()
         }
         drawPage <- function() {
+            pre_par <- graphics::par(mar=c(0,0,0,0), xaxs = "i", yaxs = "i", bty = "n")
+            on.exit(graphics::par(pre_par), add = TRUE)
             graphics::plot(c(0, dims[1]), c(0, dims[2]), type = "n", xlab = "", ylab = "", asp = 1)
             graphics::rasterImage(thispng, 0, 0, dims[1], dims[2])
         }
