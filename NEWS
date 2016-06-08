@@ -1,3 +1,7 @@
+# CHANGES TO tabulizer 0.1.20 #
+
+* Fixed bug in internal function `try_area_full()` introduced by changes in #8.
+
 # CHANGES TO tabulizer 0.1.19 #
 
 * Further expand the `locate_areas()` interface to use a Shiny gadget when working within RStudio, or otherwise rely on the full functionality interface (based on graphics device events) or reduced functionality interface (relying on `locator()`). (#8)

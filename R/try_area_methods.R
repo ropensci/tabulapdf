@@ -94,6 +94,66 @@ try_area_reduced <- function(file, dims, area = NULL, warn = FALSE) {
 }
 
 try_area_full <- function(file, dims, area = NULL) {
+    
+    deviceUnits <- "nfc"
+    if (Sys.info()["sysname"] == "Darwin") {
+        grDevices::X11(type = "xlib")
+    }
+    if (grDevices::dev.capabilities()[["rasterImage"]] != "yes") {
+        stop("Graphics device does not support rasterImage() plotting")
+    }
+    thispng <- readPNG(file, native = TRUE)
+    
+    devset <- function() {
+        if (grDevices::dev.cur() != eventEnv$which) grDevices::dev.set(eventEnv$which)
+    }
+    drawPage <- function() {
+        graphics::plot(c(0, dims[1]), c(0, dims[2]), type = "n", xlab = "", ylab = "", asp = 1)
+        graphics::rasterImage(thispng, 0, 0, dims[1], dims[2])
+    }
+    drawRectangle <- function() {
+        if (!is.null(endx)) {
+            graphics::rect(startx, starty, endx, endy, col = grDevices::rgb(1,0,0,.2) )
+        }
+    }
+    
+    mousedown <- function(buttons, x, y) {
+        devset()
+        if (clicked) {
+            endx <<- graphics::grconvertX(x, deviceUnits, "user")
+            endy <<- graphics::grconvertY(y, deviceUnits, "user")
+            clicked <<- FALSE
+            eventEnv$onMouseMove <- NULL
+        } else {
+            startx <<- graphics::grconvertX(x, deviceUnits, "user")
+            starty <<- graphics::grconvertY(y, deviceUnits, "user")
+            clicked <<- TRUE
+            eventEnv$onMouseMove <- dragmousemove
+        }
+        NULL
+    }
+    dragmousemove <- function(buttons, x, y) {
+        devset()
+        if (clicked) {
+            endx <<- graphics::grconvertX(x, deviceUnits, "user")
+            endy <<- graphics::grconvertY(y, deviceUnits, "user")
+            drawPage()
+            drawRectangle()
+        }
+        NULL
+    }
+    keydown <- function(key) {
+        devset()
+        eventEnv$onMouseMove <- NULL
+        lastkey <<- key
+        TRUE
+    }
+
+    pre_par <- graphics::par(mar=c(0,0,0,0), xaxs = "i", yaxs = "i", bty = "n")
+    on.exit(graphics::par(pre_par), add = TRUE)
+    drawPage()
+    on.exit(grDevices::dev.off(), add = TRUE)
+
     clicked <- FALSE
     lastkey <- NA_character_
     if (!length(area)) {
@@ -113,67 +173,6 @@ try_area_full <- function(file, dims, area = NULL) {
         showArea()
     }
     
-    devset <- function() {
-        if (grDevices::dev.cur() != eventEnv$which) grDevices::dev.set(eventEnv$which)
-    }
-    
-    mousedown <- function(buttons, x, y) {
-        devset()
-        if (clicked) {
-            endx <<- graphics::grconvertX(x, deviceUnits, "user")
-            endy <<- graphics::grconvertY(y, deviceUnits, "user")
-            clicked <<- FALSE
-            eventEnv$onMouseMove <- NULL
-        } else {
-            startx <<- graphics::grconvertX(x, deviceUnits, "user")
-            starty <<- graphics::grconvertY(y, deviceUnits, "user")
-            clicked <<- TRUE
-            eventEnv$onMouseMove <- dragmousemove
-        }
-        NULL
-    }
-
-    dragmousemove <- function(buttons, x, y) {
-        devset()
-        if (clicked) {
-            endx <<- graphics::grconvertX(x, deviceUnits, "user")
-            endy <<- graphics::grconvertY(y, deviceUnits, "user")
-            drawPage()
-            drawRectangle()
-        }
-        NULL
-    }
-
-    keydown <- function(key) {
-        devset()
-        eventEnv$onMouseMove <- NULL
-        lastkey <<- key
-        TRUE
-    }
-
-    deviceUnits <- "nfc"
-    if (Sys.info()["sysname"] == "Darwin") {
-        grDevices::X11(type = "xlib")
-    }
-    if (grDevices::dev.capabilities()[["rasterImage"]] != "yes") {
-        stop("Graphics device does not support rasterImage() plotting")
-    }
-    thispng <- readPNG(file, native = TRUE)
-    drawPage <- function() {
-        graphics::plot(c(0, dims[1]), c(0, dims[2]), type = "n", xlab = "", ylab = "", asp = 1)
-        graphics::rasterImage(thispng, 0, 0, dims[1], dims[2])
-    }
-    drawRectangle <- function() {
-        if (!is.null(endx)) {
-            graphics::rect(startx, starty, endx, endy, col = grDevices::rgb(1,0,0,.2) )
-        }
-    }
-        
-    pre_par <- graphics::par(mar=c(0,0,0,0), xaxs = "i", yaxs = "i", bty = "n")
-    on.exit(graphics::par(pre_par), add = TRUE)
-    drawPage()
-    on.exit(grDevices::dev.off(), add = TRUE)
-
     p <- "Click and drag to select a table area. Press <Right> for next page or <Q> to quit."
     grDevices::setGraphicsEventHandlers(prompt = p,
                                         onMouseDown = mousedown,
