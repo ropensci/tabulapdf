@@ -99,7 +99,7 @@ try_area_full <- function(file, dims, area = NULL) {
     if (Sys.info()["sysname"] == "Darwin") {
         grDevices::X11(type = "Xlib")
     }
-    if (grDevices::dev.capabilities()[["rasterImage"]] != "yes") {
+    if (grDevices::dev.capabilities()[["rasterImage"]] == "no") {
         stop("Graphics device does not support rasterImage() plotting")
     }
     thispng <- readPNG(file, native = TRUE)
