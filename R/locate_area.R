@@ -8,13 +8,13 @@
 #' @param \dots Other arguments passed to \code{\link{extract_tables}}.
 #' @details \code{extract_areas} is an interactive mode for \code{\link{extract_tables}} allowing the user to specify areas of each PDF page in a file that they would like extracted. When used, each page is rendered to a PNG file and displayed in an R graphics window sequentially, pausing on each page to call \code{\link[graphics]{locator}} so the user can click and highlight an area to extract.
 #'
-#' The exact behaviour is a somewhat platform-dependent. If graphics events are supported, then it is possibly to interactively highlight a page region, make changes to that region, and navigate through the pages of the document while retaining the area highlighted on each page. If graphics events are not supported (e.g., in RStudio), then some of this functionality is not available (see below).
+#' The exact behaviour is a somewhat platform-dependent, and depends on whether you are working in RStudio or the R console. In RStudio, a Shiny widget is provided which allows the user to click and drag to select areas on each page of a file, clicking \dQuote{Done} on each page to advance through them. It is not possible to return to previous pages. In the R console, functionality is provided through the graphics device. If graphics events are supported, then it is possibly to interactively highlight a page region, make changes to that region, and navigate through the pages of the document while retaining the area highlighted on each page. If graphics events are not supported, then some of this functionality is not available (see below).
 #'
-#' In \emph{full functionality mode}, the first mouse click initializes a highlighting rectangle; the second click confirms it. If unsatisfied with the selection, the process can be repeated. The window also responds to keystrokes. \kbd{PgDn}, \kbd{Right}, and \kbd{Down} advance to the next page image, while \kbd{PgUp}, \kbd{Left}, and \kbd{Up} return to the previous page image. \kbd{Home} returns to the first page image and \kbd{End} advances to the final page image. \kbd{Q} quits the interactive mode and proceeds with extraction. When navigating between pages, any selected areas will be displayed and can be edited. \kbd{Delete} removes a highlighted area from a page (and then displays it again).
+#' In \emph{full functionality mode}, the first mouse click on a page initializes a highlighting rectangle; the second click confirms it. If unsatisfied with the selection, the process can be repeated. The window also responds to keystrokes. \kbd{PgDn}, \kbd{Right}, and \kbd{Down} advance to the next page image, while \kbd{PgUp}, \kbd{Left}, and \kbd{Up} return to the previous page image. \kbd{Home} returns to the first page image and \kbd{End} advances to the final page image. \kbd{Q} quits the interactive mode and proceeds with extraction. When navigating between pages, any selected areas will be displayed and can be edited. \kbd{Delete} removes a highlighted area from a page (and then displays it again).
 #'
 #' In \emph{reduced functionality mode}, the interface requires users to indicate the upper-left and lower-right (or upper-right and lower-left) corners of an area on each page, this area will be briefly confirmed with a highlighted rectangle and the next page will be displayed. Dynamic page navigation and area editing are not possible.
 #'
-#' In either mode, after the areas are selected, \code{extract_areas} passes these user-defined areas to \code{\link{extract_tables}}. \code{locate_areas} implements the interactive component only, without actually extracting; this might be useful for interactive work that needs some modification before executing \code{extract_tables} computationally.
+#' In any of these modes, after the areas are selected, \code{extract_areas} passes these user-defined areas to \code{\link{extract_tables}}. \code{locate_areas} implements the interactive component only, without actually extracting; this might be useful for interactive work that needs some modification before executing \code{extract_tables} computationally.
 #' @return For \code{extract_areas}, see \code{\link{extract_tables}}. For \code{locate_areas}, a list of four-element numeric vectors (top,left,bottom,right), one per page of the file.
 #' @author Thomas J. Leeper <thosjleeper@gmail.com>
 #' @examples
@@ -28,9 +28,9 @@
 #' # locate areas and extract
 #' extract_areas(f)
 #' }
+#' @seealso \code{\link{extract_tables}}, \code{\link{make_thumbnails}}, , \code{\link{get_page_dims}}
 #' @importFrom tools file_path_sans_ext
 #' @importFrom rJava J new
-#' @seealso \code{\link{extract_tables}}, \code{\link{make_thumbnails}}, , \code{\link{get_page_dims}}
 #' @importFrom png readPNG
 #' @importFrom grDevices dev.capabilities dev.off
 #' @importFrom graphics par rasterImage locator plot
