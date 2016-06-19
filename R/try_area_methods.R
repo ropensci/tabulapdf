@@ -1,6 +1,7 @@
-try_area_rstudio <- function(file, dims, area = NULL) {
+try_area_shiny <- function(file, dims, area = NULL) {
     requireNamespace("shiny")
     requireNamespace("miniUI")
+    
     ui <- miniUI::miniPage(
       miniUI::gadgetTitleBar("Click and drag to select an area. Click 'Done' to accept."),
       miniUI::miniContentPanel(padding = 0,

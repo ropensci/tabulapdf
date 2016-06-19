@@ -1,3 +1,7 @@
+# CHANGES TO tabulizer 0.1.21 #
+
+* Exposed a new option `widget` in `locate_areas()` to control which widget is used in locating areas. 
+
 # CHANGES TO tabulizer 0.1.20 #
 
 * Fixed bug in internal function `try_area_full()` introduced by changes in #8.
