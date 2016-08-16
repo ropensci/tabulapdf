@@ -125,4 +125,4 @@ You may also need to then set the `JAVA_HOME` environment variable to the path t
  3. from PowerShell, using the .NET framework: `[Environment]::SetEnvironmentVariable("JAVA_HOME", "C:\Program Files\Java\jdk1.8.0_92", "User")`, or
  4. from the Start Menu, via `Control Panel » System » Advanced » Environment Variables` ([instructions here](http://superuser.com/a/284351/221772)).
 
-You should now be able to safely open R, and use rJava and tabulizer.
+You should now be able to safely open R, and use rJava and tabulizer. Note, however, that some users report that rather than setting this variable, they instead need to delete it (e.g., with `Sys.setenv(JAVA_HOME = "")`), so if the above instructions fail, that is the next step in troubleshooting.
