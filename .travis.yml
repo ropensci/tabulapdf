@@ -8,12 +8,10 @@ matrix:
     - os: linux
       dist: trusty
       env: R_CODECOV=true
-      r_check_args: '--use-valgrind'
     - os: osx
       osx_image: xcode8
     - os: osx
       osx_image: beta-xcode6.1
-      disable_homebrew: true
 r_packages:
 - knitr
 - covr
