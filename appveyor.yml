@@ -8,7 +8,7 @@ environment:
   global:
     WARNINGS_ARE_ERRORS: 1
     USE_RTOOLS: true
-    JAVA_HOME: C:\Program Files\Java\jdk1.8.0
+    JAVA_HOME: 
 
   matrix:
   - R_VERSION: devel
