@@ -6,8 +6,8 @@ init:
         Import-Module '..\appveyor-tool.ps1'
 environment:
   global:
-  - WARNINGS_ARE_ERRORS: 1
-  - USE_RTOOLS: true
+    WARNINGS_ARE_ERRORS: 1
+    USE_RTOOLS: true
 
 matrix:
   - R_VERSION: devel
