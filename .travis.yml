@@ -7,7 +7,6 @@ matrix:
       sudo: false
     - os: linux
       dist: trusty
-      env: R_CODECOV=true
     - os: osx
       osx_image: xcode8
     - os: osx
