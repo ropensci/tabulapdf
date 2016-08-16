@@ -7,3 +7,4 @@ knitreadme.sh
 man-roxygen/
 ^.*\.Rproj$
 ^\.Rproj\.user$
+appveyor.yml
