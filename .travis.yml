@@ -1,5 +1,5 @@
 language: r
-sudo: required
+cache: packages
 matrix:
   include:
     - os: linux
