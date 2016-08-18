@@ -16,7 +16,7 @@ r_packages:
 - covr
 - drat
 r_github_packages:
-- leeper/tabulizerjars
+- ropenscilabs/tabulizerjars
 after_failure:
   email: 
     recipients:

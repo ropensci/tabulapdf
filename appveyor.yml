@@ -29,7 +29,7 @@ install:
   ps: Bootstrap
 
 build_script:
-  - travis-tool.sh install_github leeper/tabulizerjars
+  - travis-tool.sh install_github ropenscilabs/tabulizerjars
   - travis-tool.sh install_deps
 
 test_script:
