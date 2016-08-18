@@ -35,8 +35,8 @@ load_doc <- function(file, password = NULL) {
 
 make_pages <- function(pages, oe) {
     x <- new(J("java.util.ArrayList"))
-    sapply(pages, function(z) {
-        x$add(new(J("java.lang.Integer"), z))
+    lapply(pages, function(thispage) {
+        x$add(new(J("java.lang.Integer"), thispage))
     })
     return(x)
 }

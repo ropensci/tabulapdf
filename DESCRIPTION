@@ -1,8 +1,7 @@
 Package: tabulizer
 Type: Package
 Title: Bindings for Tabula PDF Table Extractor Library
-Version: 0.1.21
-Date: 2016-06-19
+Version: 0.1.22
 Authors@R: c(person("Thomas J.", "Leeper", role = c("aut", "cre"),
                     email = "thosjleeper@gmail.com"),
              person("David", "Gohel", role = "ctb",
@@ -11,8 +10,8 @@ Authors@R: c(person("Thomas J.", "Leeper", role = c("aut", "cre"),
                     comment = "rOpenSci reviewer"))
 Description: Bindings for the Tabula <http://tabula.technology/> java library, which can extract tables from PDF documents.
 License: MIT + file LICENSE
-URL: https://github.com/leeper/tabulizer
-BugReports: https://github.com/leeper/tabulizer/issues
+URL: https://github.com/ropenscilabs/tabulizer
+BugReports: https://github.com/ropenscilabs/tabulizer/issues
 Imports:
     utils,
     tools,

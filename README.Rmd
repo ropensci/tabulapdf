@@ -86,9 +86,9 @@ Some other utility functions are also provided (and made possible by the [Java P
 ## Installation ##
 
 [![CRAN](http://www.r-pkg.org/badges/version/tabulizer)](http://cran.r-project.org/package=tabulizer)
-[![Build Status](https://travis-ci.org/leeper/tabulizer.png?branch=master)](https://travis-ci.org/leeper/tabulizer)
-[![Build status](https://ci.appveyor.com/api/projects/status/wj5afxb1v42h8oui?svg=true)](https://ci.appveyor.com/project/leeper/tabulizer)
-[![codecov.io](http://codecov.io/github/leeper/tabulizer/coverage.svg?branch=master)](http://codecov.io/github/leeper/tabulizer?branch=master)
+[![Build Status](https://travis-ci.org/ropensci/tabulizer.png?branch=master)](https://travis-ci.org/ropensci/tabulizer)
+[![Build status](https://ci.appveyor.com/api/projects/status/wj5afxb1v42h8oui?svg=true)](https://ci.appveyor.com/project/ropensci/tabulizer)
+[![codecov.io](http://codecov.io/github/ropensci/tabulizer/coverage.svg?branch=master)](http://codecov.io/github/ropensci/tabulizer?branch=master)
 
 tabulizer depends on [rJava](https://cran.r-project.org/package=rJava), which implies a system requirement for Java. This can be frustrating, especially on Windows. My preferred setup routine is to use [Chocolatey](https://chocolatey.org/) to obtain, configure, and update Java (see instructions below). You need do this before installing rJava or attempting to use tabulizer.
 
@@ -99,10 +99,12 @@ if(!require("ghit")){
     install.packages("ghit")
 }
 # on 64-bit Windows
-ghit::install_github(c("leeper/tabulizerjars", "leeper/tabulizer"), INSTALL_opts = "--no-multiarch")
+ghit::install_github(c("ropenscilabs/tabulizerjars", "ropenscilabs/tabulizer"), INSTALL_opts = "--no-multiarch")
 # elsewhere
-ghit::install_github(c("leeper/tabulizerjars", "leeper/tabulizer"))
+ghit::install_github(c("ropenscilabs/tabulizerjars", "ropenscilabs/tabulizer"))
 ```
+
+Note: On Mac OS, you may need to install [a particular version of Java](https://support.apple.com/kb/DL1572?locale=en_US) prior to this installation.
 
 ### Installing Java on Windows with Chocolatey ###
 
@@ -126,3 +128,11 @@ You may also need to then set the `JAVA_HOME` environment variable to the path t
  4. from the Start Menu, via `Control Panel » System » Advanced » Environment Variables` ([instructions here](http://superuser.com/a/284351/221772)).
 
 You should now be able to safely open R, and use rJava and tabulizer. Note, however, that some users report that rather than setting this variable, they instead need to delete it (e.g., with `Sys.setenv(JAVA_HOME = "")`), so if the above instructions fail, that is the next step in troubleshooting.
+
+## Meta
+
+* Please [report any issues or bugs](https://github.com/ropenscilabs/tabulizer/issues).
+* License: MIT
+* Get citation information for `tabulizer` in R doing `citation(package = 'tabulizer')`
+
+[![rofooter](http://ropensci.org/public_images/github_footer.png)](http://ropensci.org)

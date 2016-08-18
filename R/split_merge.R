@@ -56,7 +56,7 @@ split_pdf <- function(file, outdir = NULL, password = NULL) {
 #' @export
 merge_pdfs <- function(file, outfile) {
     outfile <- path.expand(outfile)
-    file <- sapply(file, localize_file, copy = TRUE)
+    file <- unlist(lapply(file, localize_file, copy = TRUE))
     merger <- new(J("org.apache.pdfbox.util.PDFMergerUtility"))
     merger$setDestinationFileName(outfile)
     lapply(file, merger$addSource)

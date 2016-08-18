@@ -1,3 +1,7 @@
+# CHANGES TO tabulizer 0.1.22 #
+
+* Transferred source code repository to ropenscilabs: https://github.com/ropenscilabs/tabulizer
+
 # CHANGES TO tabulizer 0.1.21 #
 
 * Exposed a new option `widget` in `locate_areas()` to control which widget is used in locating areas. 
