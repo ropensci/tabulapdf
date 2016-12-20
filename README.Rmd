@@ -85,23 +85,24 @@ Some other utility functions are also provided (and made possible by the [Java P
 
 ## Installation
 
-[![CRAN](http://www.r-pkg.org/badges/version/tabulizer)](http://cran.r-project.org/package=tabulizer)
+[![CRAN](https://www.r-pkg.org/badges/version/tabulizer)](https://cran.r-project.org/package=tabulizer)
+![Downloads](https://cranlogs.r-pkg.org/badges/tabulizer)
 [![Build Status](https://travis-ci.org/ropensci/tabulizer.png?branch=master)](https://travis-ci.org/ropensci/tabulizer)
 [![Build status](https://ci.appveyor.com/api/projects/status/wj5afxb1v42h8oui?svg=true)](https://ci.appveyor.com/project/ropensci/tabulizer)
-[![codecov.io](http://codecov.io/github/ropensci/tabulizer/coverage.svg?branch=master)](http://codecov.io/github/ropensci/tabulizer?branch=master)
+[![codecov.io](https://codecov.io/github/ropensci/tabulizer/coverage.svg?branch=master)](https://codecov.io/github/ropensci/tabulizer?branch=master)
 
 tabulizer depends on [rJava](https://cran.r-project.org/package=rJava), which implies a system requirement for Java. This can be frustrating, especially on Windows. My preferred Windows workflow is to use [Chocolatey](https://chocolatey.org/) to obtain, configure, and update Java (see instructions below). You need do this before installing rJava or attempting to use tabulizer.
 
 tabulizer is not yet on CRAN. To install the latest development version you can:
 
 ```R
-if(!require("ghit")){
+if (!require("ghit")) {
     install.packages("ghit")
 }
 # on 64-bit Windows
-ghit::install_github(c("ropenscilabs/tabulizerjars", "ropenscilabs/tabulizer"), INSTALL_opts = "--no-multiarch")
+ghit::install_github(c("ropensci/tabulizerjars", "ropensci/tabulizer"), INSTALL_opts = "--no-multiarch")
 # elsewhere
-ghit::install_github(c("ropenscilabs/tabulizerjars", "ropenscilabs/tabulizer"))
+ghit::install_github(c("ropensci/tabulizerjars", "ropensci/tabulizer"))
 ```
 
 Some notes for troubleshooting common installation problems:
@@ -135,7 +136,7 @@ You should now be able to safely open R, and use rJava and tabulizer. Note, howe
 
 ## Meta
 
-* Please [report any issues or bugs](https://github.com/ropenscilabs/tabulizer/issues).
+* Please [report any issues or bugs](https://github.com/ropensci/tabulizer/issues).
 * License: MIT
 * Get citation information for `tabulizer` in R doing `citation(package = 'tabulizer')`
 
