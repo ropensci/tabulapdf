@@ -10,8 +10,8 @@ Authors@R: c(person("Thomas J.", "Leeper", role = c("aut", "cre"),
                     comment = "rOpenSci reviewer"))
 Description: Bindings for the Tabula <http://tabula.technology/> java library, which can extract tables from PDF documents.
 License: MIT + file LICENSE
-URL: https://github.com/ropenscilabs/tabulizer
-BugReports: https://github.com/ropenscilabs/tabulizer/issues
+URL: https://github.com/ropensci/tabulizer
+BugReports: https://github.com/ropensci/tabulizer/issues
 Imports:
     utils,
     tools,
