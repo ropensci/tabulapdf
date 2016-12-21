@@ -89,7 +89,12 @@ list_matrices <- function(tables, encoding = NULL, ...) {
 list_characters <- function(tables, sep = "\t", encoding = NULL, ...) {
     m <- list_matrices(tables, encoding = encoding, ...)
     lapply(m, function(x) {
-        paste0(apply(x, 1, paste, collapse = sep), collapse = "\n")
+        if(inherits(x, "matrix")){
+            paste0(apply(x, 1, paste, collapse = sep), collapse = "\n")
+        } else {
+            lapply(x, function(y) paste0(apply(y, 1, paste, collapse = sep),
+                                         collapse = "\n"))
+        }
     })
 }
 
