@@ -58,19 +58,29 @@ list_matrices <- function(tables, encoding = NULL, ...) {
         if (nxt$size() == 0L) {
             break
         }
-        tab <- nxt$get(0L)
-        out[[n]] <- matrix(NA_character_, 
-                           nrow = tab$getRows()$size(), 
-                           ncol = tab$getCols()$size())
-        for (i in seq_len(nrow(out[[n]]))) {
-            for (j in seq_len(ncol(out[[n]]))) {
-                out[[n]][i, j] <- tab$getCell(i-1L, j-1L)$getText()
+        outTab <- list()
+        for(nTabs in seq_len(nxt$size())){
+            tab <- nxt$get(nTabs - 1L)
+            outTab[[nTabs]] <- matrix(NA_character_, 
+                                      nrow = tab$getRows()$size(), 
+                                      ncol = tab$getCols()$size())
+            for (i in seq_len(nrow(outTab[[nTabs]]))) {
+                for (j in seq_len(ncol(outTab[[nTabs]]))) {
+                    outTab[[nTabs]][i, j] <- tab$getCell(i-1L, j-1L)$getText()
+                }
             }
+            if (!is.null(encoding)) {
+                Encoding(outTab[[nTabs]]) <- encoding
+            }
+            rm(tab)
         }
-        if (!is.null(encoding)) {
-            Encoding(out[[n]]) <- encoding
+        ## Put outTab into out, depending on size
+        if(nxt$size() == 1L){
+            out[[n]] <- outTab[[1]]
+        } else {
+            out[[n]] <- outTab
         }
-        rm(tab)
+        rm(outTab)
         n <- n + 1L
     }
     out
