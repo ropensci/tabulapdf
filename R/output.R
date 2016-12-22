@@ -101,11 +101,22 @@ list_characters <- function(tables, sep = "\t", encoding = NULL, ...) {
 list_data_frames <- function(tables, sep = "\t", stringsAsFactors = FALSE, encoding = NULL, ...) {
     char <- list_characters(tables = tables, sep = sep, encoding = encoding)
     lapply(char, function(x) {
-        o <- try(read.delim(text = x, stringsAsFactors = stringsAsFactors, ...))
-        if (inherits(o, "try-error")) {
-            return(x)
+        if(inherits(x, "character")){
+            o <- try(read.delim(text = x, stringsAsFactors = stringsAsFactors, ...))
+            if (inherits(o, "try-error")) {
+                return(x)
+            } else {
+                return(o)
+            }
         } else {
-            return(o)
+            lapply(x, function(y){
+                o <- try(read.delim(text = y, stringsAsFactors = stringsAsFactors, ...))
+                if (inherits(o, "try-error")) {
+                    return(y)
+                } else {
+                    return(o)
+                }
+            })
         }
-    })
+        })
 }
