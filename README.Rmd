@@ -74,6 +74,8 @@ cat(out3, sep = "\n")
 ## 3
 ```
 
+Note that for large PDF files, it is possible to run up against Java memory constraints, leading to a `java.lang.OutOfMemoryError: Java heap space` error message. Memory can be increased using `options(java.parameters = "-Xmx16000m")` set to some reasonable amount of memory.
+
 Some other utility functions are also provided (and made possible by the [Java PDFBox library](https://pdfbox.apache.org/)):
 
  - `extract_text()` converts the text of an entire file or specified pages into an R character vector.
