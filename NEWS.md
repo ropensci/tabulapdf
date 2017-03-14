@@ -1,6 +1,7 @@
 # CHANGES TO tabulizer 0.1.24
 
 * Switch to using new document loading algorithm and localize all remote URLs. (#40)
+* Removed kind of annoying message about overwriting a temporary file. (#36)
 
 # CHANGES TO tabulizer 0.1.23
 

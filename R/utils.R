@@ -6,9 +6,6 @@ localize_file <- function(path, copy = FALSE, quiet = TRUE) {
     } else {
         if (isTRUE(copy)) {
             tmp <- file.path(tempdir(), paste0(basename(file_path_sans_ext(path.expand(path))), ".pdf"))
-            if (file.exists(tmp)){
-                message("There is already a file with this name in the temporary directory. It will be overwritten.")
-            }
             file_to <- path.expand(path)
             if (file_to != tmp) file.copy(from = file_to, to = tmp, overwrite = TRUE)
             path <- tmp
