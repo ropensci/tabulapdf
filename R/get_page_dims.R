@@ -23,7 +23,7 @@
 #' @export
 get_page_dims <- function(file, doc, pages = NULL, password = NULL) {
     if (!missing(file)) {
-        doc <- load_doc(file, password = password)
+        doc <- load_doc(file, password = password, copy = TRUE)
         on.exit(doc$close())
     }
     
@@ -44,7 +44,7 @@ get_page_dims <- function(file, doc, pages = NULL, password = NULL) {
 #' @export
 get_n_pages <- function(file, doc, password = NULL) {
     if (!missing(file)) {
-        doc <- load_doc(file, password = password)
+        doc <- load_doc(file, password = password, copy = FALSE)
         on.exit(doc$close())
     }
     doc$getDocumentCatalog()$getAllPages()$size()

@@ -8,3 +8,4 @@ man-roxygen/
 ^.*\.Rproj$
 ^\.Rproj\.user$
 appveyor.yml
+ignore/*

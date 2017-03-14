@@ -1,17 +1,13 @@
 localize_file <- function(path, copy = FALSE, quiet = TRUE) {
     if (grepl("^http.*://", path)) {
-        if (copy) {
-            tmp <- tempfile(fileext = ".pdf")
-            download.file(path, tmp, quiet = quiet, mode = "wb")
-            path <- tmp
-        } else {
-            path <- new(J("java.net.URL"), path)
-        }
+        tmp <- tempfile(fileext = ".pdf")
+        download.file(path, tmp, quiet = quiet, mode = "wb")
+        path <- tmp
     } else {
-        if (copy) {
+        if (isTRUE(copy)) {
             tmp <- file.path(tempdir(), paste0(basename(file_path_sans_ext(path.expand(path))), ".pdf"))
             if (file.exists(tmp)){
-              message("There is already a file with this name in the temporary directory. It will be overwritten.")
+                message("There is already a file with this name in the temporary directory. It will be overwritten.")
             }
             file_to <- path.expand(path)
             if (file_to != tmp) file.copy(from = file_to, to = tmp, overwrite = TRUE)
@@ -23,17 +19,17 @@ localize_file <- function(path, copy = FALSE, quiet = TRUE) {
     path
 }
 
-load_doc <- function(file, password = NULL) {
-    file <- localize_file(path = file, copy = TRUE)
+load_doc <- function(file, password = NULL, copy = TRUE) {
+    file <- localize_file(path = file, copy = copy)
     pdfDocument <- new(J("org.apache.pdfbox.pdmodel.PDDocument"))
-    doc <- pdfDocument$load(file)
-    pdfDocument$close()
-    if (!is.null(password)) {
-        pm <- new(J("org.apache.pdfbox.pdmodel.encryption.StandardDecryptionMaterial"), password)
-        doc$openProtection(pm)
-    } else if (doc$getDocument()$isEncrypted()) {
-        warning("PDF appears to be password protected and no password was supplied.")
+    scratchFileJava <- new(J("java.io.File"), scratchFile <- tempfile())
+    randomAccess <- new(J("org.apache.pdfbox.io.RandomAccessFile"), scratchFileJava, "rw")
+    if (is.null(password)) {
+        doc <- pdfDocument$load(filename = file, scratchFile = randomAccess)
+    } else {
+        doc <- pdfDocument$load(filename = file, scratchFile = randomAccess, password = password)
     }
+    pdfDocument$close()
     doc
 }
 

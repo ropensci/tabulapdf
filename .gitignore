@@ -9,3 +9,4 @@
 *.csv
 *.tsv
 *.json
+ignore/*

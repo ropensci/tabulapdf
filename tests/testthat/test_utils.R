@@ -18,7 +18,7 @@ test_that("Page dimensions", {
 
 test_that("Make thumbnails", {
     tmp <- tempfile(fileext = ".pdf")
-    file.copy(pdffile, tmp)
+    file.copy(from = pdffile, to = tmp)
     m1 <- make_thumbnails(tmp)
     expect_true(length(m1) == 3)
     unlink(m1)

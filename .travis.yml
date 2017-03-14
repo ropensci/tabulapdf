@@ -12,17 +12,9 @@ matrix:
     - os: osx
       osx_image: beta-xcode6.2
 r_packages:
-- knitr
 - covr
-- drat
 r_github_packages:
-- ropenscilabs/tabulizerjars
-after_failure:
-  email: 
-    recipients:
-     - thosjleeper@gmail.com
-    on_success: change
-    on_failure: change
+- ropensci/tabulizerjars
 after_success:
 - Rscript -e 'library("covr");codecov()'
 #- test $TRAVIS_PULL_REQUEST == "false" && test $TRAVIS_BRANCH == "master" && bash knitreadme.sh
