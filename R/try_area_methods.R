@@ -71,7 +71,7 @@ try_area_reduced <- function(file, dims, area = NULL, warn = FALSE) {
                 "Entering reduced functionality mode.\n",
                 "Click upper-left and then lower-right corners of area.")
     }
-    if (grDevices::dev.capabilities()[["rasterImage"]] != "no") {
+    if (grDevices::dev.capabilities()[["rasterImage"]] == "no") {
         stop("Graphics device does not support rasterImage() plotting")
     }
     thispng <- readPNG(file, native = TRUE)
