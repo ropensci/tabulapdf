@@ -15,6 +15,8 @@ extract_areas(file, pages = NULL, guess = FALSE, ...)
 
 \item{pages}{An optional integer vector specifying pages to extract from. To extract multiple tables from a given page, repeat the page number (e.g., \code{c(1,2,2,3)}).}
 
+\item{thumbnails}{A directory containing prefetched thumbnails created with the function \code{\link{make_thumbnails}}. This will greatly increase loading speed.}
+
 \item{resolution}{An integer specifying the resolution of the PNG images conversions. A low resolution is used by default to speed image loading.}
 
 \item{widget}{A one-element character vector specifying the type of \dQuote{widget} to use for locating the areas. The default (\dQuote{shiny}) is a shiny widget. The alternatives are a widget based on the native R graphics device (\dQuote{native}, where available), or a very reduced functionality model (\dQuote{reduced}).}
