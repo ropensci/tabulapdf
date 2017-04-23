@@ -36,10 +36,9 @@ extract_text(f, from = 1, to = 1)
 extract_text(f)
 }
 }
-\author{
-Thomas J. Leeper <thosjleeper@gmail.com>
-}
 \seealso{
 \code{\link{extract_tables}}, \code{\link{extract_areas}}, \code{\link{split_pdf}}
 }
-
+\author{
+Thomas J. Leeper <thosjleeper@gmail.com>
+}

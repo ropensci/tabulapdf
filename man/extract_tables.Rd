@@ -66,13 +66,12 @@ extract_tables(f, pages = 2, area = list(c(126, 284, 174, 417)))
 extract_tables(f, pages = 2, method = "data.frame")
 }
 }
-\author{
-Thomas J. Leeper <thosjleeper@gmail.com>
-}
 \references{
 \href{http://tabula.technology/}{Tabula}
 }
 \seealso{
 \code{\link{extract_areas}}, \code{\link{get_page_dims}}, \code{\link{make_thumbnails}}, \code{\link{split_pdf}}
 }
-
+\author{
+Thomas J. Leeper <thosjleeper@gmail.com>
+}
