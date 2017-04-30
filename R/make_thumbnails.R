@@ -32,7 +32,7 @@ function(file, outdir = NULL, pages = NULL, format = c("png", "jpeg", "bmp", "gi
     if (!is.null(pages)) {
         pages <- as.integer(pages)
     } else {
-        pages <- 1L:((doc = pdfDocument))
+        pages <- 1L:(get_n_pages(doc = pdfDocument))
     }
     
     format <- match.arg(format)
