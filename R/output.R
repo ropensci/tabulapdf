@@ -55,7 +55,7 @@ list_matrices <- function(tables, encoding = NULL, ...) {
     tablesIterator <- tables$iterator()
     while (tablesIterator$hasNext()) {
         nxt <- J(tablesIterator, "next")
-	tblCount <- nxt$size()
+        tblCount <- nxt$size()
         if (tblCount == 0) {
             break
         }
