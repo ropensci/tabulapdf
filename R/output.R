@@ -55,23 +55,26 @@ list_matrices <- function(tables, encoding = NULL, ...) {
     tablesIterator <- tables$iterator()
     while (tablesIterator$hasNext()) {
         nxt <- J(tablesIterator, "next")
-        if (nxt$size() == 0L) {
+	tblCount <- nxt$size()
+        if (tblCount == 0) {
             break
         }
-        tab <- nxt$get(0L)
-        out[[n]] <- matrix(NA_character_, 
-                           nrow = tab$getRows()$size(), 
-                           ncol = tab$getCols()$size())
-        for (i in seq_len(nrow(out[[n]]))) {
-            for (j in seq_len(ncol(out[[n]]))) {
-                out[[n]][i, j] <- tab$getCell(i-1L, j-1L)$getText()
+        for( idx in 0:(tblCount-1) ){
+            tab <- nxt$get(idx)
+            out[[n]] <- matrix(NA_character_, 
+                               nrow = tab$getRows()$size(), 
+                               ncol = tab$getCols()$size())
+            for (i in seq_len(nrow(out[[n]]))) {
+                for (j in seq_len(ncol(out[[n]]))) {
+                    out[[n]][i, j] <- tab$getCell(i-1L, j-1L)$getText()
+                }
             }
-        }
-        if (!is.null(encoding)) {
-            Encoding(out[[n]]) <- encoding
-        }
-        rm(tab)
-        n <- n + 1L
+            if (!is.null(encoding)) {
+                Encoding(out[[n]]) <- encoding
+            }
+            rm(tab)
+            n <- n + 1L
+	}
     }
     out
 }
