@@ -70,7 +70,7 @@ function(file,
         pages <- as.integer(pages)
         pageIterator <- oe$extract(make_pages(pages))
     }
-    npages <- pdfDocument$getDocumentCatalog()$getAllPages()$size()
+    npages <- pdfDocument$getNumberOfPages()
     area <- make_area(area = area, pages = pages, npages = npages)
     columns <- make_columns(columns = columns, pages = pages, npages = npages)
     

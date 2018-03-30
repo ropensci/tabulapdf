@@ -19,12 +19,11 @@ localize_file <- function(path, copy = FALSE, quiet = TRUE) {
 load_doc <- function(file, password = NULL, copy = TRUE) {
     file <- localize_file(path = file, copy = copy)
     pdfDocument <- new(J("org.apache.pdfbox.pdmodel.PDDocument"))
-    scratchFileJava <- new(J("java.io.File"), scratchFile <- tempfile())
-    randomAccess <- new(J("org.apache.pdfbox.io.RandomAccessFile"), scratchFileJava, "rw")
+    fileJava <- new(J("java.io.File"), pathname = file)
     if (is.null(password)) {
-        doc <- pdfDocument$load(filename = file, scratchFile = randomAccess)
+        doc <- pdfDocument$load(file = fileJava)
     } else {
-        doc <- pdfDocument$load(filename = file, scratchFile = randomAccess, password = password)
+        doc <- pdfDocument$load(file = fileJava, password = password)
     }
     pdfDocument$close()
     doc

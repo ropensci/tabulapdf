@@ -33,7 +33,7 @@ get_page_dims <- function(file, doc, pages = NULL, password = NULL) {
         pages <- 1L:(get_n_pages(doc = doc))
     }
     
-    allpages <- doc$getDocumentCatalog()$getAllPages()
+    allpages <- doc$getDocumentCatalog()$getPages()
     lapply(pages, function(x) {
         thispage <- allpages$get(x-1L)
         c(thispage$getMediaBox()$getWidth(), thispage$getMediaBox()$getHeight())
@@ -47,5 +47,5 @@ get_n_pages <- function(file, doc, password = NULL) {
         doc <- load_doc(file, password = password, copy = FALSE)
         on.exit(doc$close())
     }
-    doc$getDocumentCatalog()$getAllPages()$size()
+    doc$getNumberOfPages()
 }

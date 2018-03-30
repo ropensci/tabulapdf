@@ -25,7 +25,7 @@ extract_text <- function(file, pages = NULL, password = NULL, encoding = NULL) {
     pdfDocument <- load_doc(file, password = password)
     on.exit(pdfDocument$close())
     
-    stripper <- new(J("org.apache.pdfbox.util.PDFTextStripper"))
+    stripper <- new(J("org.apache.pdfbox.text.PDFTextStripper"))
     
     if (!is.null(pages)) {
         pages <- as.integer(pages)
