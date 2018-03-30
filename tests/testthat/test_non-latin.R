@@ -11,7 +11,7 @@ test_that("Read Spanish language PDF", {
 })
 
 test_that("Read French language PDF w/correct encoding", {
-    f2 <- "http://journal-sfds.fr/index.php/J-SFdS/article/download/514/486"
+    f2 <- "http://publications-sfds.math.cnrs.fr/index.php/J-SFdS/article/download/514/486"
     t2a <- extract_text(f2, page = 1, encoding = "latin1")[[1]]
     t2b <- extract_text(f2, page = 1, encoding = "UTF-8")[[1]]
     #expect_true(nchar(strsplit(t2a, "\n")[[1]][1]) == 50, label = "latin1 encoding worked")
