@@ -2,6 +2,7 @@
 #' @description Extract text from a file
 #' @param file A character string specifying the path or URL to a PDF file.
 #' @param pages An optional integer vector specifying pages to extract from.
+#' @param area An optional list, of length equal to the number of pages specified, where each entry contains a four-element numeric vector of coordinates (top,left,bottom,right) containing the table for the corresponding page. As a convenience, a list of length 1 can be used to extract the same area from all (specified) pages.
 #' @param password Optionally, a character string containing a user password to access a secured PDF.
 #' @param encoding Optionally, a character string specifying an encoding for the text, to be passed to the assignment method of \code{\link[base]{Encoding}}.
 #' @details This function converts the contents of a PDF file into a single unstructured character string.
@@ -21,22 +22,49 @@
 #' @seealso \code{\link{extract_tables}}, \code{\link{extract_areas}}, \code{\link{split_pdf}}
 #' @importFrom rJava J new
 #' @export
-extract_text <- function(file, pages = NULL, password = NULL, encoding = NULL) {
+extract_text <- function(file,
+                         pages = NULL,
+                         area = NULL,
+                         password = NULL,
+                         encoding = NULL) {
     pdfDocument <- load_doc(file, password = password)
     on.exit(pdfDocument$close())
     
-    stripper <- new(J("org.apache.pdfbox.text.PDFTextStripper"))
-    
     if (!is.null(pages)) {
-        pages <- as.integer(pages)
+      tryCatch(pages <- as.integer(pages),
+               error = function(e) {
+                 stop("'pages' should be an integer or coercible to integer.")})
+    }
+    
+    if (!is.null(area)) {
+      stripper <- new(J("org.apache.pdfbox.text.PDFTextStripperByArea"))
+    }
+    else {
+      stripper <- new(J("org.apache.pdfbox.text.PDFTextStripper"))
+    }
+    
+    if (!is.null(pages) && !is.null(area)) {
+      npages <- pdfDocument$getNumberOfPages()
+      areas <- make_area(area = area, pages = pages, npages = npages)
+      out <- unlist(Map(function(x, y) {
+        PDPage <- pdfDocument$getPage(x)
+        region <- as.character(x)
+        stripper$addRegion(region, y)
+        stripper$extractRegions(PDPage)
+        stripper$getTextForRegion(region)
+      }, pages, areas))
+    }
+    else if (!is.null(pages) && is.null(area)) {
         out <- unlist(lapply(pages, function(x) {
             stripper$setStartPage(x)
             stripper$setEndPage(x)
             stripper$getText(pdfDocument)
         }))
-    } else {
+    } 
+    else {
         out <- stripper$getText(pdfDocument)
     }
+    
     if (!is.null(encoding)) {
         Encoding(out) <- encoding
     }
