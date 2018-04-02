@@ -19,7 +19,7 @@
 #' make_thumbnails(f)
 #' }
 #' @importFrom tools file_path_sans_ext
-#' @importFrom rJava J new
+#' @importFrom rJava J new .jfloat
 #' @seealso \code{\link{extract_tables}}, \code{\link{extract_text}}, \code{\link{make_thumbnails}}
 #' @export
 make_thumbnails <- function(file,
