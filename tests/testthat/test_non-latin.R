@@ -17,8 +17,3 @@ test_that("Read French language PDF w/correct encoding", {
     #expect_true(nchar(strsplit(t2a, "\n")[[1]][1]) == 50, label = "latin1 encoding worked")
     #expect_true(nchar(strsplit(t2b, "\n")[[1]][1]) == 47, label = "UTF-8 encoding worked")
 })
-
-test_that("Read Russian language PDF with text area extraction", {
-  f3 <- "http://www.mathnet.ru/links/03f9da4961eee7e6353cce1519bff8e1/im6612.pdf"
-  t3a <- extract_text(f3, pages = 1, area = list(c(194.4129, 48.6559, 266.9236, 382.8359))) 
-})
