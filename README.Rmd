@@ -102,13 +102,13 @@ tabulizer depends on [rJava](https://cran.r-project.org/package=rJava), which im
 tabulizer is not yet on CRAN. To install the latest development version you can:
 
 ```R
-if (!require("ghit")) {
-    install.packages("ghit")
+if (!require("remotes")) {
+    install.packages("remotes")
 }
 # on 64-bit Windows
-ghit::install_github(c("ropensci/tabulizerjars", "ropensci/tabulizer"), INSTALL_opts = "--no-multiarch")
+remotes::install_github(c("ropensci/tabulizerjars", "ropensci/tabulizer"), INSTALL_opts = "--no-multiarch")
 # elsewhere
-ghit::install_github(c("ropensci/tabulizerjars", "ropensci/tabulizer"))
+remotes::install_github(c("ropensci/tabulizerjars", "ropensci/tabulizer"))
 ```
 
 Some notes for troubleshooting common installation problems:
