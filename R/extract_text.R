@@ -43,16 +43,22 @@ extract_text <- function(file,
       stripper <- new(J("org.apache.pdfbox.text.PDFTextStripper"))
     }
     
-    if (!is.null(pages) && !is.null(area)) {
+    if (!is.null(area)) {
       npages <- pdfDocument$getNumberOfPages()
-      areas <- make_area(area = area, pages = pages, npages = npages)
+      area <- make_area(area = area, pages = pages, npages = npages, target = "java")
+      if (!is.null(pages)) {
+        pageIndex <- pages - 1L
+      }
+      else {
+        pageIndex <- seq_along(npages) - 1L
+      }
       out <- unlist(Map(function(x, y) {
         PDPage <- pdfDocument$getPage(x)
         region <- as.character(x)
         stripper$addRegion(region, y)
         stripper$extractRegions(PDPage)
         stripper$getTextForRegion(region)
-      }, pages, areas))
+      }, pageIndex, area))
     }
     else if (!is.null(pages) && is.null(area)) {
         out <- unlist(lapply(pages, function(x) {
