@@ -17,13 +17,13 @@ localize_file <- function(path, copy = FALSE, quiet = TRUE) {
 }
 
 load_doc <- function(file, password = NULL, copy = TRUE) {
-    file <- localize_file(path = file, copy = copy)
+    localfile <- localize_file(path = file, copy = copy)
     pdfDocument <- new(J("org.apache.pdfbox.pdmodel.PDDocument"))
-    fileJava <- new(J("java.io.File"), pathname = file)
+    fileInputStream <- new(J("java.io.FileInputStream"), name <- localfile)
     if (is.null(password)) {
-        doc <- pdfDocument$load(file = fileJava)
+        doc <- pdfDocument$load(input = fileInputStream)
     } else {
-        doc <- pdfDocument$load(file = fileJava, password = password)
+        doc <- pdfDocument$load(input = fileInputStream, password = password)
     }
     pdfDocument$close()
     doc
@@ -37,7 +37,69 @@ make_pages <- function(pages, oe) {
     return(x)
 }
 
-make_area <- function(area = NULL, pages = NULL, npages = NULL) {
+convert_coordinates <- function(coordinates,
+                                dims = NULL,
+                                from = c("graphics", "page", "tabula", "java"),
+                                to = c("graphics", "page", "tabula", "java")) {
+  from <- match.arg(from)
+  to <- match.arg(to)
+  
+  if (length(coordinates) != 4) {
+    stop("Coordinates must have length 4")
+  }
+  if (to == "page" && is.null(dims)) {
+    stop("Page dimensions are required for converting to 'page'")
+  }
+  if ("graphics" %in% c(to, from)) {
+    stop("'graphics' has not been implemented yet")
+  }
+  
+  # graphics: startx, starty, endx, endy
+  # page: top, left, bottom, right
+  # tabula: y(top), x(left), width, heigth
+  # java: x(left), y(top), width, height 
+  if (from == "page" && to == "java") {
+    coordinates <- c(coordinates[c(2,1)],
+                     coordinates[4] - coordinates[2],
+                     coordinates[3] - coordinates[1])
+  }
+  else if (from == "page" && to == "tabula") {
+    coordinates <- c(coordinates[c(1,2)],
+                     coordinates[4] - coordinates[2],
+                     coordinates[3] - coordinates[1])
+  }
+  else if (from == "page" && to == "graphics") {
+    # TODO
+  }
+  else if (from == "java" && to == "page") {
+    coordinates <- c(coordinates[c(2,1)],
+                     dims[2] - coordinates[2] - coordinates[4],
+                     dims[1] - coordinates[1] - coordinates[3])
+  }
+  else if (from == "tabula" && to == "page") {
+    coordinates <- c(coordinates[c(1,2)],
+                     dims[2] - coordinates[1] - coordinates[4],
+                     dims[1] - coordinates[2] - coordinates[3])
+  }
+  else if ((from == "tabula" && to == "java") ||
+           (from == "java" && to == "tabula")) {
+    coordinates[c(1,2)] <- coordinates[c(2,1)]
+  }
+  else if (from == "tabula" && to == "graphics") {
+    # TODO
+  }
+  else if (from == "java" && to == "graphics") {
+    # TODO
+  }
+  coordinates
+}
+
+make_area <- function(area = NULL,
+                      pages = NULL,
+                      npages = NULL,
+                      target = c("tabula", "java")) {
+    target = match.arg(target)
+  
     if (!is.null(area)) {
         if (!is.list(area)) {
             stop("'area' must be a list of length 1 or length equal to number of pages")
@@ -57,7 +119,16 @@ make_area <- function(area = NULL, pages = NULL, npages = NULL) {
         }
         area <- lapply(area, function(x) {
             if (!is.null(x)) {
-                new(J("technology.tabula.Rectangle"), .jfloat(x[1]), .jfloat(x[2]), .jfloat(x[4]-x[2]), .jfloat(x[3]-x[1]))
+                if (target == "tabula") {
+                  x <- convert_coordinates(x, from = "page", to = "tabula")
+                  new(J("technology.tabula.Rectangle"), .jfloat(x[1]),
+                      .jfloat(x[2]), .jfloat(x[3]), .jfloat(x[4]))
+                }
+                else if (target == "java") {
+                  x <- convert_coordinates(x, from = "page", to = "java")
+                  new(J("java.awt.geom.Rectangle2D$Float"), .jfloat(x[1]),
+                      .jfloat(x[2]), .jfloat(x[3]), .jfloat(x[4]))
+                }
             } else {
                 NULL
             }
