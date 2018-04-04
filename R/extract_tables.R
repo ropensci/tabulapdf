@@ -71,7 +71,7 @@ function(file,
         pageIterator <- oe$extract(make_pages(pages))
     }
     npages <- pdfDocument$getNumberOfPages()
-    area <- make_area(area = area, pages = pages, npages = npages)
+    area <- make_area(area = area, pages = pages, npages = npages, target = "tabula")
     columns <- make_columns(columns = columns, pages = pages, npages = npages)
     
     # setup extractors
