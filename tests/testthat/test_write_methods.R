@@ -31,19 +31,19 @@ test_that("Write CSV Files", {
     tmp4 <- tempfile()
     t4 <- tabulizer:::write_csvs(tabs, file = tmp4)
     expect_true(is.character(t4))
-    expect_true(length(dir(t4, pattern = "csv$")) == 3)
+    expect_equal(length(dir(t4, pattern = "csv$")), 4)
 })
 
 test_that("Write TSV Files", {
     tmp5 <- tempfile()
     t5 <- tabulizer:::write_tsvs(tabs, file = tmp5)
     expect_true(is.character(t5))
-    expect_true(length(dir(t5, pattern = "tsv$")) == 3)
+    expect_equal(length(dir(t5, pattern = "tsv$")), 4)
 })
 
 test_that("Write JSON Files", {
     tmp6 <- tempfile()
     t6 <- tabulizer:::write_jsons(tabs, file = tmp6)
     expect_true(is.character(t6))
-    expect_true(length(dir(t6, pattern = "json$")) == 3)
+    expect_equal(length(dir(t6, pattern = "json$")), 4)
 })
