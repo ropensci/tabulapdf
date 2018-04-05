@@ -1,7 +1,7 @@
 context("Table writing methods")
 
 pdffile <- system.file("examples", "data.pdf", package = "tabulizer")
-tabs <- extract_tables(pdffile, method = "asis")
+tabs <- extract_tables(pdffile, output = "asis")
     
 test_that("Java reference return", {
     expect_true(inherits(tabs, "jobjRef"))
