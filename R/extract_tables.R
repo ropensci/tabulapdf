@@ -5,17 +5,22 @@
 #' @param area An optional list, of length equal to the number of pages specified, where each entry contains a four-element numeric vector of coordinates (top,left,bottom,right) containing the table for the corresponding page. As a convenience, a list of length 1 can be used to extract the same area from all (specified) pages. Only specify \code{area} xor \code{columns}.
 #' @param columns An optional list, of length equal to the number of pages specified, where each entry contains a numeric vector of horizontal (x) coordinates separating columns of data for the corresponding page. As a convenience, a list of length 1 can be used to specify the same columns for all (specified) pages. Only specify \code{area} xor \code{columns}.
 #' @param guess A logical indicating whether to guess the locations of tables on each page. If \code{FALSE}, \code{area} or \code{columns} must be specified; if \code{TRUE}, columns is ignored.
-#' @param spreadsheet A logical indicating whether to use Tabula's spreadsheet extraction algorithm. If \code{NULL} (the default), an automated assessment is made about whether it is appropriate.
-#' @param method A function to coerce the Java response object (a Java ArrayList of Tabula Tables) to some output format. The default method, \dQuote{matrices}, returns a list of character matrices. See Details for other options.
+#' @param method A string identifying the prefered method of table extraction.
+#' \itemize{
+#'   \item \code{method = "decide"} (default) automatically decide (for each page) whether spreadsheet-like formatting is present and "lattice" is appropriate
+#'   \item \code{method = "lattice"} use Tabula's spreadsheet extraction algorithm
+#'   \item \code{method = "stream"} use Tabula's basic extraction algorithm
+#' }
+#' @param output A function to coerce the Java response object (a Java ArrayList of Tabula Tables) to some output format. The default method, \dQuote{matrices}, returns a list of character matrices. See Details for other options.
 #' @param password Optionally, a character string containing a user password to access a secured PDF.
 #' @param encoding Optionally, a character string specifying an encoding for the text, to be passed to the assignment method of \code{\link[base]{Encoding}}.
 #' @param \dots These are additional arguments passed to the internal functions dispatched by \code{method}.
 #' @details This function mimics the behavior of the Tabula command line utility. It returns a list of R character matrices containing tables extracted from a file by default. This response behavior can be changed by using the following options.
 #' \itemize{
-#'   \item \code{method = "character"} returns a list of single-element character vectors, where each vector is a tab-delimited, line-separate string of concatenated table cells.
-#'   \item \code{method = "data.frame"} attempts to coerce the structure returned by \code{method = "character"} into a list of data.frames and returns character strings where this fails.
-#'   \item \code{method = "csv"} writes the tables to comma-separated (CSV) files using Tabula's CSVWriter method in the same directory as the original PDF. \code{method = "tsv"} does the same but with tab-separated (TSV) files using Tabula's TSVWriter and \code{method = "json"} does the same using Tabula's JSONWriter method. Any of these three methods return the path to the directory containing the extract table files. 
-#'   \item \code{method = "asis"} returns the Java object reference, which can be useful for debugging or for writing a custom parser.
+#'   \item \code{output = "character"} returns a list of single-element character vectors, where each vector is a tab-delimited, line-separate string of concatenated table cells.
+#'   \item \code{output = "data.frame"} attempts to coerce the structure returned by \code{method = "character"} into a list of data.frames and returns character strings where this fails.
+#'   \item \code{output = "csv"} writes the tables to comma-separated (CSV) files using Tabula's CSVWriter method in the same directory as the original PDF. \code{method = "tsv"} does the same but with tab-separated (TSV) files using Tabula's TSVWriter and \code{method = "json"} does the same using Tabula's JSONWriter method. Any of these three methods return the path to the directory containing the extract table files. 
+#'   \item \code{output = "asis"} returns the Java object reference, which can be useful for debugging or for writing a custom parser.
 #' }
 #' \code{\link{extract_areas}} implements this functionality in an interactive mode allowing the user to specify extraction areas for each page.
 #' @return By default, a list of character matrices. This can be changed by specifying an alternative value of \code{method} (see Details).
@@ -47,17 +52,17 @@
 #' @importFrom tools file_path_sans_ext
 #' @importFrom rJava J new .jfloat
 #' @export
-extract_tables <- 
-function(file, 
-         pages = NULL, 
-         area = NULL, 
-         columns = NULL,
-         guess = TRUE,
-         spreadsheet = NULL,
-         method = "matrix",
-         password = NULL,
-         encoding = NULL,
-         ...) {
+extract_tables <- function(file,
+                           pages = NULL,
+                           area = NULL,
+                           columns = NULL,
+                           guess = TRUE,
+                           method = c("decide", "lattice", "stream"),
+                           output = "matrix",
+                           password = NULL,
+                           encoding = NULL,
+                           ...) {
+    method <- match.arg(method)
 
     pdfDocument <- load_doc(file, password = password)
     on.exit(pdfDocument$close())
@@ -77,6 +82,12 @@ function(file,
     # setup extractors
     basicExtractor <- new(J("technology.tabula.extractors.BasicExtractionAlgorithm"))
     spreadsheetExtractor <- new(J("technology.tabula.extractors.SpreadsheetExtractionAlgorithm"))
+    if (method == "lattice") {
+      use <- method
+    }
+    else if (method == "stream") {
+      use <- method
+    }
     
     tables <- new(J("java.util.ArrayList"))
     p <- 1L # page number
@@ -87,10 +98,15 @@ function(file,
         }
         
         # decide whether to use spreadsheet or basic extractor
-        if (is.null(spreadsheet)) {
-            spreadsheet <- spreadsheetExtractor$isTabular(page)
+        if (method == "decide") {
+            tabular <- spreadsheetExtractor$isTabular(page)
+            if (identical(FALSE, tabular)) {
+              use <- "stream"
+            } else {
+              use <- "lattice"
+            }
         }
-        if (isTRUE(guess) && isTRUE(spreadsheet)) {
+        if (isTRUE(guess) && use == "lattice") {
             tables$add(spreadsheetExtractor$extract(page))
         } else {
             if (isTRUE(guess)) {
@@ -118,8 +134,8 @@ function(file,
     }
     rm(p)
     
-    # return output based on `method`
-    switch(tolower(method),
+    # return output
+    switch(tolower(output),
            "csv" = write_csvs(tables, file = file, ...),
            "tsv" = write_tsvs(tables, file = file, ...),
            "json" = write_jsons(tables, file = file, ...),
