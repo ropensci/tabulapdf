@@ -7,7 +7,7 @@ test_that("Text can be extracted from the whole document", {
   cite <- paste(format(citation()), collapse = "")
   striptxt <- gsub("[[:space:]+]", "", txt)
   stripcite <- gsub("[[:space:]+]", "", cite)
-  expect_true(nchar(striptxt)/2 == nchar(stripcite))
+  expect_identical(nchar(striptxt), 2L*nchar(stripcite))
 })
 
 test_that("'page' argument in extract_text works", {
@@ -15,7 +15,7 @@ test_that("'page' argument in extract_text works", {
   cite <- paste(format(citation()), collapse = "")
   striptxt <- gsub("[[:space:]+]", "", txt)
   stripcite <- gsub("[[:space:]+]", "", cite)
-  expect_true(nchar(striptxt) == nchar(striptxt))
+  expect_identical(nchar(striptxt), nchar(striptxt))
 })
 
 test_that("'area' argument in extract_text works", {
@@ -24,13 +24,27 @@ test_that("'area' argument in extract_text works", {
   bibtex <- paste(as.character(toBibtex(citation())), collapse = "")
   striptxt <- gsub("[[:space:]+]", "", txt)
   stripbib <- gsub("[[:space:]+]", "", bibtex)
-  expect_true(nchar(striptxt) == 2*nchar(stripbib))
+  expect_identical(nchar(striptxt), 2L*nchar(stripbib))
 })
 
-test_that("'area' and 'page' arguments in extract_text work", {
+test_that("'area' and 'page' arguments in extract_text work together", {
   txt <- extract_text(sf, pages = 1, area = list(c(209.4, 140.5, 304.2, 500.8)))
   bibtex <- paste(as.character(toBibtex(citation())), collapse = "")
   striptxt <- gsub("[[:space:]+]", "", txt)
   stripbib <- gsub("[[:space:]+]", "", bibtex)
-  expect_true(nchar(striptxt) == nchar(stripbib))
+  expect_identical(nchar(striptxt), nchar(stripbib))
+})
+
+test_that("Multiple pages with different areas can be extracted", {
+  txt <- extract_text(sf, pages = c(1, 2),
+                      area = list(c(124, 131, 341.6, 504.3),
+                                  c(209.4, 140.5, 304.2, 500.8)))
+  txt <- paste(txt, collapse = "")
+  cite <- paste(format(citation()), collapse = "")
+  bibtex <- paste(as.character(toBibtex(citation())), collapse = "")
+  striptxt <- gsub("[[:space:]+]", "", txt)
+  stripcite <- gsub("[[:space:]+]", "", cite)
+  stripbib <- gsub("[[:space:]+]", "", bibtex)
+  bothpages <- paste0(stripcite, stripbib)
+  expect_identical(nchar(striptxt), nchar(bothpages))
 })
