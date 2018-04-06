@@ -11,13 +11,17 @@
 #' @examples
 #' \dontrun{
 #' # simple demo file
-#' f <- system.file("examples", "data.pdf", package = "tabulizer")
-#' 
-#' # extract all text from page 1 only
-#' extract_text(f, from = 1, to = 1)
+#' f <- system.file("examples", "text.pdf", package = "tabulizer")
 #' 
 #' # extract all text
 #' extract_text(f)
+#' 
+#' # extract all text from page 1 only
+#' extract_text(f, pages = 1)
+#' 
+#' # extract text from selected area only
+#' extract_text(f, area = list(c(209.4, 140.5, 304.2, 500.8)))
+#' 
 #' }
 #' @seealso \code{\link{extract_tables}}, \code{\link{extract_areas}}, \code{\link{split_pdf}}
 #' @importFrom rJava J new
