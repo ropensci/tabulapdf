@@ -3,18 +3,19 @@ cache: packages
 matrix:
   include:
     - os: linux
-      dist: precise
-      sudo: false
+      r: oldrel
+    - os: linux
+      r: release
+    - os: linux
+      r: devel
     - os: linux
       dist: trusty
+      env: R_CODECOV=true
     - os: osx
-      osx_image: xcode8
-    - os: osx
-      osx_image: beta-xcode6.2
+      osx_image: xcode8.3
 r_packages:
 - covr
 r_github_packages:
 - ropensci/tabulizerjars
 after_success:
-- Rscript -e 'library("covr");codecov()'
-#- test $TRAVIS_PULL_REQUEST == "false" && test $TRAVIS_BRANCH == "master" && bash knitreadme.sh
+- R -e 'library("covr");codecov()'
