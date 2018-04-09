@@ -20,10 +20,10 @@ str(out1)
 ##  $ : chr [1:15, 1] "supp" "VC" "VC" "VC" ...
 ```
 
-By default, it returns the most table-like R structure available: a matrix. It can also write the tables to disk or attempt to coerce them to data.frames using the `method` argument. It is also possible to select tables from only specified pages using the `pages` argument.
+By default, it returns the most table-like R structure available: a matrix. It can also write the tables to disk or attempt to coerce them to data.frames using the `output` argument. It is also possible to select tables from only specified pages using the `pages` argument.
 
 ```R
-out2 <- extract_tables(f, pages = 1, guess = FALSE, method = "data.frame")
+out2 <- extract_tables(f, pages = 1, guess = FALSE, output = "data.frame")
 str(out2)
 ## List of 1
 ##  $ :'data.frame':       33 obs. of  13 variables:
