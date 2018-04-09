@@ -38,13 +38,13 @@ test_that("Import from remote non-Western file", {
 
 test_that("Test 'area' argument", {
     a4a <- list(c(122, 149, 536, 576))
-    tab4a <- extract_tables(sf, pages = 1, area = a4a, guess = FALSE, method = "data.frame")
+    tab4a <- extract_tables(sf, pages = 1, area = a4a, guess = FALSE, output = "data.frame")
     expect_true(is.list(tab4a))
     expect_true(is.data.frame(tab4a[[1]]))
     expect_true(nrow(tab4a[[1]]) == 32)
     expect_true(ncol(tab4a[[1]]) == 12)
     a4b <- list(c(122, 149, 251, 464))
-    tab4b <- extract_tables(sf, pages = 1, area = a4b, guess = FALSE, method = "data.frame")
+    tab4b <- extract_tables(sf, pages = 1, area = a4b, guess = FALSE, output = "data.frame")
     expect_true(is.list(tab4b))
     expect_true(is.data.frame(tab4b[[1]]))
     expect_true(nrow(tab4b[[1]]) == 9)

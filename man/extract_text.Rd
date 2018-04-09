@@ -4,12 +4,15 @@
 \alias{extract_text}
 \title{extract_text}
 \usage{
-extract_text(file, pages = NULL, password = NULL, encoding = NULL)
+extract_text(file, pages = NULL, area = NULL, password = NULL,
+  encoding = NULL)
 }
 \arguments{
 \item{file}{A character string specifying the path or URL to a PDF file.}
 
 \item{pages}{An optional integer vector specifying pages to extract from.}
+
+\item{area}{An optional list, of length equal to the number of pages specified, where each entry contains a four-element numeric vector of coordinates (top,left,bottom,right) containing the table for the corresponding page. As a convenience, a list of length 1 can be used to extract the same area from all (specified) pages.}
 
 \item{password}{Optionally, a character string containing a user password to access a secured PDF.}
 
@@ -27,19 +30,22 @@ This function converts the contents of a PDF file into a single unstructured cha
 \examples{
 \dontrun{
 # simple demo file
-f <- system.file("examples", "data.pdf", package = "tabulizer")
-
-# extract all text from page 1 only
-extract_text(f, from = 1, to = 1)
+f <- system.file("examples", "text.pdf", package = "tabulizer")
 
 # extract all text
 extract_text(f)
+
+# extract all text from page 1 only
+extract_text(f, pages = 1)
+
+# extract text from selected area only
+extract_text(f, area = list(c(209.4, 140.5, 304.2, 500.8)))
+
 }
-}
-\author{
-Thomas J. Leeper <thosjleeper@gmail.com>
 }
 \seealso{
 \code{\link{extract_tables}}, \code{\link{extract_areas}}, \code{\link{split_pdf}}
 }
-
+\author{
+Thomas J. Leeper <thosjleeper@gmail.com>
+}

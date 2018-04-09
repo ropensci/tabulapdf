@@ -30,7 +30,7 @@ split_pdf <- function(file, outdir = NULL, password = NULL) {
     file <- localize_file(file, copy = TRUE)
     pdfDocument <- load_doc(file, password = password)
     on.exit(pdfDocument$close())
-    splitter <- new(J("org.apache.pdfbox.util.Splitter"))
+    splitter <- new(J("org.apache.pdfbox.multipdf.Splitter"))
     splitArray <- splitter$split(pdfDocument)
     iterator <- splitArray$iterator()
     p <- 1L
@@ -57,7 +57,7 @@ split_pdf <- function(file, outdir = NULL, password = NULL) {
 merge_pdfs <- function(file, outfile) {
     outfile <- path.expand(outfile)
     file <- unlist(lapply(file, localize_file, copy = TRUE))
-    merger <- new(J("org.apache.pdfbox.util.PDFMergerUtility"))
+    merger <- new(J("org.apache.pdfbox.multipdf.PDFMergerUtility"))
     merger$setDestinationFileName(outfile)
     lapply(file, merger$addSource)
     merger$mergeDocuments()
