@@ -26,4 +26,3 @@ stop_logging()
 \author{
 Thomas J. Leeper <thosjleeper@gmail.com>
 }
-

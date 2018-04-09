@@ -5,7 +5,7 @@
 \title{make_thumbnails}
 \usage{
 make_thumbnails(file, outdir = NULL, pages = NULL, format = c("png",
-  "jpeg", "bmp", "gif"), resolution = 72L, password = NULL)
+  "jpeg", "bmp", "gif"), resolution = 72, password = NULL)
 }
 \arguments{
 \item{file}{A character string specifying the path or URL to a PDF file.}
@@ -16,7 +16,7 @@ make_thumbnails(file, outdir = NULL, pages = NULL, format = c("png",
 
 \item{format}{A character string specifying an image file format.}
 
-\item{resolution}{An integer specifying the image resolution in DPI.}
+\item{resolution}{A numeric value specifying the image resolution in DPI.}
 
 \item{password}{Optionally, a character string containing a user password to access a secured PDF.}
 }
@@ -40,13 +40,12 @@ f <- system.file("examples", "data.pdf", package = "tabulizer")
 make_thumbnails(f)
 }
 }
-\author{
-Thomas J. Leeper <thosjleeper@gmail.com>
-}
 \references{
 \href{http://tabula.technology/}{Tabula}
 }
 \seealso{
 \code{\link{extract_tables}}, \code{\link{extract_text}}, \code{\link{make_thumbnails}}
 }
-
+\author{
+Thomas J. Leeper <thosjleeper@gmail.com>
+}

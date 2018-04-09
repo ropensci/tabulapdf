@@ -28,10 +28,9 @@ f <- system.file("examples", "data.pdf", package = "tabulizer")
 extract_metadata(f)
 }
 }
-\author{
-Thomas J. Leeper <thosjleeper@gmail.com>
-}
 \seealso{
 \code{\link{extract_tables}}, \code{\link{extract_areas}}, \code{\link{extract_text}}, \code{\link{split_pdf}}
 }
-
+\author{
+Thomas J. Leeper <thosjleeper@gmail.com>
+}

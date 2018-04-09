@@ -5,8 +5,8 @@
 \title{extract_tables}
 \usage{
 extract_tables(file, pages = NULL, area = NULL, columns = NULL,
-  guess = TRUE, spreadsheet = NULL, method = "matrix", password = NULL,
-  encoding = NULL, ...)
+  guess = TRUE, method = c("decide", "lattice", "stream"),
+  output = "matrix", password = NULL, encoding = NULL, ...)
 }
 \arguments{
 \item{file}{A character string specifying the path or URL to a PDF file.}
@@ -19,9 +19,14 @@ extract_tables(file, pages = NULL, area = NULL, columns = NULL,
 
 \item{guess}{A logical indicating whether to guess the locations of tables on each page. If \code{FALSE}, \code{area} or \code{columns} must be specified; if \code{TRUE}, columns is ignored.}
 
-\item{spreadsheet}{A logical indicating whether to use Tabula's spreadsheet extraction algorithm. If \code{NULL} (the default), an automated assessment is made about whether it is appropriate.}
+\item{method}{A string identifying the prefered method of table extraction.
+\itemize{
+  \item \code{method = "decide"} (default) automatically decide (for each page) whether spreadsheet-like formatting is present and "lattice" is appropriate
+  \item \code{method = "lattice"} use Tabula's spreadsheet extraction algorithm
+  \item \code{method = "stream"} use Tabula's basic extraction algorithm
+}}
 
-\item{method}{A function to coerce the Java response object (a Java ArrayList of Tabula Tables) to some output format. The default method, \dQuote{matrices}, returns a list of character matrices. See Details for other options.}
+\item{output}{A function to coerce the Java response object (a Java ArrayList of Tabula Tables) to some output format. The default method, \dQuote{matrices}, returns a list of character matrices. See Details for other options.}
 
 \item{password}{Optionally, a character string containing a user password to access a secured PDF.}
 
@@ -38,10 +43,10 @@ Extract tables from a file
 \details{
 This function mimics the behavior of the Tabula command line utility. It returns a list of R character matrices containing tables extracted from a file by default. This response behavior can be changed by using the following options.
 \itemize{
-  \item \code{method = "character"} returns a list of single-element character vectors, where each vector is a tab-delimited, line-separate string of concatenated table cells.
-  \item \code{method = "data.frame"} attempts to coerce the structure returned by \code{method = "character"} into a list of data.frames and returns character strings where this fails.
-  \item \code{method = "csv"} writes the tables to comma-separated (CSV) files using Tabula's CSVWriter method in the same directory as the original PDF. \code{method = "tsv"} does the same but with tab-separated (TSV) files using Tabula's TSVWriter and \code{method = "json"} does the same using Tabula's JSONWriter method. Any of these three methods return the path to the directory containing the extract table files. 
-  \item \code{method = "asis"} returns the Java object reference, which can be useful for debugging or for writing a custom parser.
+  \item \code{output = "character"} returns a list of single-element character vectors, where each vector is a tab-delimited, line-separate string of concatenated table cells.
+  \item \code{output = "data.frame"} attempts to coerce the structure returned by \code{method = "character"} into a list of data.frames and returns character strings where this fails.
+  \item \code{output = "csv"} writes the tables to comma-separated (CSV) files using Tabula's CSVWriter method in the same directory as the original PDF. \code{method = "tsv"} does the same but with tab-separated (TSV) files using Tabula's TSVWriter and \code{method = "json"} does the same using Tabula's JSONWriter method. Any of these three methods return the path to the directory containing the extract table files. 
+  \item \code{output = "asis"} returns the Java object reference, which can be useful for debugging or for writing a custom parser.
 }
 \code{\link{extract_areas}} implements this functionality in an interactive mode allowing the user to specify extraction areas for each page.
 }
@@ -66,13 +71,12 @@ extract_tables(f, pages = 2, area = list(c(126, 284, 174, 417)))
 extract_tables(f, pages = 2, method = "data.frame")
 }
 }
-\author{
-Thomas J. Leeper <thosjleeper@gmail.com>
-}
 \references{
 \href{http://tabula.technology/}{Tabula}
 }
 \seealso{
 \code{\link{extract_areas}}, \code{\link{get_page_dims}}, \code{\link{make_thumbnails}}, \code{\link{split_pdf}}
 }
-
+\author{
+Thomas J. Leeper <thosjleeper@gmail.com>
+}
