@@ -27,5 +27,6 @@ Suggests:
     miniUI,
     testthat,
     knitr
+VignetteBuilder: knitr
 RoxygenNote: 6.0.1
 Remotes: github::ropensci/tabulizerjars

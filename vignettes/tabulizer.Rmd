@@ -1,9 +1,11 @@
-<!--
-%\VignetteEngine{knitr}
-%\VignetteIndexEntry{Introduction to tabulizer}
--->
-
-# Introduction to tabulizer #
+---
+title: "Introduction to tabulizer"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Introduction to tabulizer}
+  %\VignetteEngine{knitr::rmarkdown}
+  \usepackage[utf8]{inputenc}
+---
 
 **tabulizer** provides R bindings to the [Tabula java library](https://github.com/tabulapdf/tabula-java/), which can be used to computationaly extract tables from PDF documents. The main function `extract_tables()` mimics the command-line behavior of the Tabula, by extracting all tables from a PDF file and, by default, returns those tables as a list of character matrices in R.
 
@@ -25,39 +27,67 @@ f2 <- "https://github.com/leeper/tabulizer/raw/master/inst/examples/data.pdf"
 extract_tables(f2, pages = 2)
 ```
 
+## Changing the Method of Extraction
+
+The default method used by `extract_tables()` mimicks the default behaviour of
+Tabula. For each page the function decides whether it contains one consistent table
+and then extracts if by using spreadsheet-tailored algorithm `method = "lattice"`. The correct recognition
+of a table depends on whether the page contains a table grid. If it doesn't and the
+table is a matrix of cells with value without borders, it might not be able to recognise it.
+This also applies to multiple tables with different numbers of columns are present on the page.
+In this case another, more general, algorithm (`method = "stream"`) is used
+that relies on the distances between the values on the page.
+
+```{r}
+# Extract tables by deciding for each page individually
+extract_tables(f2, method = "decide")
+```
+
+It is possible to specify the preferred algorithm which might be a preferred option for more difficult cases.
+
+```{r}
+# Extract tables by using "lattice" method
+extract_tables(f2, pages = 2, method = "lattice")
+```
+
+```{r}
+# Extract tables by using "stream" method
+extract_tables(f2, pages = 2, method = "stream")
+```
+
 ## Modifying the Return Value ##
 
-By default, `extract_tables()` returns a list of character matrices. This is because many tables might be malformed or irregular and thus not be easily coerced to an R data.frame. This can easily be changed by specifying the `method` argument:
+By default, `extract_tables()` returns a list of character matrices. This is because many tables might be malformed or irregular and thus not be easily coerced to an R data.frame. This can easily be changed by specifying the `output` argument:
 
 ```{r}
 # attempt to coerce tables to data.frames
-extract_tables(f, pages = 2, method = "data.frame")
+extract_tables(f, pages = 2, output = "data.frame")
 ```
 
-Tabula itself implements three "writer" methods that write extracted tables to disk as CSV, TSV, or JSON files. These can be specified by `method = "csv"`, `method = "tsv"`, and `method = "json"`, respectively. For CSV and TSV, one file is written to disk for each table, in the same directory as the original file (or the temporary directory if the file is a remote PDF). For JSON, one file is written containing information about all tables. For these methods, `extract_tables()` returns a path to the directory containing the output files.
+Tabula itself implements three "writer" methods that write extracted tables to disk as CSV, TSV, or JSON files. These can be specified by `output = "csv"`, `output = "tsv"`, and `output = "json"`, respectively. For CSV and TSV, one file is written to disk for each table, in the same directory as the original file (or the temporary directory if the file is a remote PDF). For JSON, one file is written containing information about all tables. For these methods, `extract_tables()` returns a path to the directory containing the output files.
 
 ```{r}
 # extract tables to CSVs
-extract_tables(f, method = "csv")
+extract_tables(f, output = "csv")
 ```
 
-If none of the standard methods works well, you can specify `method = "asis"` to return an rJava "jobjRef" object, which is a pointer to a Java ArrayList of Tabula Table objects. Working with that object might be quite awkward as it requires knowledge of Java and Tabula's internals, but might be useful to advanced users for debugging purposes.
+If none of the standard methods works well, you can specify `output = "asis"` to return an rJava "jobjRef" object, which is a pointer to a Java ArrayList of Tabula Table objects. Working with that object might be quite awkward as it requires knowledge of Java and Tabula's internals, but might be useful to advanced users for debugging purposes.
 
 ## Extracting Areas ##
 
 By default, tabulizer uses Tabula's table detection algorithms to automatically identify tables within each page of a PDF. This automatic detection can be toggled off by setting `guess = FALSE` and specifying an "area" within each PDF page to extract the table from. Here is a comparison of the default settings, versus extracting from two alternative areas within a page:
 
 ```{r}
-str(extract_tables(f, pages = 2, guess = TRUE, method = "data.frame"))
-str(extract_tables(f, pages = 2, area = list(c(126, 149, 212, 462)), guess = FALSE, method = "data.frame"))
-str(extract_tables(f, pages = 2, area = list(c(126, 284, 174, 417)), guess = FALSE, method = "data.frame"))
+str(extract_tables(f, pages = 2, guess = TRUE, output = "data.frame"))
+str(extract_tables(f, pages = 2, area = list(c(126, 149, 212, 462)), guess = FALSE, output = "data.frame"))
+str(extract_tables(f, pages = 2, area = list(c(126, 284, 174, 417)), guess = FALSE, output = "data.frame"))
 ```
 
 The `area` argument should be a list either of length 1 (to use the same area for each specified page) or equal to the number of pages specified. This also means that you can extract multiple areas from one page, but specifying the page twice and indicating the two areas separately:
 
 ```{r}
 a2 <- list(c(126, 149, 212, 462), c(126, 284, 174, 417))
-str(extract_tables(f, pages = c(2,2), area = a2, guess = FALSE, method = "data.frame"))
+str(extract_tables(f, pages = c(2,2), area = a2, guess = FALSE, output = "data.frame"))
 ```
 
 ## Interactive Table Extraction ##
