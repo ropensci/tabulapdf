@@ -40,7 +40,7 @@ test_that("Multiple pages with different areas can be extracted", {
                       area = list(c(124, 131, 341.6, 504.3),
                                   c(209.4, 140.5, 304.2, 500.8)))
   txt <- paste(txt, collapse = "")
-  cite <- paste(format(citation()), collapse = "")
+  cite <- paste(format(citation(), style = "citation"), collapse = "")
   bibtex <- paste(as.character(toBibtex(citation())), collapse = "")
   striptxt <- gsub("[[:space:]+]", "", txt)
   stripcite <- gsub("[[:space:]+]", "", cite)
