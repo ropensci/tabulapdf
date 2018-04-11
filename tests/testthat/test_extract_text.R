@@ -4,7 +4,7 @@ sf <- system.file("examples", "text.pdf", package = "tabulizer")
 
 test_that("Text can be extracted from the whole document", {
   txt <- extract_text(sf)
-  cite <- paste(format(citation()), collapse = "")
+  cite <- paste(format(citation(), style = "citation"), collapse = "")
   striptxt <- gsub("[[:space:]+]", "", txt)
   stripcite <- gsub("[[:space:]+]", "", cite)
   expect_identical(nchar(striptxt), 2L*nchar(stripcite))
@@ -12,7 +12,7 @@ test_that("Text can be extracted from the whole document", {
 
 test_that("'page' argument in extract_text works", {
   txt <- extract_text(sf, pages = 1)
-  cite <- paste(format(citation()), collapse = "")
+  cite <- paste(format(citation(), style = "citation"), collapse = "")
   striptxt <- gsub("[[:space:]+]", "", txt)
   stripcite <- gsub("[[:space:]+]", "", cite)
   expect_identical(nchar(striptxt), nchar(striptxt))
