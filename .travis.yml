@@ -29,4 +29,4 @@ r_packages:
 r_github_packages:
 - ropensci/tabulizerjars
 after_success:
-- R -e 'library("covr");codecov()'
+- R -q -e 'library("covr");codecov()'
