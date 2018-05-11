@@ -1,107 +1,34 @@
+---
+output: github_document
+---
+
+```{r, echo = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "##"
+)
+```
+
 # Extract Tables from PDFs
-
-[![](https://badges.ropensci.org/42_status.svg)](https://github.com/ropensci/onboarding/issues/42)
-
-
-
-**tabulizer** provides R bindings to the [Tabula java library](https://github.com/tabulapdf/tabula-java/), which can be used to computationaly extract tables from PDF documents.
-
-Note: tabulizer is released under the MIT license, as is Tabula itself.
-
-## Code Examples
-
-The main function, `extract_tables()` provides an R clone of the Tabula command line application:
-
-```R
-library("tabulizer")
-f <- system.file("examples", "data.pdf", package = "tabulizer")
-out1 <- extract_tables(f)
-str(out1)
-## List of 4
-##  $ : chr [1:32, 1:10] "mpg" "21.0" "21.0" "22.8" ...
-##  $ : chr [1:7, 1:5] "Sepal.Length " "5.1 " "4.9 " "4.7 " ...
-##  $ : chr [1:7, 1:6] "" "145 " "146 " "147 " ...
-##  $ : chr [1:15, 1] "supp" "VC" "VC" "VC" ...
-```
-
-By default, it returns the most table-like R structure available: a matrix. It can also write the tables to disk or attempt to coerce them to data.frames using the `output` argument. It is also possible to select tables from only specified pages using the `pages` argument.
-
-```R
-out2 <- extract_tables(f, pages = 1, guess = FALSE, output = "data.frame")
-str(out2)
-## List of 1
-##  $ :'data.frame':       33 obs. of  13 variables:
-##   ..$ X   : chr [1:33] "Mazda RX4 " "Mazda RX4 Wag " "Datsun 710 " "Hornet 4 Drive " ...
-##   ..$ mpg : num [1:33] 21 21 22.8 21.4 18.7 18.1 14.3 24.4 22.8 19.2 ...
-##   ..$ cyl : num [1:33] 6 6 4 6 8 6 8 4 4 6 ...
-##   ..$ X.1 : int [1:33] NA NA NA NA NA NA NA NA NA NA ...
-##   ..$ disp: num [1:33] 160 160 108 258 360 ...
-##   ..$ hp  : num [1:33] 110 110 93 110 175 105 245 62 95 123 ...
-##   ..$ drat: num [1:33] 3.9 3.9 3.85 3.08 3.15 2.76 3.21 3.69 3.92 3.92 ...
-##   ..$ wt  : num [1:33] 2.62 2.88 2.32 3.21 3.44 ...
-##   ..$ qsec: num [1:33] 16.5 17 18.6 19.4 17 ...
-##   ..$ vs  : num [1:33] 0 0 1 1 0 1 0 1 1 1 ...
-##   ..$ am  : num [1:33] 1 1 1 0 0 0 0 0 0 0 ...
-##   ..$ gear: num [1:33] 4 4 4 3 3 3 3 4 4 4 ...
-##   ..$ carb: int [1:33] 4 4 1 1 2 1 4 2 2 4 ...
-```
-
-It is also possible to manually specify smaller areas within pages to look for tables using the `area` and `columns` arguments to `extract_tables()`. This facilitates extraction from smaller portions of a page, such as when a table is embeded in a larger section of text or graphics.
-
-Another function, `extract_areas()` implements this through an interactive style in which each page of the PDF is loaded as an R graphic and the user can use their mouse to specify upper-left and lower-right bounds of an area. Those areas are then extracted auto-magically (and the return value is the same as for `extract_tables()`). Here's a shot of it in action:
-
-[![extract_areas()](http://i.imgur.com/USTyQl7.gif)](http://i.imgur.com/USTyQl7.gif)
-
-`locate_areas()` handles the area identification process without performing the extraction, which may be useful as a debugger.
-
-`extract_text()` simply returns text, possibly separately for each (specified) page:
-
-```R
-out3 <- extract_text(f, page = 3)
-cat(out3, sep = "\n")
-## len supp dose
-## 4.2 VC 0.5
-## 11.5 VC 0.5
-## 7.3 VC 0.5
-## 5.8 VC 0.5
-## 6.4 VC 0.5
-## 10.0 VC 0.5
-## 11.2 VC 0.5
-## 11.2 VC 0.5
-## 5.2 VC 0.5
-## 7.0 VC 0.5
-## 16.5 VC 1.0
-## 16.5 VC 1.0
-## 15.2 VC 1.0
-## 17.3 VC 1.0
-## 22.5 VC 1.0
-## 3
-```
-
-Note that for large PDF files, it is possible to run up against Java memory constraints, leading to a `java.lang.OutOfMemoryError: Java heap space` error message. Memory can be increased using `options(java.parameters = "-Xmx16000m")` set to some reasonable amount of memory.
-
-Some other utility functions are also provided (and made possible by the [Java PDFBox library](https://pdfbox.apache.org/)):
-
- - `extract_text()` converts the text of an entire file or specified pages into an R character vector.
- - `split_pdf()` and `merge_pdfs()` split and merge PDF documents, respectively.
- - `extract_metadata()` extracts PDF metadata as a list.
- - `get_n_pages()` determines the number of pages in a document.
- - `get_page_dims()` determines the width and height of each page in pt (the unit used by `area` and `columns` arguments).
- - `make_thumbnails()` converts specified pages of a PDF file to image files.
-
-## Installation
 
 [![CRAN](https://www.r-pkg.org/badges/version/tabulizer)](https://cran.r-project.org/package=tabulizer)
 ![Downloads](https://cranlogs.r-pkg.org/badges/tabulizer)
 [![Build Status](https://travis-ci.org/ropensci/tabulizer.png?branch=master)](https://travis-ci.org/ropensci/tabulizer)
 [![Build status](https://ci.appveyor.com/api/projects/status/wj5afxb1v42h8oui?svg=true)](https://ci.appveyor.com/project/ropensci/tabulizer)
 [![codecov.io](https://codecov.io/github/ropensci/tabulizer/coverage.svg?branch=master)](https://codecov.io/github/ropensci/tabulizer?branch=master)
+[![](https://badges.ropensci.org/42_status.svg)](https://github.com/ropensci/onboarding/issues/42)
+
+**tabulizer** provides R bindings to the [Tabula java library](https://github.com/tabulapdf/tabula-java/), which can be used to computationaly extract tables from PDF documents.
+
+Note: tabulizer is released under the MIT license, as is Tabula itself.
+
+## Installation
 
 tabulizer depends on [rJava](https://cran.r-project.org/package=rJava), which implies a system requirement for Java. This can be frustrating, especially on Windows. My preferred Windows workflow is to use [Chocolatey](https://chocolatey.org/) to obtain, configure, and update Java (see instructions below). You need do this before installing rJava or attempting to use tabulizer.
 
 tabulizer is not yet on CRAN. To install the latest development version you can:
 
-```R
+```{r eval = FALSE}
 if (!require("remotes")) {
     install.packages("remotes")
 }
@@ -139,6 +66,87 @@ You may also need to then set the `JAVA_HOME` environment variable to the path t
  4. from the Start Menu, via `Control Panel » System » Advanced » Environment Variables` ([instructions here](http://superuser.com/a/284351/221772)).
 
 You should now be able to safely open R, and use rJava and tabulizer. Note, however, that some users report that rather than setting this variable, they instead need to delete it (e.g., with `Sys.setenv(JAVA_HOME = "")`), so if the above instructions fail, that is the next step in troubleshooting.
+
+## Code Examples
+
+The main function, `extract_tables()` provides an R clone of the Tabula command line application:
+
+```{r eval = FALSE}
+library("tabulizer")
+f <- system.file("examples", "data.pdf", package = "tabulizer")
+out1 <- extract_tables(f)
+str(out1)
+## List of 4
+##  $ : chr [1:32, 1:10] "mpg" "21.0" "21.0" "22.8" ...
+##  $ : chr [1:7, 1:5] "Sepal.Length " "5.1 " "4.9 " "4.7 " ...
+##  $ : chr [1:7, 1:6] "" "145 " "146 " "147 " ...
+##  $ : chr [1:15, 1] "supp" "VC" "VC" "VC" ...
+```
+
+By default, it returns the most table-like R structure available: a matrix. It can also write the tables to disk or attempt to coerce them to data.frames using the `output` argument. It is also possible to select tables from only specified pages using the `pages` argument.
+
+```{r eval = FALSE}
+out2 <- extract_tables(f, pages = 1, guess = FALSE, output = "data.frame")
+str(out2)
+## List of 1
+##  $ :'data.frame':       33 obs. of  13 variables:
+##   ..$ X   : chr [1:33] "Mazda RX4 " "Mazda RX4 Wag " "Datsun 710 " "Hornet 4 Drive " ...
+##   ..$ mpg : num [1:33] 21 21 22.8 21.4 18.7 18.1 14.3 24.4 22.8 19.2 ...
+##   ..$ cyl : num [1:33] 6 6 4 6 8 6 8 4 4 6 ...
+##   ..$ X.1 : int [1:33] NA NA NA NA NA NA NA NA NA NA ...
+##   ..$ disp: num [1:33] 160 160 108 258 360 ...
+##   ..$ hp  : num [1:33] 110 110 93 110 175 105 245 62 95 123 ...
+##   ..$ drat: num [1:33] 3.9 3.9 3.85 3.08 3.15 2.76 3.21 3.69 3.92 3.92 ...
+##   ..$ wt  : num [1:33] 2.62 2.88 2.32 3.21 3.44 ...
+##   ..$ qsec: num [1:33] 16.5 17 18.6 19.4 17 ...
+##   ..$ vs  : num [1:33] 0 0 1 1 0 1 0 1 1 1 ...
+##   ..$ am  : num [1:33] 1 1 1 0 0 0 0 0 0 0 ...
+##   ..$ gear: num [1:33] 4 4 4 3 3 3 3 4 4 4 ...
+##   ..$ carb: int [1:33] 4 4 1 1 2 1 4 2 2 4 ...
+```
+
+It is also possible to manually specify smaller areas within pages to look for tables using the `area` and `columns` arguments to `extract_tables()`. This facilitates extraction from smaller portions of a page, such as when a table is embeded in a larger section of text or graphics.
+
+Another function, `extract_areas()` implements this through an interactive style in which each page of the PDF is loaded as an R graphic and the user can use their mouse to specify upper-left and lower-right bounds of an area. Those areas are then extracted auto-magically (and the return value is the same as for `extract_tables()`). Here's a shot of it in action:
+
+[![extract_areas()](http://i.imgur.com/USTyQl7.gif)](http://i.imgur.com/USTyQl7.gif)
+
+`locate_areas()` handles the area identification process without performing the extraction, which may be useful as a debugger.
+
+`extract_text()` simply returns text, possibly separately for each (specified) page:
+
+```{r eval = FALSE}
+out3 <- extract_text(f, page = 3)
+cat(out3, sep = "\n")
+## len supp dose
+## 4.2 VC 0.5
+## 11.5 VC 0.5
+## 7.3 VC 0.5
+## 5.8 VC 0.5
+## 6.4 VC 0.5
+## 10.0 VC 0.5
+## 11.2 VC 0.5
+## 11.2 VC 0.5
+## 5.2 VC 0.5
+## 7.0 VC 0.5
+## 16.5 VC 1.0
+## 16.5 VC 1.0
+## 15.2 VC 1.0
+## 17.3 VC 1.0
+## 22.5 VC 1.0
+## 3
+```
+
+Note that for large PDF files, it is possible to run up against Java memory constraints, leading to a `java.lang.OutOfMemoryError: Java heap space` error message. Memory can be increased using `options(java.parameters = "-Xmx16000m")` set to some reasonable amount of memory.
+
+Some other utility functions are also provided (and made possible by the [Java PDFBox library](https://pdfbox.apache.org/)):
+
+ - `extract_text()` converts the text of an entire file or specified pages into an R character vector.
+ - `split_pdf()` and `merge_pdfs()` split and merge PDF documents, respectively.
+ - `extract_metadata()` extracts PDF metadata as a list.
+ - `get_n_pages()` determines the number of pages in a document.
+ - `get_page_dims()` determines the width and height of each page in pt (the unit used by `area` and `columns` arguments).
+ - `make_thumbnails()` converts specified pages of a PDF file to image files.
 
 ## Meta
 
