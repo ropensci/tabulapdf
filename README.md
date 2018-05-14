@@ -2,7 +2,7 @@
 Extract Tables from PDFs
 ========================
 
-[![CRAN](https://www.r-pkg.org/badges/version/tabulizer)](https://cran.r-project.org/package=tabulizer) ![Downloads](https://cranlogs.r-pkg.org/badges/tabulizer) [![Build Status](https://travis-ci.org/ropensci/tabulizer.png?branch=master)](https://travis-ci.org/ropensci/tabulizer) [![Build status](https://ci.appveyor.com/api/projects/status/wj5afxb1v42h8oui?svg=true)](https://ci.appveyor.com/project/ropensci/tabulizer) [![codecov.io](https://codecov.io/github/ropensci/tabulizer/coverage.svg?branch=master)](https://codecov.io/github/ropensci/tabulizer?branch=master) [![](https://badges.ropensci.org/42_status.svg)](https://github.com/ropensci/onboarding/issues/42)
+[![CRAN](https://www.r-pkg.org/badges/version/tabulizer)](https://cran.r-project.org/package=tabulizer) ![Downloads](https://cranlogs.r-pkg.org/badges/tabulizer) [![Build Status](https://travis-ci.org/ropensci/tabulizer.png?branch=master)](https://travis-ci.org/ropensci/tabulizer) [![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/ropensci/tesseract?branch=master&svg=true)](https://ci.appveyor.com/project/tpaskhalis/tabulizer) [![codecov.io](https://codecov.io/github/ropensci/tabulizer/coverage.svg?branch=master)](https://codecov.io/github/ropensci/tabulizer?branch=master) [![](https://badges.ropensci.org/42_status.svg)](https://github.com/ropensci/onboarding/issues/42)
 
 **tabulizer** provides R bindings to the [Tabula java library](https://github.com/tabulapdf/tabula-java/), which can be used to computationaly extract tables from PDF documents.
 
