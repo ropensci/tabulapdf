@@ -68,7 +68,7 @@ extract_tables(f, pages = 2, area = list(c(126, 149, 212, 462)))
 extract_tables(f, pages = 2, area = list(c(126, 284, 174, 417)))
 
 # return data.frames
-extract_tables(f, pages = 2, method = "data.frame")
+extract_tables(f, pages = 2, output = "data.frame")
 }
 }
 \references{

@@ -44,7 +44,7 @@
 #' extract_tables(f, pages = 2, area = list(c(126, 284, 174, 417)))
 #' 
 #' # return data.frames
-#' extract_tables(f, pages = 2, method = "data.frame")
+#' extract_tables(f, pages = 2, output = "data.frame")
 #' }
 #' @seealso \code{\link{extract_areas}}, \code{\link{get_page_dims}}, \code{\link{make_thumbnails}}, \code{\link{split_pdf}}
 #' @import tabulizerjars
