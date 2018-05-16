@@ -4,17 +4,16 @@ localize_file <- function(path, copy = FALSE, quiet = TRUE) {
         utils::download.file(path, tmp, quiet = quiet, mode = "wb")
         path <- tmp
     } else {
+        path <- normalizePath(path.expand(path), mustWork = TRUE)
         if (isTRUE(copy)) {
             filename <- paste0(tools::file_path_sans_ext(basename(path)),
                                ".pdf")
-            tmp <- normalizePath(file.path(tempdir(), filename))
-            file_to <- path.expand(path)
-            if (file_to != tmp) {
-              file.copy(from = file_to, to = tmp, overwrite = TRUE)
+            filepath <- file.path(tempdir(), filename)
+            tmp <- normalizePath(filepath, mustWork = FALSE)
+            if (path != tmp) {
+              file.copy(from = path, to = tmp, overwrite = TRUE)
             }
             path <- tmp
-        } else {
-            path <- path.expand(path)
         }
     }
     path

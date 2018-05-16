@@ -6,6 +6,7 @@ test_that("File localization does not overwrite existing temporary file", {
   tmp <- tempfile(fileext = ".pdf")
   file.copy(from = pdffile, to = tmp)
   localfile <- tabulizer:::localize_file(tmp, copy = TRUE)
+  tmp <- normalizePath(tmp)
   expect_identical(tmp, localfile)
 })
     
