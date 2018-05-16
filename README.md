@@ -1,19 +1,32 @@
 
-Extract Tables from PDFs
-========================
+# Extract Tables from PDFs
 
-[![CRAN](https://www.r-pkg.org/badges/version/tabulizer)](https://cran.r-project.org/package=tabulizer) ![Downloads](https://cranlogs.r-pkg.org/badges/tabulizer) [![Build Status](https://travis-ci.org/ropensci/tabulizer.png?branch=master)](https://travis-ci.org/ropensci/tabulizer) [![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/ropensci/tabulizer?branch=master&svg=true)](https://ci.appveyor.com/project/tpaskhalis/tabulizer) [![codecov.io](https://codecov.io/github/ropensci/tabulizer/coverage.svg?branch=master)](https://codecov.io/github/ropensci/tabulizer?branch=master) [![](https://badges.ropensci.org/42_status.svg)](https://github.com/ropensci/onboarding/issues/42)
+[![CRAN](https://www.r-pkg.org/badges/version/tabulizer)](https://cran.r-project.org/package=tabulizer)
+[![Downloads](https://cranlogs.r-pkg.org/badges/tabulizer)](https://cran.r-project.org/package=tabulizer)
+[![Build
+Status](https://travis-ci.org/ropensci/tabulizer.png?branch=master)](https://travis-ci.org/ropensci/tabulizer)
+[![AppVeyor Build
+Status](https://ci.appveyor.com/api/projects/status/github/ropensci/tabulizer?branch=master&svg=true)](https://ci.appveyor.com/project/tpaskhalis/tabulizer)
+[![codecov.io](https://codecov.io/github/ropensci/tabulizer/coverage.svg?branch=master)](https://codecov.io/github/ropensci/tabulizer?branch=master)
+[![](https://badges.ropensci.org/42_status.svg)](https://github.com/ropensci/onboarding/issues/42)
 
-**tabulizer** provides R bindings to the [Tabula java library](https://github.com/tabulapdf/tabula-java/), which can be used to computationaly extract tables from PDF documents.
+**tabulizer** provides R bindings to the [Tabula java
+library](https://github.com/tabulapdf/tabula-java/), which can be used
+to computationaly extract tables from PDF documents.
 
 Note: tabulizer is released under the MIT license, as is Tabula itself.
 
-Installation
-------------
+## Installation
 
-tabulizer depends on [rJava](https://cran.r-project.org/package=rJava), which implies a system requirement for Java. This can be frustrating, especially on Windows. My preferred Windows workflow is to use [Chocolatey](https://chocolatey.org/) to obtain, configure, and update Java (see instructions below). You need do this before installing rJava or attempting to use tabulizer.
+tabulizer depends on [rJava](https://cran.r-project.org/package=rJava),
+which implies a system requirement for Java. This can be frustrating,
+especially on Windows. My preferred Windows workflow is to use
+[Chocolatey](https://chocolatey.org/) to obtain, configure, and update
+Java (see instructions below). You need do this before installing rJava
+or attempting to use tabulizer.
 
-tabulizer is not yet on CRAN. To install the latest development version you can:
+tabulizer is not yet on CRAN. To install the latest development version
+you can:
 
 ``` r
 if (!require("remotes")) {
@@ -27,33 +40,56 @@ remotes::install_github(c("ropensci/tabulizerjars", "ropensci/tabulizer"))
 
 Some notes for troubleshooting common installation problems:
 
--   On Mac OS, you may need to install [a particular version of Java](https://support.apple.com/kb/DL1572?locale=en_US) prior to attempting to install tabulizer.
--   On a Unix-like, you need to ensure that R has been installed with Java support. This can often be fixed by running `R CMD javareconf` on the command line (possibly with `sudo`, etc. depending on your system setup).
--   On Windows, make sure you have permission to write to and install packages to your R directory before trying to install the package. This can be changed from "Properties" on the right-click context menu. Alternatively, you can ensure write permission by choosing "Run as administrator" when launching R (again, from the right-click context menu).
+  - On Mac OS, you may need to install [a particular version of
+    Java](https://support.apple.com/kb/DL1572?locale=en_US) prior to
+    attempting to install tabulizer.
+  - On a Unix-like, you need to ensure that R has been installed with
+    Java support. This can often be fixed by running `R CMD javareconf`
+    on the command line (possibly with `sudo`, etc. depending on your
+    system setup).
+  - On Windows, make sure you have permission to write to and install
+    packages to your R directory before trying to install the package.
+    This can be changed from “Properties” on the right-click context
+    menu. Alternatively, you can ensure write permission by choosing
+    “Run as administrator” when launching R (again, from the
+    right-click context menu).
 
 ### Installing Java on Windows with Chocolatey
 
-In command prompt, install Chocolately if you don't already have it:
+In command prompt, install Chocolately if you don’t already have
+    it:
 
     @powershell -NoProfile -ExecutionPolicy Bypass -Command "iex ((new-object net.webclient).DownloadString('https://chocolatey.org/install.ps1'))" && SET PATH=%PATH%;%ALLUSERSPROFILE%\chocolatey\bin
 
-Then, install java using Chocolately's `choco install` command:
+Then, install java using Chocolately’s `choco install` command:
 
     choco install jdk7 -y
 
-You may also need to then set the `JAVA_HOME` environment variable to the path to your Java installation (e.g., `C:\Program Files\Java\jdk1.8.0_92`). This can be done:
+You may also need to then set the `JAVA_HOME` environment variable to
+the path to your Java installation (e.g., `C:\Program
+Files\Java\jdk1.8.0_92`). This can be done:
 
-1.  within R using `Sys.setenv(JAVA_HOME = "C:/Program Files/Java/jdk1.8.0_92")` (note slashes), or
-2.  from command prompt using the `setx` command: `setx JAVA_HOME C:\Program Files\Java\jdk1.8.0_92`, or
-3.  from PowerShell, using the .NET framework: `[Environment]::SetEnvironmentVariable("JAVA_HOME", "C:\Program Files\Java\jdk1.8.0_92", "User")`, or
-4.  from the Start Menu, via `Control Panel » System » Advanced » Environment Variables` ([instructions here](http://superuser.com/a/284351/221772)).
+1.  within R using `Sys.setenv(JAVA_HOME = "C:/Program
+    Files/Java/jdk1.8.0_92")` (note slashes), or
+2.  from command prompt using the `setx` command: `setx JAVA_HOME
+    C:\Program Files\Java\jdk1.8.0_92`, or
+3.  from PowerShell, using the .NET framework:
+    `[Environment]::SetEnvironmentVariable("JAVA_HOME", "C:\Program
+    Files\Java\jdk1.8.0_92", "User")`, or
+4.  from the Start Menu, via `Control Panel » System » Advanced »
+    Environment Variables` ([instructions
+    here](http://superuser.com/a/284351/221772)).
 
-You should now be able to safely open R, and use rJava and tabulizer. Note, however, that some users report that rather than setting this variable, they instead need to delete it (e.g., with `Sys.setenv(JAVA_HOME = "")`), so if the above instructions fail, that is the next step in troubleshooting.
+You should now be able to safely open R, and use rJava and tabulizer.
+Note, however, that some users report that rather than setting this
+variable, they instead need to delete it (e.g., with
+`Sys.setenv(JAVA_HOME = "")`), so if the above instructions fail, that
+is the next step in troubleshooting.
 
-Code Examples
--------------
+## Code Examples
 
-The main function, `extract_tables()` provides an R clone of the Tabula command line application:
+The main function, `extract_tables()` provides an R clone of the Tabula
+command line application:
 
 ``` r
 library("tabulizer")
@@ -67,7 +103,11 @@ str(out1)
 ##  $ : chr [1:15, 1] "supp" "VC" "VC" "VC" ...
 ```
 
-By default, it returns the most table-like R structure available: a matrix. It can also write the tables to disk or attempt to coerce them to data.frames using the `output` argument. It is also possible to select tables from only specified pages using the `pages` argument.
+By default, it returns the most table-like R structure available: a
+matrix. It can also write the tables to disk or attempt to coerce them
+to data.frames using the `output` argument. It is also possible to
+select tables from only specified pages using the `pages`
+argument.
 
 ``` r
 out2 <- extract_tables(f, pages = 1, guess = FALSE, output = "data.frame")
@@ -89,15 +129,26 @@ str(out2)
 ##   ..$ carb: int [1:33] 4 4 1 1 2 1 4 2 2 4 ...
 ```
 
-It is also possible to manually specify smaller areas within pages to look for tables using the `area` and `columns` arguments to `extract_tables()`. This facilitates extraction from smaller portions of a page, such as when a table is embeded in a larger section of text or graphics.
+It is also possible to manually specify smaller areas within pages to
+look for tables using the `area` and `columns` arguments to
+`extract_tables()`. This facilitates extraction from smaller portions of
+a page, such as when a table is embeded in a larger section of text or
+graphics.
 
-Another function, `extract_areas()` implements this through an interactive style in which each page of the PDF is loaded as an R graphic and the user can use their mouse to specify upper-left and lower-right bounds of an area. Those areas are then extracted auto-magically (and the return value is the same as for `extract_tables()`). Here's a shot of it in action:
+Another function, `extract_areas()` implements this through an
+interactive style in which each page of the PDF is loaded as an R
+graphic and the user can use their mouse to specify upper-left and
+lower-right bounds of an area. Those areas are then extracted
+auto-magically (and the return value is the same as for
+`extract_tables()`). Here’s a shot of it in action:
 
-[![extract\_areas()](http://i.imgur.com/USTyQl7.gif)](http://i.imgur.com/USTyQl7.gif)
+<http://i.imgur.com/USTyQl7.gif>
 
-`locate_areas()` handles the area identification process without performing the extraction, which may be useful as a debugger.
+`locate_areas()` handles the area identification process without
+performing the extraction, which may be useful as a debugger.
 
-`extract_text()` simply returns text, possibly separately for each (specified) page:
+`extract_text()` simply returns text, possibly separately for each
+(specified) page:
 
 ``` r
 out3 <- extract_text(f, page = 3)
@@ -121,22 +172,33 @@ cat(out3, sep = "\n")
 ## 3
 ```
 
-Note that for large PDF files, it is possible to run up against Java memory constraints, leading to a `java.lang.OutOfMemoryError: Java heap space` error message. Memory can be increased using `options(java.parameters = "-Xmx16000m")` set to some reasonable amount of memory.
+Note that for large PDF files, it is possible to run up against Java
+memory constraints, leading to a `java.lang.OutOfMemoryError: Java heap
+space` error message. Memory can be increased using
+`options(java.parameters = "-Xmx16000m")` set to some reasonable amount
+of memory.
 
-Some other utility functions are also provided (and made possible by the [Java PDFBox library](https://pdfbox.apache.org/)):
+Some other utility functions are also provided (and made possible by the
+[Java PDFBox library](https://pdfbox.apache.org/)):
 
--   `extract_text()` converts the text of an entire file or specified pages into an R character vector.
--   `split_pdf()` and `merge_pdfs()` split and merge PDF documents, respectively.
--   `extract_metadata()` extracts PDF metadata as a list.
--   `get_n_pages()` determines the number of pages in a document.
--   `get_page_dims()` determines the width and height of each page in pt (the unit used by `area` and `columns` arguments).
--   `make_thumbnails()` converts specified pages of a PDF file to image files.
+  - `extract_text()` converts the text of an entire file or specified
+    pages into an R character vector.
+  - `split_pdf()` and `merge_pdfs()` split and merge PDF documents,
+    respectively.
+  - `extract_metadata()` extracts PDF metadata as a list.
+  - `get_n_pages()` determines the number of pages in a document.
+  - `get_page_dims()` determines the width and height of each page in pt
+    (the unit used by `area` and `columns` arguments).
+  - `make_thumbnails()` converts specified pages of a PDF file to image
+    files.
 
-Meta
-----
+## Meta
 
--   Please [report any issues or bugs](https://github.com/ropensci/tabulizer/issues).
--   License: MIT
--   Get citation information for `tabulizer` in R doing `citation(package = 'tabulizer')`
+  - Please [report any issues or
+    bugs](https://github.com/ropensci/tabulizer/issues).
+  - License: MIT
+  - Get citation information for `tabulizer` in R doing
+    `citation(package =
+'tabulizer')`
 
 [![rofooter](http://ropensci.org/public_images/github_footer.png)](http://ropensci.org)
