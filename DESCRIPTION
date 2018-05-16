@@ -28,8 +28,8 @@ BugReports: https://github.com/ropensci/tabulizer/issues
 Imports:
     png,
     rJava,
-    tools,
     tabulizerjars,
+    tools,
     utils
 Suggests:
     graphics,
