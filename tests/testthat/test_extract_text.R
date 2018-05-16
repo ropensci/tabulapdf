@@ -3,7 +3,7 @@ context("Minimum functionality of extract_text")
 sf <- system.file("examples", "text.pdf", package = "tabulizer")
 
 test_that("Text can be extracted from the whole document", {
-  txt <- extract_text(sf)
+  txt <- extract_text(sf, encoding = "UTF-8")
   cite <- paste(format(citation(), style = "citation"), collapse = "")
   striptxt <- gsub("[[:space:]+]", "", txt)
   stripcite <- gsub("[[:space:]+]", "", cite)
@@ -11,15 +11,15 @@ test_that("Text can be extracted from the whole document", {
 })
 
 test_that("'page' argument in extract_text works", {
-  txt <- extract_text(sf, pages = 1)
+  txt <- extract_text(sf, pages = 1, encoding = "UTF-8")
   cite <- paste(format(citation(), style = "citation"), collapse = "")
   striptxt <- gsub("[[:space:]+]", "", txt)
   stripcite <- gsub("[[:space:]+]", "", cite)
-  expect_identical(nchar(striptxt), nchar(striptxt))
+  expect_identical(nchar(striptxt), nchar(stripcite))
 })
 
 test_that("'area' argument in extract_text works", {
-  txt <- extract_text(sf, area = list(c(209.4, 140.5, 304.2, 500.8)))
+  txt <- extract_text(sf, area = list(c(209.4, 140.5, 304.2, 500.8)), encoding = "UTF-8")
   txt <- paste(txt, collapse = "")
   bibtex <- paste(as.character(toBibtex(citation())), collapse = "")
   striptxt <- gsub("[[:space:]+]", "", txt)
@@ -28,7 +28,7 @@ test_that("'area' argument in extract_text works", {
 })
 
 test_that("'area' and 'page' arguments in extract_text work together", {
-  txt <- extract_text(sf, pages = 1, area = list(c(209.4, 140.5, 304.2, 500.8)))
+  txt <- extract_text(sf, pages = 1, area = list(c(209.4, 140.5, 304.2, 500.8)), encoding = "UTF-8")
   bibtex <- paste(as.character(toBibtex(citation())), collapse = "")
   striptxt <- gsub("[[:space:]+]", "", txt)
   stripbib <- gsub("[[:space:]+]", "", bibtex)
@@ -38,7 +38,7 @@ test_that("'area' and 'page' arguments in extract_text work together", {
 test_that("Multiple pages with different areas can be extracted", {
   txt <- extract_text(sf, pages = c(1, 2),
                       area = list(c(124, 131, 341.6, 504.3),
-                                  c(209.4, 140.5, 304.2, 500.8)))
+                                  c(209.4, 140.5, 304.2, 500.8)), encoding = "UTF-8")
   txt <- paste(txt, collapse = "")
   cite <- paste(format(citation(), style = "citation"), collapse = "")
   bibtex <- paste(as.character(toBibtex(citation())), collapse = "")
