@@ -1,6 +1,13 @@
 context("Test Utilities")
 
 pdffile <- system.file("examples", "data.pdf", package = "tabulizer")
+
+test_that("File localization does not overwrite existing temporary file", {
+  tmp <- tempfile(fileext = ".pdf")
+  file.copy(from = pdffile, to = tmp)
+  localfile <- tabulizer:::localize_file(tmp, copy = TRUE)
+  expect_identical(tmp, localfile)
+})
     
 test_that("Page length", {
     np <- get_n_pages(file = pdffile)

@@ -1,13 +1,17 @@
 localize_file <- function(path, copy = FALSE, quiet = TRUE) {
     if (grepl("^http.*://", path)) {
         tmp <- tempfile(fileext = ".pdf")
-        download.file(path, tmp, quiet = quiet, mode = "wb")
+        utils::download.file(path, tmp, quiet = quiet, mode = "wb")
         path <- tmp
     } else {
         if (isTRUE(copy)) {
-            tmp <- file.path(tempdir(), paste0(basename(file_path_sans_ext(path.expand(path))), ".pdf"))
+            filename <- paste0(tools::file_path_sans_ext(basename(path)),
+                               ".pdf")
+            tmp <- normalizePath(file.path(tempdir(), filename))
             file_to <- path.expand(path)
-            if (file_to != tmp) file.copy(from = file_to, to = tmp, overwrite = TRUE)
+            if (file_to != tmp) {
+              file.copy(from = file_to, to = tmp, overwrite = TRUE)
+            }
             path <- tmp
         } else {
             path <- path.expand(path)
