@@ -19,7 +19,7 @@ localize_file <- function(path, copy = FALSE, quiet = TRUE) {
     path
 }
 
-load_doc <- function(file, password = NULL, copy = TRUE) {
+load_doc <- function(file, password = NULL, copy = FALSE) {
     localfile <- localize_file(path = file, copy = copy)
     pdfDocument <- new(J("org.apache.pdfbox.pdmodel.PDDocument"))
     fileInputStream <- new(J("java.io.FileInputStream"), name <- localfile)
