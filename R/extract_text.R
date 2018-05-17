@@ -9,7 +9,7 @@
 #' @return If \code{pages = NULL} (the default), a length 1 character vector, otherwise a vector of length \code{length(pages)}.
 #' @author Thomas J. Leeper <thosjleeper@gmail.com>
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' # simple demo file
 #' f <- system.file("examples", "text.pdf", package = "tabulizer")
 #' 

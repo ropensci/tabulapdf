@@ -27,7 +27,7 @@
 #' @references \href{http://tabula.technology/}{Tabula}
 #' @author Thomas J. Leeper <thosjleeper@gmail.com>
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' # simple demo file
 #' f <- system.file("examples", "data.pdf", package = "tabulizer")
 #' 

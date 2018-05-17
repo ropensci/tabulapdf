@@ -9,7 +9,7 @@
 #' @return For \code{split_pdfs}, a character vector specifying the output file names, which are patterned after the value of \code{file}. For \code{merge_pdfs}, the value of \code{outfile}.
 #' @author Thomas J. Leeper <thosjleeper@gmail.com>
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' # simple demo file
 #' f <- system.file("examples", "data.pdf", package = "tabulizer")
 #' get_n_pages(file = f)

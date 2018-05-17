@@ -5,7 +5,7 @@
 #' @return \code{NULL}, invisibly.
 #' @author Thomas J. Leeper <thosjleeper@gmail.com>
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' stop_logging()
 #' }
 #' @importFrom rJava J

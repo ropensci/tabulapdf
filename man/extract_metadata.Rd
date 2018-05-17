@@ -21,7 +21,7 @@ Extract metadata from a file
 This function extracts metadata from a PDF
 }
 \examples{
-\dontrun{
+\donttest{
 # simple demo file
 f <- system.file("examples", "data.pdf", package = "tabulizer")
 

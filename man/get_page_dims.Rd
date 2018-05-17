@@ -28,7 +28,7 @@ Get Page Length and Dimensions
 \code{get_n_pages} returns the page length of a PDF document. \code{get_page_dims} extracts the dimensions of specified pages in a PDF document. This can be useful for figuring out how to specify the \code{area} argument in \code{\link{extract_tables}}
 }
 \examples{
-\dontrun{
+\donttest{
 # simple demo file
 f <- system.file("examples", "data.pdf", package = "tabulizer")
 

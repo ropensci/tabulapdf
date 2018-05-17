@@ -33,7 +33,7 @@ This function save each (specified) page of a document as an image with 720 dpi 
 This may generate Java \dQuote{INFO} messages in the console, which can be safely ignored.
 }
 \examples{
-\dontrun{
+\donttest{
 # simple demo file
 f <- system.file("examples", "data.pdf", package = "tabulizer")
 

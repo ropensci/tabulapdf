@@ -28,7 +28,7 @@ Split PDF into separate pages or merge multiple PDFs into one.
 \code{\link{split_pdf}} splits the file listed in \code{file} into separate one-page doucments. \code{\link{merge_pdfs}} creates a single PDF document from multiple separate PDF files.
 }
 \examples{
-\dontrun{
+\donttest{
 # simple demo file
 f <- system.file("examples", "data.pdf", package = "tabulizer")
 get_n_pages(file = f)
