@@ -10,7 +10,10 @@ make_thumbnails(file, outdir = NULL, pages = NULL, format = c("png",
 \arguments{
 \item{file}{A character string specifying the path or URL to a PDF file.}
 
-\item{outdir}{An optional character string specifying a directory into which to split the resulting files. If \code{NULL}, the directory of the original PDF is used, unless \code{file} is a URL in which case a temporary directory is used.}
+\item{outdir}{An optional character string specifying a directory into which
+to split the resulting files. If \code{NULL}, the \code{outdir} is
+\code{tempdir()}. If \code{file} is a URL, both file and thumbnails are
+stored in the R session's temporary directory.}
 
 \item{pages}{An optional integer vector specifying pages to extract from.}
 
@@ -18,7 +21,8 @@ make_thumbnails(file, outdir = NULL, pages = NULL, format = c("png",
 
 \item{resolution}{A numeric value specifying the image resolution in DPI.}
 
-\item{password}{Optionally, a character string containing a user password to access a secured PDF.}
+\item{password}{Optionally, a character string containing a user password
+to access a secured PDF.}
 }
 \value{
 A character vector of file paths.
@@ -27,10 +31,14 @@ A character vector of file paths.
 Convert Pages to Image Thumbnails
 }
 \details{
-This function save each (specified) page of a document as an image with 720 dpi resolution. Images are saved in the same directory as the original file, with file names specified by the original file name, a page number, and the corresponding file format extension.
+This function save each (specified) page of a document as an image
+with 720 dpi resolution. Images are saved in the same directory as the
+original file, with file names specified by the original file name,
+a page number, and the corresponding file format extension.
 }
 \note{
-This may generate Java \dQuote{INFO} messages in the console, which can be safely ignored.
+This may generate Java \dQuote{INFO} messages in the console,
+which can be safely ignored.
 }
 \examples{
 \donttest{
@@ -44,7 +52,8 @@ make_thumbnails(f)
 \href{http://tabula.technology/}{Tabula}
 }
 \seealso{
-\code{\link{extract_tables}}, \code{\link{extract_text}}, \code{\link{make_thumbnails}}
+\code{\link{extract_tables}}, \code{\link{extract_text}},
+\code{\link{make_thumbnails}}
 }
 \author{
 Thomas J. Leeper <thosjleeper@gmail.com>
