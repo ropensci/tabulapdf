@@ -1,3 +1,9 @@
+# CHANGES TO tabulizer 0.2.1
+
+* `make_thumbnails()` now uses `tempdir()` as the default output directory.
+* PDF files used do not get copied to temporary directory by default.
+* General clean-up for CRAN submission.
+
 # CHANGES TO tabulizer 0.2.0
 
 * Upgrade to PDFBox 2/Tabula 1.0.1 ([#48](https://github.com/ropensci/tabulizer/issues/48))

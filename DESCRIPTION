@@ -1,7 +1,7 @@
 Package: tabulizer
 Type: Package
 Title: Bindings for 'Tabula' PDF Table Extractor Library
-Version: 0.2.0
+Version: 0.2.1
 Authors@R: c(person("Thomas J.", "Leeper",
                     role = "aut", 
                     email = "thosjleeper@gmail.com",
