@@ -1,6 +1,9 @@
 # CHANGES TO tabulizer 0.2.1
 
-* `make_thumbnails()` now uses `tempdir()` as the default output directory.
+* `make_thumbnails()` and `split_pdf()` now use `tempdir()` as the default
+output directory.
+* `extract_` functions get `copy` argument for copying original local files to 
+R session's temporary directory.
 * PDF files used do not get copied to temporary directory by default.
 * General clean-up for CRAN submission.
 
@@ -9,7 +12,7 @@
 * Upgrade to PDFBox 2/Tabula 1.0.1 ([#48](https://github.com/ropensci/tabulizer/issues/48))
 * `method` argument is changed to `output` in `extract_tables()`.
 * New `method` argument reflects method of extraction as in Tabula command-line Java utility.
-* `extract_text()` accepts area as argument.
+* `extract_text()` accepts `area` as argument.
 
 # CHANGES TO tabulizer 0.1.24
 
