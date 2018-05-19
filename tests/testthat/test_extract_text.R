@@ -48,3 +48,13 @@ test_that("Multiple pages with different areas can be extracted", {
   bothpages <- paste0(stripcite, stripbib)
   expect_identical(nchar(striptxt), nchar(bothpages))
 })
+
+test_that("Test 'copy' argument", {
+  fls <- list.files(tempdir())
+  filepath <- file.path(tempdir(), basename(sf))
+  txt <- extract_text(sf, encoding = "UTF-8", copy = TRUE)
+  fls2 <- list.files(tempdir())
+  expect_identical(length(fls) + 1L, length(fls2))
+  expect_true(file.exists(filepath))
+  unlink(filepath)
+})

@@ -67,3 +67,12 @@ test_that("Extract from encrypted PDF", {
     expect_true(is.matrix(tab6[[1]]))
 })
 
+test_that("Test 'copy' argument", {
+  fls <- list.files(tempdir())
+  filepath <- file.path(tempdir(), basename(sf))
+  tab7 <- extract_tables(sf, copy = TRUE)
+  fls2 <- list.files(tempdir())
+  expect_identical(length(fls) + 1L, length(fls2))
+  expect_true(file.exists(filepath))
+  unlink(filepath)
+})
