@@ -14,6 +14,9 @@
 #' @param output A function to coerce the Java response object (a Java ArrayList of Tabula Tables) to some output format. The default method, \dQuote{matrices}, returns a list of character matrices. See Details for other options.
 #' @param password Optionally, a character string containing a user password to access a secured PDF.
 #' @param encoding Optionally, a character string specifying an encoding for the text, to be passed to the assignment method of \code{\link[base]{Encoding}}.
+#' @param copy Specifies whether the original local file(s) should be copied to
+#' \code{tempdir()} before processing. \code{FALSE} by default. The argument is
+#' ignored if \code{file} is URL.
 #' @param \dots These are additional arguments passed to the internal functions dispatched by \code{method}.
 #' @details This function mimics the behavior of the Tabula command line utility. It returns a list of R character matrices containing tables extracted from a file by default. This response behavior can be changed by using the following options.
 #' \itemize{
@@ -61,10 +64,11 @@ extract_tables <- function(file,
                            output = "matrix",
                            password = NULL,
                            encoding = NULL,
+                           copy = FALSE,
                            ...) {
     method <- match.arg(method)
 
-    pdfDocument <- load_doc(file, password = password)
+    pdfDocument <- load_doc(file, password = password, copy = copy)
     on.exit(pdfDocument$close())
     oe <- new(J("technology.tabula.ObjectExtractor"), pdfDocument)
     

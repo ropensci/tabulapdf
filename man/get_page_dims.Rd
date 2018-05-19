@@ -5,9 +5,9 @@
 \alias{get_n_pages}
 \title{Page length and dimensions}
 \usage{
-get_page_dims(file, doc, pages = NULL, password = NULL)
+get_page_dims(file, doc, pages = NULL, password = NULL, copy = FALSE)
 
-get_n_pages(file, doc, password = NULL)
+get_n_pages(file, doc, password = NULL, copy = FALSE)
 }
 \arguments{
 \item{file}{A character string specifying the path or URL to a PDF file.}
@@ -17,6 +17,10 @@ get_n_pages(file, doc, password = NULL)
 \item{pages}{An optional integer vector specifying pages to extract from.}
 
 \item{password}{Optionally, a character string containing a user password to access a secured PDF.}
+
+\item{copy}{Specifies whether the original local file(s) should be copied to
+\code{tempdir()} before processing. \code{FALSE} by default. The argument is
+ignored if \code{file} is URL.}
 }
 \value{
 For \code{get_n_pages}, an integer. For \code{get_page_dims}, a list of two-element numeric vectors specifying the width and height of each page, respectively.

@@ -5,7 +5,7 @@
 \title{extract_text}
 \usage{
 extract_text(file, pages = NULL, area = NULL, password = NULL,
-  encoding = NULL)
+  encoding = NULL, copy = FALSE)
 }
 \arguments{
 \item{file}{A character string specifying the path or URL to a PDF file.}
@@ -17,6 +17,10 @@ extract_text(file, pages = NULL, area = NULL, password = NULL,
 \item{password}{Optionally, a character string containing a user password to access a secured PDF.}
 
 \item{encoding}{Optionally, a character string specifying an encoding for the text, to be passed to the assignment method of \code{\link[base]{Encoding}}.}
+
+\item{copy}{Specifies whether the original local file(s) should be copied to
+\code{tempdir()} before processing. \code{FALSE} by default. The argument is
+ignored if \code{file} is URL.}
 }
 \value{
 If \code{pages = NULL} (the default), a length 1 character vector, otherwise a vector of length \code{length(pages)}.

@@ -6,7 +6,8 @@
 \usage{
 extract_tables(file, pages = NULL, area = NULL, columns = NULL,
   guess = TRUE, method = c("decide", "lattice", "stream"),
-  output = "matrix", password = NULL, encoding = NULL, ...)
+  output = "matrix", password = NULL, encoding = NULL, copy = FALSE,
+  ...)
 }
 \arguments{
 \item{file}{A character string specifying the path or URL to a PDF file.}
@@ -31,6 +32,10 @@ extract_tables(file, pages = NULL, area = NULL, columns = NULL,
 \item{password}{Optionally, a character string containing a user password to access a secured PDF.}
 
 \item{encoding}{Optionally, a character string specifying an encoding for the text, to be passed to the assignment method of \code{\link[base]{Encoding}}.}
+
+\item{copy}{Specifies whether the original local file(s) should be copied to
+\code{tempdir()} before processing. \code{FALSE} by default. The argument is
+ignored if \code{file} is URL.}
 
 \item{\dots}{These are additional arguments passed to the internal functions dispatched by \code{method}.}
 }

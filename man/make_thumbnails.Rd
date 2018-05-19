@@ -5,7 +5,7 @@
 \title{make_thumbnails}
 \usage{
 make_thumbnails(file, outdir = NULL, pages = NULL, format = c("png",
-  "jpeg", "bmp", "gif"), resolution = 72, password = NULL)
+  "jpeg", "bmp", "gif"), resolution = 72, password = NULL, copy = FALSE)
 }
 \arguments{
 \item{file}{A character string specifying the path or URL to a PDF file.}
@@ -23,6 +23,10 @@ stored in the R session's temporary directory.}
 
 \item{password}{Optionally, a character string containing a user password
 to access a secured PDF.}
+
+\item{copy}{Specifies whether the original local file(s) should be copied to
+\code{tempdir()} before processing. \code{FALSE} by default. The argument is
+ignored if \code{file} is URL.}
 }
 \value{
 A character vector of file paths.

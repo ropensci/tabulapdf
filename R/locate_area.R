@@ -6,6 +6,9 @@
 #' @param resolution An integer specifying the resolution of the PNG images conversions. A low resolution is used by default to speed image loading.
 #' @param guess See \code{\link{extract_tables}} (note the different default value).
 #' @param widget A one-element character vector specifying the type of \dQuote{widget} to use for locating the areas. The default (\dQuote{shiny}) is a shiny widget. The alternatives are a widget based on the native R graphics device (\dQuote{native}, where available), or a very reduced functionality model (\dQuote{reduced}).
+#' @param copy Specifies whether the original local file(s) should be copied to
+#' \code{tempdir()} before processing. \code{FALSE} by default. The argument is
+#' ignored if \code{file} is URL.
 #' @param \dots Other arguments passed to \code{\link{extract_tables}}.
 #' @details \code{extract_areas} is an interactive mode for \code{\link{extract_tables}} allowing the user to specify areas of each PDF page in a file that they would like extracted. When used, each page is rendered to a PNG file and displayed in an R graphics window sequentially, pausing on each page to call \code{\link[graphics]{locator}} so the user can click and highlight an area to extract.
 #'
@@ -41,8 +44,11 @@
 #' @importFrom grDevices dev.capabilities dev.off
 #' @importFrom graphics par rasterImage locator plot
 #' @export
-locate_areas <- 
-function(file, pages = NULL, resolution = 60L, widget = c("shiny", "native", "reduced")) {
+locate_areas <- function(file,
+                         pages = NULL,
+                         resolution = 60L,
+                         widget = c("shiny", "native", "reduced"),
+                         copy = FALSE) {
     if (!interactive()) {
         stop("locate_areas() is only available in an interactive session")
     } else {
@@ -50,10 +56,14 @@ function(file, pages = NULL, resolution = 60L, widget = c("shiny", "native", "re
         requireNamespace("grDevices")
     }
     
-    file <- localize_file(file, copy = TRUE)
-    on.exit(unlink(file), add = TRUE)
+    file <- localize_file(file, copy = copy)
+    # on.exit(unlink(file), add = TRUE)
     dims <- get_page_dims(file, pages = pages)
-    paths <- make_thumbnails(file, outdir = tempdir(), pages = pages, format = "png", resolution = resolution)
+    paths <- make_thumbnails(file,
+                             outdir = tempdir(),
+                             pages = pages,
+                             format = "png",
+                             resolution = resolution)
     on.exit(unlink(paths), add = TRUE)
     
     areas <- rep(list(NULL), length(paths))
@@ -96,9 +106,17 @@ function(file, pages = NULL, resolution = 60L, widget = c("shiny", "native", "re
 
 #' @rdname extract_areas
 #' @export
-extract_areas <- function(file, pages = NULL, guess = FALSE, ...) {
-    areas <- locate_areas(file = file, pages = pages)
-    extract_tables(file = file, pages = pages, area = areas, guess = guess, ...)
+extract_areas <- function(file,
+                          pages = NULL,
+                          guess = FALSE,
+                          copy = FALSE,
+                          ...) {
+    areas <- locate_areas(file = file, pages = pages, copy = copy)
+    extract_tables(file = file,
+                   pages = pages,
+                   area = areas,
+                   guess = guess,
+                   ...)
 }
 
 try_area <- function(file, dims, area = NULL, warn = FALSE, widget = c("shiny", "native", "reduced")) {

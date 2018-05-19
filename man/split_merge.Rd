@@ -5,9 +5,9 @@
 \alias{merge_pdfs}
 \title{Split and merge PDFs}
 \usage{
-split_pdf(file, outdir = NULL, password = NULL)
+split_pdf(file, outdir = NULL, password = NULL, copy = FALSE)
 
-merge_pdfs(file, outfile)
+merge_pdfs(file, outfile, copy = FALSE)
 }
 \arguments{
 \item{file}{For \code{merge_pdfs}, a character vector specifying the path to
@@ -22,6 +22,10 @@ file and separate pages are stored in the R session's temporary directory.}
 \item{password}{Optionally, a character string containing a user password to
 access a secured PDF. Currently, encrypted PDFs cannot be merged with
 \code{merge_pdfs}.}
+
+\item{copy}{Specifies whether the original local file(s) should be copied to
+\code{tempdir()} before processing. \code{FALSE} by default. The argument is
+ignored if \code{file} is URL.}
 
 \item{outfile}{For \code{merge_pdfs}, a character string specifying the path
 to the PDF file to create from the merged documents.}

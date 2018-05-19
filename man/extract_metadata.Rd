@@ -4,12 +4,16 @@
 \alias{extract_metadata}
 \title{extract_metadata}
 \usage{
-extract_metadata(file, password = NULL)
+extract_metadata(file, password = NULL, copy = FALSE)
 }
 \arguments{
 \item{file}{A character string specifying the path or URL to a PDF file.}
 
 \item{password}{Optionally, a character string containing a user password to access a secured PDF.}
+
+\item{copy}{Specifies whether the original local file(s) should be copied to
+\code{tempdir()} before processing. \code{FALSE} by default. The argument is
+ignored if \code{file} is URL.}
 }
 \value{
 A list.

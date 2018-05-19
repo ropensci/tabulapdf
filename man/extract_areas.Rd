@@ -6,9 +6,9 @@
 \title{extract_areas}
 \usage{
 locate_areas(file, pages = NULL, resolution = 60L, widget = c("shiny",
-  "native", "reduced"))
+  "native", "reduced"), copy = FALSE)
 
-extract_areas(file, pages = NULL, guess = FALSE, ...)
+extract_areas(file, pages = NULL, guess = FALSE, copy = FALSE, ...)
 }
 \arguments{
 \item{file}{A character string specifying the path to a PDF file. This can also be a URL, in which case the file will be downloaded to the R temporary directory using \code{download.file}.}
@@ -18,6 +18,10 @@ extract_areas(file, pages = NULL, guess = FALSE, ...)
 \item{resolution}{An integer specifying the resolution of the PNG images conversions. A low resolution is used by default to speed image loading.}
 
 \item{widget}{A one-element character vector specifying the type of \dQuote{widget} to use for locating the areas. The default (\dQuote{shiny}) is a shiny widget. The alternatives are a widget based on the native R graphics device (\dQuote{native}, where available), or a very reduced functionality model (\dQuote{reduced}).}
+
+\item{copy}{Specifies whether the original local file(s) should be copied to
+\code{tempdir()} before processing. \code{FALSE} by default. The argument is
+ignored if \code{file} is URL.}
 
 \item{guess}{See \code{\link{extract_tables}} (note the different default value).}
 

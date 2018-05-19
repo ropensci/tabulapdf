@@ -5,6 +5,9 @@
 #' @param area An optional list, of length equal to the number of pages specified, where each entry contains a four-element numeric vector of coordinates (top,left,bottom,right) containing the table for the corresponding page. As a convenience, a list of length 1 can be used to extract the same area from all (specified) pages.
 #' @param password Optionally, a character string containing a user password to access a secured PDF.
 #' @param encoding Optionally, a character string specifying an encoding for the text, to be passed to the assignment method of \code{\link[base]{Encoding}}.
+#' @param copy Specifies whether the original local file(s) should be copied to
+#' \code{tempdir()} before processing. \code{FALSE} by default. The argument is
+#' ignored if \code{file} is URL.
 #' @details This function converts the contents of a PDF file into a single unstructured character string.
 #' @return If \code{pages = NULL} (the default), a length 1 character vector, otherwise a vector of length \code{length(pages)}.
 #' @author Thomas J. Leeper <thosjleeper@gmail.com>
@@ -30,8 +33,9 @@ extract_text <- function(file,
                          pages = NULL,
                          area = NULL,
                          password = NULL,
-                         encoding = NULL) {
-    pdfDocument <- load_doc(file, password = password)
+                         encoding = NULL,
+                         copy = FALSE) {
+    pdfDocument <- load_doc(file, password = password, copy = copy)
     on.exit(pdfDocument$close())
     
     if (!is.null(pages)) {

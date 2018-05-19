@@ -10,6 +10,9 @@
 #' @param resolution A numeric value specifying the image resolution in DPI.
 #' @param password Optionally, a character string containing a user password
 #' to access a secured PDF.
+#' @param copy Specifies whether the original local file(s) should be copied to
+#' \code{tempdir()} before processing. \code{FALSE} by default. The argument is
+#' ignored if \code{file} is URL.
 #' @details This function save each (specified) page of a document as an image
 #' with 720 dpi resolution. Images are saved in the same directory as the
 #' original file, with file names specified by the original file name,
@@ -36,9 +39,10 @@ make_thumbnails <- function(file,
                             pages = NULL,
                             format = c("png", "jpeg", "bmp", "gif"),
                             resolution = 72,
-                            password = NULL) {
-    file <- localize_file(file)
-    pdfDocument <- load_doc(file, password = password)
+                            password = NULL,
+                            copy = FALSE) {
+    file <- localize_file(file, copy = copy)
+    pdfDocument <- load_doc(file, password = password, copy = copy)
     on.exit(pdfDocument$close())
     
     if (!is.null(pages)) {

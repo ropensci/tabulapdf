@@ -13,6 +13,9 @@
 #' @param password Optionally, a character string containing a user password to
 #' access a secured PDF. Currently, encrypted PDFs cannot be merged with
 #' \code{merge_pdfs}.
+#' @param copy Specifies whether the original local file(s) should be copied to
+#' \code{tempdir()} before processing. \code{FALSE} by default. The argument is
+#' ignored if \code{file} is URL.
 #' @details \code{\link{split_pdf}} splits the file listed in \code{file} into
 #' separate one-page doucments. \code{\link{merge_pdfs}} creates a single PDF
 #' document from multiple separate PDF files.
@@ -41,8 +44,9 @@
 #' @export
 split_pdf <- function(file,
                       outdir = NULL,
-                      password = NULL) {
-    file <- localize_file(file, copy = TRUE)
+                      password = NULL,
+                      copy = FALSE) {
+    file <- localize_file(file, copy = copy)
     pdfDocument <- load_doc(file, password = password)
     on.exit(pdfDocument$close())
     splitter <- new(J("org.apache.pdfbox.multipdf.Splitter"))
@@ -69,9 +73,9 @@ split_pdf <- function(file,
 
 #' @rdname split_merge
 #' @export
-merge_pdfs <- function(file, outfile) {
+merge_pdfs <- function(file, outfile, copy = FALSE) {
     outfile <- path.expand(outfile)
-    file <- unlist(lapply(file, localize_file, copy = TRUE))
+    file <- unlist(lapply(file, localize_file, copy = copy))
     merger <- new(J("org.apache.pdfbox.multipdf.PDFMergerUtility"))
     merger$setDestinationFileName(outfile)
     lapply(file, merger$addSource)
