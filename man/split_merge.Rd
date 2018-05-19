@@ -10,22 +10,34 @@ split_pdf(file, outdir = NULL, password = NULL)
 merge_pdfs(file, outfile)
 }
 \arguments{
-\item{file}{For \code{merge_pdfs}, a character vector specifying the path to one or more \emph{local} PDF files. For \code{split_pdf}, a character string specifying the path or URL to a PDF file.}
+\item{file}{For \code{merge_pdfs}, a character vector specifying the path to
+one or more \emph{local} PDF files. For \code{split_pdf}, a character string
+specifying the path or URL to a PDF file.}
 
-\item{outdir}{For \code{split_pdf}, an optional character string specifying a directory into which to split the resulting files. If \code{NULL}, the directory of the original PDF is used, unless \code{file} is a URL in which case a temporary directory is used.}
+\item{outdir}{For \code{split_pdf}, an optional character string specifying a
+directory into which to split the resulting files. If \code{NULL}, the
+\code{outdir} is \code{tempdir()}. If \code{file} is a URL, both the original
+file and separate pages are stored in the R session's temporary directory.}
 
-\item{password}{Optionally, a character string containing a user password to access a secured PDF. Currently, encrypted PDFs cannot be merged with \code{merge_pdfs}.}
+\item{password}{Optionally, a character string containing a user password to
+access a secured PDF. Currently, encrypted PDFs cannot be merged with
+\code{merge_pdfs}.}
 
-\item{outfile}{For \code{merge_pdfs}, a character string specifying the path to the PDF file to create from the merged documents.}
+\item{outfile}{For \code{merge_pdfs}, a character string specifying the path
+to the PDF file to create from the merged documents.}
 }
 \value{
-For \code{split_pdfs}, a character vector specifying the output file names, which are patterned after the value of \code{file}. For \code{merge_pdfs}, the value of \code{outfile}.
+For \code{split_pdfs}, a character vector specifying the output file
+names, which are patterned after the value of \code{file}. For
+\code{merge_pdfs}, the value of \code{outfile}.
 }
 \description{
 Split PDF into separate pages or merge multiple PDFs into one.
 }
 \details{
-\code{\link{split_pdf}} splits the file listed in \code{file} into separate one-page doucments. \code{\link{merge_pdfs}} creates a single PDF document from multiple separate PDF files.
+\code{\link{split_pdf}} splits the file listed in \code{file} into
+separate one-page doucments. \code{\link{merge_pdfs}} creates a single PDF
+document from multiple separate PDF files.
 }
 \examples{
 \donttest{
@@ -37,12 +49,14 @@ get_n_pages(file = f)
 sf <- split_pdf(f)
 
 # merge pdf
-merge_pdfs(sf, "merged.pdf")
-get_n_pages(file = "merged.pdf")
+mf <- file.path(tempdir(), "merged.pdf")
+merge_pdfs(sf, mf)
+get_n_pages(mf)
 }
 }
 \seealso{
-\code{\link{extract_areas}}, \code{\link{get_page_dims}}, \code{\link{make_thumbnails}}
+\code{\link{extract_areas}}, \code{\link{get_page_dims}},
+\code{\link{make_thumbnails}}
 }
 \author{
 Thomas J. Leeper <thosjleeper@gmail.com>

@@ -1,12 +1,24 @@
 #' @rdname split_merge
 #' @title Split and merge PDFs
 #' @description Split PDF into separate pages or merge multiple PDFs into one.
-#' @param file For \code{merge_pdfs}, a character vector specifying the path to one or more \emph{local} PDF files. For \code{split_pdf}, a character string specifying the path or URL to a PDF file.
-#' @param outdir For \code{split_pdf}, an optional character string specifying a directory into which to split the resulting files. If \code{NULL}, the directory of the original PDF is used, unless \code{file} is a URL in which case a temporary directory is used.
-#' @param outfile For \code{merge_pdfs}, a character string specifying the path to the PDF file to create from the merged documents.
-#' @param password Optionally, a character string containing a user password to access a secured PDF. Currently, encrypted PDFs cannot be merged with \code{merge_pdfs}.
-#' @details \code{\link{split_pdf}} splits the file listed in \code{file} into separate one-page doucments. \code{\link{merge_pdfs}} creates a single PDF document from multiple separate PDF files.
-#' @return For \code{split_pdfs}, a character vector specifying the output file names, which are patterned after the value of \code{file}. For \code{merge_pdfs}, the value of \code{outfile}.
+#' @param file For \code{merge_pdfs}, a character vector specifying the path to
+#' one or more \emph{local} PDF files. For \code{split_pdf}, a character string
+#' specifying the path or URL to a PDF file.
+#' @param outdir For \code{split_pdf}, an optional character string specifying a
+#' directory into which to split the resulting files. If \code{NULL}, the
+#' \code{outdir} is \code{tempdir()}. If \code{file} is a URL, both the original
+#' file and separate pages are stored in the R session's temporary directory.
+#' @param outfile For \code{merge_pdfs}, a character string specifying the path
+#' to the PDF file to create from the merged documents.
+#' @param password Optionally, a character string containing a user password to
+#' access a secured PDF. Currently, encrypted PDFs cannot be merged with
+#' \code{merge_pdfs}.
+#' @details \code{\link{split_pdf}} splits the file listed in \code{file} into
+#' separate one-page doucments. \code{\link{merge_pdfs}} creates a single PDF
+#' document from multiple separate PDF files.
+#' @return For \code{split_pdfs}, a character vector specifying the output file
+#' names, which are patterned after the value of \code{file}. For
+#' \code{merge_pdfs}, the value of \code{outfile}.
 #' @author Thomas J. Leeper <thosjleeper@gmail.com>
 #' @examples
 #' \donttest{
@@ -18,15 +30,18 @@
 #' sf <- split_pdf(f)
 #' 
 #' # merge pdf
-#' merge_pdfs(sf, "merged.pdf")
-#' get_n_pages(file = "merged.pdf")
+#' mf <- file.path(tempdir(), "merged.pdf")
+#' merge_pdfs(sf, mf)
+#' get_n_pages(mf)
 #' }
-#' @seealso \code{\link{extract_areas}}, \code{\link{get_page_dims}}, \code{\link{make_thumbnails}}
-#' @import tabulizerjars
+#' @seealso \code{\link{extract_areas}}, \code{\link{get_page_dims}},
+#' \code{\link{make_thumbnails}}
 #' @importFrom rJava J new
 #' @importFrom tools file_path_sans_ext
 #' @export
-split_pdf <- function(file, outdir = NULL, password = NULL) {
+split_pdf <- function(file,
+                      outdir = NULL,
+                      password = NULL) {
     file <- localize_file(file, copy = TRUE)
     pdfDocument <- load_doc(file, password = password)
     on.exit(pdfDocument$close())
@@ -37,10 +52,10 @@ split_pdf <- function(file, outdir = NULL, password = NULL) {
     
     fileseq <- formatC(1:splitArray$size(), width = nchar(splitArray$size()), flag = 0)
     if (is.null(outdir)) {
-        outfile <- paste0(file_path_sans_ext(file), fileseq, ".pdf")
-    } else {
-        outfile <- file.path(outdir, paste0(basename(file_path_sans_ext(file)), fileseq, ".pdf"))
+      outdir <- tempdir()
     }
+    filename <- paste0(file_path_sans_ext(basename(file)), fileseq, ".pdf")
+    outfile <- file.path(outdir, filename)
     
     while (iterator$hasNext()) {
         doc <- J(iterator, "next")
