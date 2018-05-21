@@ -57,7 +57,7 @@ make_thumbnails <- function(file,
         outdir <- tempdir()
     }
     filename <- paste0(file_path_sans_ext(basename(file)), fileseq, ".", format)
-    outfile <- file.path(outdir, filename)
+    outfile <- normalizePath(file.path(outdir, filename), mustWork = FALSE)
 
     for (i in seq_along(pages)) {
         pageIndex <- pages[i] - 1L

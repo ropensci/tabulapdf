@@ -19,7 +19,7 @@ test_that("Splitting works", {
 test_that("Split files are saved to tempdir()", {
   fls <- list.files(tempdir())
   s <- split_pdf(sf)
-  dirs <- dirname(s)
+  dirs <- normalizePath(dirname(s))
   expect_true(all(dirs == tempdir()))
   unlink(s)
 })

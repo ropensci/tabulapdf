@@ -59,7 +59,7 @@ split_pdf <- function(file,
       outdir <- tempdir()
     }
     filename <- paste0(file_path_sans_ext(basename(file)), fileseq, ".pdf")
-    outfile <- file.path(outdir, filename)
+    outfile <- normalizePath(file.path(outdir, filename), mustWork = FALSE)
     
     while (iterator$hasNext()) {
         doc <- J(iterator, "next")
@@ -74,7 +74,7 @@ split_pdf <- function(file,
 #' @rdname split_merge
 #' @export
 merge_pdfs <- function(file, outfile, copy = FALSE) {
-    outfile <- path.expand(outfile)
+    outfile <- normalizePath(outfile, mustWork = FALSE)
     file <- unlist(lapply(file, localize_file, copy = copy))
     merger <- new(J("org.apache.pdfbox.multipdf.PDFMergerUtility"))
     merger$setDestinationFileName(outfile)
