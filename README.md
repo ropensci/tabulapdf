@@ -20,13 +20,19 @@ Note: tabulizer is released under the MIT license, as is Tabula itself.
 
 tabulizer depends on [rJava](https://cran.r-project.org/package=rJava),
 which implies a system requirement for Java. This can be frustrating,
-especially on Windows. My preferred Windows workflow is to use
+especially on Windows. The preferred Windows workflow is to use
 [Chocolatey](https://chocolatey.org/) to obtain, configure, and update
-Java (see instructions below). You need do this before installing rJava
-or attempting to use tabulizer.
+Java. You need do this before installing rJava or attempting to use
+tabulizer. More on [this](#installing-java-on-windows-with-chocolatey)
+and [troubleshooting](#troubleshooting) below.
 
-tabulizer is not yet on CRAN. To install the latest development version
-you can:
+To install the latest CRAN version:
+
+``` r
+install.packages("tabulizer")
+```
+
+To install the latest development version:
 
 ``` r
 if (!require("remotes")) {
@@ -37,54 +43,6 @@ remotes::install_github(c("ropensci/tabulizerjars", "ropensci/tabulizer"), INSTA
 # elsewhere
 remotes::install_github(c("ropensci/tabulizerjars", "ropensci/tabulizer"))
 ```
-
-Some notes for troubleshooting common installation problems:
-
-  - On Mac OS, you may need to install [a particular version of
-    Java](https://support.apple.com/kb/DL1572?locale=en_US) prior to
-    attempting to install tabulizer.
-  - On a Unix-like, you need to ensure that R has been installed with
-    Java support. This can often be fixed by running `R CMD javareconf`
-    on the command line (possibly with `sudo`, etc. depending on your
-    system setup).
-  - On Windows, make sure you have permission to write to and install
-    packages to your R directory before trying to install the package.
-    This can be changed from “Properties” on the right-click context
-    menu. Alternatively, you can ensure write permission by choosing
-    “Run as administrator” when launching R (again, from the
-    right-click context menu).
-
-### Installing Java on Windows with Chocolatey
-
-In command prompt, install Chocolately if you don’t already have
-    it:
-
-    @powershell -NoProfile -ExecutionPolicy Bypass -Command "iex ((new-object net.webclient).DownloadString('https://chocolatey.org/install.ps1'))" && SET PATH=%PATH%;%ALLUSERSPROFILE%\chocolatey\bin
-
-Then, install java using Chocolately’s `choco install` command:
-
-    choco install jdk7 -y
-
-You may also need to then set the `JAVA_HOME` environment variable to
-the path to your Java installation (e.g., `C:\Program
-Files\Java\jdk1.8.0_92`). This can be done:
-
-1.  within R using `Sys.setenv(JAVA_HOME = "C:/Program
-    Files/Java/jdk1.8.0_92")` (note slashes), or
-2.  from command prompt using the `setx` command: `setx JAVA_HOME
-    C:\Program Files\Java\jdk1.8.0_92`, or
-3.  from PowerShell, using the .NET framework:
-    `[Environment]::SetEnvironmentVariable("JAVA_HOME", "C:\Program
-    Files\Java\jdk1.8.0_92", "User")`, or
-4.  from the Start Menu, via `Control Panel » System » Advanced »
-    Environment Variables` ([instructions
-    here](http://superuser.com/a/284351/221772)).
-
-You should now be able to safely open R, and use rJava and tabulizer.
-Note, however, that some users report that rather than setting this
-variable, they instead need to delete it (e.g., with
-`Sys.setenv(JAVA_HOME = "")`), so if the above instructions fail, that
-is the next step in troubleshooting.
 
 ## Code Examples
 
@@ -142,7 +100,7 @@ lower-right bounds of an area. Those areas are then extracted
 auto-magically (and the return value is the same as for
 `extract_tables()`). Here’s a shot of it in action:
 
-<http://i.imgur.com/USTyQl7.gif>
+![extract\_areas()](https://i.imgur.com/USTyQl7.gif)
 
 `locate_areas()` handles the area identification process without
 performing the extraction, which may be useful as a debugger.
@@ -179,7 +137,7 @@ space` error message. Memory can be increased using
 of memory.
 
 Some other utility functions are also provided (and made possible by the
-[Java PDFBox library](https://pdfbox.apache.org/)):
+Java [Apache PDFBox library](https://pdfbox.apache.org/)):
 
   - `extract_text()` converts the text of an entire file or specified
     pages into an R character vector.
@@ -191,6 +149,56 @@ Some other utility functions are also provided (and made possible by the
     (the unit used by `area` and `columns` arguments).
   - `make_thumbnails()` converts specified pages of a PDF file to image
     files.
+
+### Installing Java on Windows with Chocolatey
+
+In command prompt, install Chocolately if you don’t already have
+    it:
+
+    @powershell -NoProfile -ExecutionPolicy Bypass -Command "iex ((new-object net.webclient).DownloadString('https://chocolatey.org/install.ps1'))" && SET PATH=%PATH%;%ALLUSERSPROFILE%\chocolatey\bin
+
+Then, install java using Chocolately’s `choco install` command:
+
+    choco install jdk7 -y
+
+You may also need to then set the `JAVA_HOME` environment variable to
+the path to your Java installation (e.g., `C:\Program
+Files\Java\jdk1.8.0_92`). This can be done:
+
+1.  within R using `Sys.setenv(JAVA_HOME = "C:/Program
+    Files/Java/jdk1.8.0_92")` (note slashes), or
+2.  from command prompt using the `setx` command: `setx JAVA_HOME
+    C:\Program Files\Java\jdk1.8.0_92`, or
+3.  from PowerShell, using the .NET framework:
+    `[Environment]::SetEnvironmentVariable("JAVA_HOME", "C:\Program
+    Files\Java\jdk1.8.0_92", "User")`, or
+4.  from the Start Menu, via `Control Panel » System » Advanced »
+    Environment Variables` ([instructions
+    here](http://superuser.com/a/284351/221772)).
+
+You should now be able to safely open R, and use rJava and tabulizer.
+Note, however, that some users report that rather than setting this
+variable, they instead need to delete it (e.g., with
+`Sys.setenv(JAVA_HOME = "")`), so if the above instructions fail, that
+is the next step in troubleshooting.
+
+### Troubleshooting
+
+Some notes for troubleshooting common installation problems:
+
+  - On Mac OS, you may need to install [a particular version of
+    Java](https://support.apple.com/kb/DL1572?locale=en_US) prior to
+    attempting to install tabulizer.
+  - On a Unix-like, you need to ensure that R has been installed with
+    Java support. This can often be fixed by running `R CMD javareconf`
+    on the command line (possibly with `sudo`, etc. depending on your
+    system setup).
+  - On Windows, make sure you have permission to write to and install
+    packages to your R directory before trying to install the package.
+    This can be changed from “Properties” on the right-click context
+    menu. Alternatively, you can ensure write permission by choosing
+    “Run as administrator” when launching R (again, from the
+    right-click context menu).
 
 ## Meta
 
