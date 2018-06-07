@@ -7,7 +7,7 @@ vignette: >
   \usepackage[utf8]{inputenc}
 ---
 
-**tabulizer** provides R bindings to the [Tabula java library](https://github.com/tabulapdf/tabula-java/), which can be used to computationaly extract tables from PDF documents. The main function `extract_tables()` mimics the command-line behavior of the Tabula, by extracting all tables from a PDF file and, by default, returns those tables as a list of character matrices in R.
+**tabulizer** provides R bindings to the [Tabula java library](https://github.com/tabulapdf/tabula-java/), which can be used to computationally extract tables from PDF documents. The main function `extract_tables()` mimics the command-line behavior of the Tabula, by extracting all tables from a PDF file and, by default, returns those tables as a list of character matrices in R.
 
 ```{r}
 library("tabulizer")
@@ -29,21 +29,23 @@ extract_tables(f2, pages = 2)
 
 ## Changing the Method of Extraction
 
-The default method used by `extract_tables()` mimicks the default behaviour of
-Tabula. For each page the function decides whether it contains one consistent table
-and then extracts if by using spreadsheet-tailored algorithm `method = "lattice"`. The correct recognition
-of a table depends on whether the page contains a table grid. If it doesn't and the
-table is a matrix of cells with value without borders, it might not be able to recognise it.
-This also applies to multiple tables with different numbers of columns are present on the page.
-In this case another, more general, algorithm (`method = "stream"`) is used
-that relies on the distances between the values on the page.
+The default method used by `extract_tables()` mimics the behaviour of Tabula.
+For each page the algorithm decides whether it contains one consistent table
+and then extracts it by using spreadsheet-tailored algorithm
+`method = "lattice"`. The correct recognition of a table depends on whether the
+page contains a table grid. If it doesn't and the table is a matrix of cells
+with values without borders, it might not be able to recognise it. This also
+happens when multiple tables with different number of columns are present on the
+same page. In those cases another, more general, algorithm `method = "stream"`
+is used, which relies on the distances between text characters on the page.
 
 ```{r}
 # Extract tables by deciding for each page individually
 extract_tables(f2, method = "decide")
 ```
 
-It is possible to specify the preferred algorithm which might be a preferred option for more difficult cases.
+It is possible to specify the preferred algorithm which might be a better option
+for more difficult cases.
 
 ```{r}
 # Extract tables by using "lattice" method
@@ -64,7 +66,7 @@ By default, `extract_tables()` returns a list of character matrices. This is bec
 extract_tables(f, pages = 2, output = "data.frame")
 ```
 
-Tabula itself implements three "writer" methods that write extracted tables to disk as CSV, TSV, or JSON files. These can be specified by `output = "csv"`, `output = "tsv"`, and `output = "json"`, respectively. For CSV and TSV, one file is written to disk for each table, in the same directory as the original file (or the temporary directory if the file is a remote PDF). For JSON, one file is written containing information about all tables. For these methods, `extract_tables()` returns a path to the directory containing the output files.
+Tabula itself implements three "writer" methods that write extracted tables to disk as CSV, TSV, or JSON files. These can be specified by `output = "csv"`, `output = "tsv"`, and `output = "json"`, respectively. For CSV and TSV, one file is written to disk for each table and R session's temporary directory `tempdir()` is used by default (alternatively, the directory can be specified through `output` argument). For JSON, one file is written containing information about all tables. For these methods, `extract_tables()` returns a path to the directory containing the output files.
 
 ```{r}
 # extract tables to CSVs
@@ -75,7 +77,7 @@ If none of the standard methods works well, you can specify `output = "asis"` to
 
 ## Extracting Areas ##
 
-By default, tabulizer uses Tabula's table detection algorithms to automatically identify tables within each page of a PDF. This automatic detection can be toggled off by setting `guess = FALSE` and specifying an "area" within each PDF page to extract the table from. Here is a comparison of the default settings, versus extracting from two alternative areas within a page:
+By default, tabulizer uses Tabula's table detection algorithm to automatically identify tables within each page of a PDF. This automatic detection can be toggled off by setting `guess = FALSE` and specifying an "area" within each PDF page to extract the table from. Here is a comparison of the default settings, versus extracting from two alternative areas within a page:
 
 ```{r}
 str(extract_tables(f, pages = 2, guess = TRUE, output = "data.frame"))
