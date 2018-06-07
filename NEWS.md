@@ -1,3 +1,9 @@
+# CHANGES TO tabulizer 0.2.2
+
+* `extract_tables()` gets `outdir` argument for writing out CSV, TSV and JSON
+files.
+* Fixes in vignette.
+
 # CHANGES TO tabulizer 0.2.1
 
 * `make_thumbnails()` and `split_pdf()` now use `tempdir()` as the default
