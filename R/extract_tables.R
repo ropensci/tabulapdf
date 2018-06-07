@@ -12,6 +12,9 @@
 #'   \item \code{method = "stream"} use Tabula's basic extraction algorithm
 #' }
 #' @param output A function to coerce the Java response object (a Java ArrayList of Tabula Tables) to some output format. The default method, \dQuote{matrices}, returns a list of character matrices. See Details for other options.
+#' @param outdir Output directory for files if \code{output} is set to
+#' \code{"csv"}, \code{"tsv"} or \code{"json"}, ignored otherwise. If equals
+#' \code{NULL} (default), uses R sessions temporary directory \code{tempdir()}.
 #' @param password Optionally, a character string containing a user password to access a secured PDF.
 #' @param encoding Optionally, a character string specifying an encoding for the text, to be passed to the assignment method of \code{\link[base]{Encoding}}.
 #' @param copy Specifies whether the original local file(s) should be copied to
@@ -28,7 +31,7 @@
 #' \code{\link{extract_areas}} implements this functionality in an interactive mode allowing the user to specify extraction areas for each page.
 #' @return By default, a list of character matrices. This can be changed by specifying an alternative value of \code{method} (see Details).
 #' @references \href{http://tabula.technology/}{Tabula}
-#' @author Thomas J. Leeper <thosjleeper@gmail.com>
+#' @author Thomas J. Leeper <thosjleeper@gmail.com>, Tom Paskhalis <tpaskhalis@gmail.com>
 #' @examples
 #' \donttest{
 #' # simple demo file
@@ -61,12 +64,21 @@ extract_tables <- function(file,
                            columns = NULL,
                            guess = TRUE,
                            method = c("decide", "lattice", "stream"),
-                           output = "matrix",
+                           output = c("matrix", "data.frame", "character",
+                                      "asis", "csv", "tsv", "json"),
+                           outdir = NULL,
                            password = NULL,
                            encoding = NULL,
                            copy = FALSE,
                            ...) {
     method <- match.arg(method)
+    output <- match.arg(output)
+    
+    if (is.null(outdir)) {
+      outdir <- normalizePath(tempdir())
+    } else {
+      outdir <- normalizePath(outdir)
+    }
 
     pdfDocument <- load_doc(file, password = password, copy = copy)
     on.exit(pdfDocument$close())
@@ -140,9 +152,9 @@ extract_tables <- function(file,
     
     # return output
     switch(tolower(output),
-           "csv" = write_csvs(tables, file = file, ...),
-           "tsv" = write_tsvs(tables, file = file, ...),
-           "json" = write_jsons(tables, file = file, ...),
+           "csv" = write_csvs(tables, file = file, outdir = outdir, ...),
+           "tsv" = write_tsvs(tables, file = file, outdir = outdir, ...),
+           "json" = write_jsons(tables, file = file, outdir = outdir, ...),
            "character" = list_characters(tables, encoding = encoding, ...),
            "matrix" = list_matrices(tables, encoding = encoding, ...),
            "data.frame" = list_data_frames(tables, encoding = encoding, ...),

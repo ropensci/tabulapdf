@@ -1,52 +1,58 @@
-write_csvs <- function(tables, file, ...) {
-    file <- path.expand(file)
+write_csvs <- function(tables, file, outdir, ...) {
+    file <- basename(file)
     writer <- new(J("technology.tabula.writers.CSVWriter"))
     tablesIterator <- tables$iterator()
     p <- 1L
     while (tablesIterator$hasNext()) {
-        outfile <- paste0(file_path_sans_ext(file), "-", p, ".csv")
-        bufferedWriter <- new(J("java.io.BufferedWriter"), new(J("java.io.FileWriter"), outfile))
+        filename <- paste0(tools::file_path_sans_ext(file), "-", p, ".csv")
+        outfile <- normalizePath(file.path(outdir, filename), mustWork = FALSE)
+        bufferedWriter <- new(J("java.io.BufferedWriter"),
+                              new(J("java.io.FileWriter"), outfile))
         tab <- J(tablesIterator, "next")
         writer$write(bufferedWriter, tab)
         rm(tab)
         bufferedWriter$close()
         p <- p + 1L
     }
-    normalizePath(dirname(file))
+    outdir
 }
 
-write_tsvs <- function(tables, file, ...) {
-    file <- path.expand(file)
+write_tsvs <- function(tables, file, outdir, ...) {
+    file <- basename(file)
     writer <- new(J("technology.tabula.writers.TSVWriter"))
     tablesIterator <- tables$iterator()
     p <- 1L
     while (tablesIterator$hasNext()) {
-        outfile <- paste0(file_path_sans_ext(file), "-", p, ".tsv")
-        bufferedWriter <- new(J("java.io.BufferedWriter"), new(J("java.io.FileWriter"), outfile))
+        filename <- paste0(tools::file_path_sans_ext(file), "-", p, ".tsv")
+        outfile <- normalizePath(file.path(outdir, filename), mustWork = FALSE)
+        bufferedWriter <- new(J("java.io.BufferedWriter"),
+                              new(J("java.io.FileWriter"), outfile))
         tab <- J(tablesIterator, "next")
         writer$write(bufferedWriter, tab)
         rm(tab)
         bufferedWriter$close()
         p <- p + 1L
     }
-    normalizePath(dirname(file))
+    outdir
 }
 
-write_jsons <- function(tables, file, ...) {
-    file <- path.expand(file)
+write_jsons <- function(tables, file, outdir, ...) {
+    file <- basename(file)
     writer <- new(J("technology.tabula.writers.JSONWriter"))
     tablesIterator <- tables$iterator()
     p <- 1L
     while (tablesIterator$hasNext()) {
-        outfile <- paste0(file_path_sans_ext(file), "-", p, ".json")
-        bufferedWriter <- new(J("java.io.BufferedWriter"), new(J("java.io.FileWriter"), outfile))
+        filename <- paste0(tools::file_path_sans_ext(file), "-", p, ".json")
+        outfile <- normalizePath(file.path(outdir, filename), mustWork = FALSE)
+        bufferedWriter <- new(J("java.io.BufferedWriter"),
+                              new(J("java.io.FileWriter"), outfile))
         tab <- J(tablesIterator, "next")
         writer$write(bufferedWriter, tab)
         rm(tab)
         bufferedWriter$close()
         p <- p + 1L
     }
-    normalizePath(dirname(file))
+    outdir
 }
 
 list_matrices <- function(tables, encoding = NULL, ...) {

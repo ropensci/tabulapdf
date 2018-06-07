@@ -28,22 +28,19 @@ test_that("Make list of data.frames", {
 })
 
 test_that("Write CSV Files", {
-    tmp4 <- tempfile()
-    t4 <- tabulizer:::write_csvs(tabs, file = tmp4)
+    t4 <- tabulizer:::write_csvs(tabs, file = pdffile, outdir = tempdir())
     expect_true(is.character(t4))
-    expect_equal(length(dir(t4, pattern = "csv$")), 4)
+    expect_identical(length(dir(t4, pattern = "csv$")), 4L)
 })
 
 test_that("Write TSV Files", {
-    tmp5 <- tempfile()
-    t5 <- tabulizer:::write_tsvs(tabs, file = tmp5)
+    t5 <- tabulizer:::write_tsvs(tabs, file = pdffile, outdir = tempdir())
     expect_true(is.character(t5))
-    expect_equal(length(dir(t5, pattern = "tsv$")), 4)
+    expect_identical(length(dir(t5, pattern = "tsv$")), 4L)
 })
 
 test_that("Write JSON Files", {
-    tmp6 <- tempfile()
-    t6 <- tabulizer:::write_jsons(tabs, file = tmp6)
+    t6 <- tabulizer:::write_jsons(tabs, file = pdffile, outdir = tempdir())
     expect_true(is.character(t6))
-    expect_equal(length(dir(t6, pattern = "json$")), 4)
+    expect_identical(length(dir(t6, pattern = "json$")), 4L)
 })

@@ -6,8 +6,9 @@
 \usage{
 extract_tables(file, pages = NULL, area = NULL, columns = NULL,
   guess = TRUE, method = c("decide", "lattice", "stream"),
-  output = "matrix", password = NULL, encoding = NULL, copy = FALSE,
-  ...)
+  output = c("matrix", "data.frame", "character", "asis", "csv", "tsv",
+  "json"), outdir = NULL, password = NULL, encoding = NULL,
+  copy = FALSE, ...)
 }
 \arguments{
 \item{file}{A character string specifying the path or URL to a PDF file.}
@@ -28,6 +29,10 @@ extract_tables(file, pages = NULL, area = NULL, columns = NULL,
 }}
 
 \item{output}{A function to coerce the Java response object (a Java ArrayList of Tabula Tables) to some output format. The default method, \dQuote{matrices}, returns a list of character matrices. See Details for other options.}
+
+\item{outdir}{Output directory for files if \code{output} is set to
+\code{"csv"}, \code{"tsv"} or \code{"json"}, ignored otherwise. If equals
+\code{NULL} (default), uses R sessions temporary directory \code{tempdir()}.}
 
 \item{password}{Optionally, a character string containing a user password to access a secured PDF.}
 
@@ -83,5 +88,5 @@ extract_tables(f, pages = 2, output = "data.frame")
 \code{\link{extract_areas}}, \code{\link{get_page_dims}}, \code{\link{make_thumbnails}}, \code{\link{split_pdf}}
 }
 \author{
-Thomas J. Leeper <thosjleeper@gmail.com>
+Thomas J. Leeper <thosjleeper@gmail.com>, Tom Paskhalis <tpaskhalis@gmail.com>
 }
