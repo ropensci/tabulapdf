@@ -13,9 +13,11 @@
 #' @export
 #'
 #' @examples
+#' \donttest{
 #' f <- system.file("examples", "data.pdf", package = "tabulizer")
 #' separators<-locate_columns(f, pages= 1 )
 #' extract_tables(f,pages = 1, columns = separators[1])
+#' }
 #' 
 locate_columns <- function(file,
                          pages = NULL,

@@ -25,9 +25,11 @@ This function allows the user to manually locate the separators between columns 
 Manually selecting the separators can ensure that values stay in their respective columns. This is useful when some rows of a table have no or only little white space between columns. The code is an adaptation of the \code{locate_area()} function and its helpers.
 }
 \examples{
+\donttest{
 f <- system.file("examples", "data.pdf", package = "tabulizer")
 separators<-locate_columns(f, pages= 1 )
 extract_tables(f,pages = 1, columns = separators[1])
+}
 
 }
 \author{
