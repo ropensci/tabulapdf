@@ -1,8 +1,11 @@
+
+
 # CHANGES TO tabulizer 0.2.2
 
 * `extract_tables()` gets `outdir` argument for writing out CSV, TSV and JSON
 files.
 * Fixes in vignette.
+* addition of `locate_columns()` function.
 
 # CHANGES TO tabulizer 0.2.1
 
