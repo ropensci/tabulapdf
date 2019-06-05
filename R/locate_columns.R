@@ -78,9 +78,9 @@ locate_columns <- function(file,
 
 #' Helper function to locate_columns()
 #'
-#' @param file 
-#' @param dims 
-#' @param warn 
+#' @param file A character string specifying the path or URL to a PDF file.
+#' @param dims An integer specifying the resolution of the PNG images conversions. A low resolution is used by default to speed image loading.
+#' @param warn Display warning?
 
 try_columns_reduced <- function(file, dims, warn = FALSE) {
     if (warn) {

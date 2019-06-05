@@ -7,11 +7,11 @@
 try_columns_reduced(file, dims, warn = FALSE)
 }
 \arguments{
-\item{file}{}
+\item{file}{A character string specifying the path or URL to a PDF file.}
 
-\item{dims}{}
+\item{dims}{An integer specifying the resolution of the PNG images conversions. A low resolution is used by default to speed image loading.}
 
-\item{warn}{}
+\item{warn}{Display warning?}
 }
 \description{
 Helper function to locate_columns()
