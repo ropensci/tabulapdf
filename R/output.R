@@ -66,8 +66,8 @@ list_matrices <- function(tables, encoding = NULL, ...) {
         }
         tab <- nxt$get(0L)
         out[[n]] <- matrix(NA_character_, 
-                           nrow = tab$getRows()$size(), 
-                           ncol = tab$getCols()$size())
+                           nrow = tab$getRowCount(),
+                           ncol = tab$getColCount())
         for (i in seq_len(nrow(out[[n]]))) {
             for (j in seq_len(ncol(out[[n]]))) {
                 out[[n]][i, j] <- tab$getCell(i-1L, j-1L)$getText()

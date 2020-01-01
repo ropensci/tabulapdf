@@ -1,9 +1,9 @@
 Package: tabulizer
 Type: Package
 Title: Bindings for 'Tabula' PDF Table Extractor Library
-Version: 0.2.2
+Version: 0.2.2.9000
 Authors@R: c(person("Thomas J.", "Leeper",
-                    role = "aut", 
+                    role = "aut",
                     email = "thosjleeper@gmail.com",
                     comment = c(ORCID = "0000-0003-4097-6326")),
              person("Tom", "Paskhalis",

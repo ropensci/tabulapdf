@@ -1,3 +1,7 @@
+# CHANGES TO tabulizer 0.2.3
+
+* Update to work with tabula-java version 1.0.3 (@billdenney)
+
 # CHANGES TO tabulizer 0.2.2
 
 * `extract_tables()` gets `outdir` argument for writing out CSV, TSV and JSON
@@ -8,7 +12,7 @@ files.
 
 * `make_thumbnails()` and `split_pdf()` now use `tempdir()` as the default
 output directory.
-* `extract_` functions get `copy` argument for copying original local files to 
+* `extract_` functions get `copy` argument for copying original local files to
 R session's temporary directory.
 * PDF files used do not get copied to temporary directory by default.
 * General clean-up for CRAN submission.
@@ -35,7 +39,7 @@ R session's temporary directory.
 
 # CHANGES TO tabulizer 0.1.21
 
-* Exposed a new option `widget` in `locate_areas()` to control which widget is used in locating areas. 
+* Exposed a new option `widget` in `locate_areas()` to control which widget is used in locating areas.
 
 # CHANGES TO tabulizer 0.1.20
 
