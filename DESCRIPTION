@@ -25,7 +25,8 @@ Description: Bindings for the 'Tabula' <http://tabula.technology/> 'Java'
     'Java' .jar files, including all dependencies, aligned to releases of
     'Tabula'.
 License: MIT + file LICENSE
-URL: https://github.com/ropensci/tabulizer
+URL: https://docs.ropensci.org/tabulizer (website)
+    https://github.com/ropensci/tabulizer
 BugReports: https://github.com/ropensci/tabulizer/issues
 Imports:
     png,
