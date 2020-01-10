@@ -15,7 +15,9 @@ Authors@R: c(person("Thomas J.", "Leeper",
                     comment = "rOpenSci reviewer"),
              person("Lincoln", "Mullen",
                     role = "ctb",
-                    comment = "rOpenSci reviewer"))
+                    comment = "rOpenSci reviewer"),
+             person("Thore", "Engel",
+                    role = "ctb"))
 Maintainer: Tom Paskhalis <tpaskhalis@gmail.com>
 Description: Bindings for the 'Tabula' <http://tabula.technology/> 'Java'
     library, which can extract tables from PDF documents. The 'tabulizerjars'
@@ -41,4 +43,4 @@ Suggests:
     testthat
 SystemRequirements: Java (>= 7.0)
 VignetteBuilder: knitr
-RoxygenNote: 6.0.1
+RoxygenNote: 6.1.1
