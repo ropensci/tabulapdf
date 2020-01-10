@@ -5,7 +5,8 @@
 \title{make_thumbnails}
 \usage{
 make_thumbnails(file, outdir = NULL, pages = NULL, format = c("png",
-  "jpeg", "bmp", "gif"), resolution = 72, password = NULL, copy = FALSE)
+  "jpeg", "bmp", "gif"), resolution = 72, password = NULL,
+  copy = FALSE)
 }
 \arguments{
 \item{file}{A character string specifying the path or URL to a PDF file.}
