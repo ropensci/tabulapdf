@@ -76,3 +76,13 @@ test_that("Test 'copy' argument", {
   expect_true(file.exists(filepath))
   unlink(filepath)
 })
+
+test_that("Avoid Java warning about illegal reflective access on first run", {
+  expect_output(
+    callr::r_safe(
+      function() out <- tabulizer::extract_tables(system.file("examples", "data.pdf", package = "tabulizer")),
+      spinner = FALSE, show = TRUE
+    ),
+    regexp = NA
+  )
+})
