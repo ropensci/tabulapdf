@@ -59,12 +59,12 @@ list_matrices <- function(tables, encoding = NULL, ...) {
     out <- list()
     n <- 1L
     tablesIterator <- tables$iterator()
-    while (tablesIterator$hasNext()) {
-        nxt <- J(tablesIterator, "next")
-        if (nxt$size() == 0L) {
+    while (.jcall(tablesIterator, returnSig = "Z", method = "hasNext")) {
+        nxt <- .jcall(tablesIterator, returnSig = "Ljava/lang/Object;", method = "next")
+        if (.jcall(nxt, returnSig = "I", method = "size") == 0L) {
             break
         }
-        tab <- nxt$get(0L)
+        tab <- .jcall(nxt, returnSig = "Ljava/lang/Object;", method = "get", 0L)
         out[[n]] <- matrix(NA_character_, 
                            nrow = tab$getRows()$size(), 
                            ncol = tab$getCols()$size())
