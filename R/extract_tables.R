@@ -130,8 +130,8 @@ extract_tables <- function(file,
                 detector <- new(J("technology.tabula.detectors.NurminenDetectionAlgorithm"))
                 guesses <- detector$detect(page)
                 guessesIterator <- guesses$iterator()
-                while (guessesIterator$hasNext()) {
-                    guessRect <- J(guessesIterator, "next")
+                while (.jcall(guessesIterator, returnSig = "Z", method = "hasNext")) {
+                    guessRect <- .jcall(guessesIterator, returnSig = "Ljava/lang/Object;", method = "next")
                     thisGuess <- page$getArea(guessRect)
                     tables$add(basicExtractor$extract(thisGuess))
                     rm(thisGuess)
