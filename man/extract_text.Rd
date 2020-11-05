@@ -4,8 +4,14 @@
 \alias{extract_text}
 \title{extract_text}
 \usage{
-extract_text(file, pages = NULL, area = NULL, password = NULL,
-  encoding = NULL, copy = FALSE)
+extract_text(
+  file,
+  pages = NULL,
+  area = NULL,
+  password = NULL,
+  encoding = NULL,
+  copy = FALSE
+)
 }
 \arguments{
 \item{file}{A character string specifying the path or URL to a PDF file.}

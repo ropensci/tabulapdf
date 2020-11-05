@@ -1,6 +1,6 @@
 #' @title extract_tables
 #' @description Extract tables from a file
-#' @param file A character string specifying the path or URL to a PDF file.
+#' @param file A character string specifying the path or URL to a PDF file, or raw vector with pdf data.
 #' @param pages An optional integer vector specifying pages to extract from.
 #' @param area An optional list, of length equal to the number of pages specified, where each entry contains a four-element numeric vector of coordinates (top,left,bottom,right) containing the table for the corresponding page. As a convenience, a list of length 1 can be used to extract the same area from all (specified) pages. Only specify \code{area} xor \code{columns}.
 #' @param columns An optional list, of length equal to the number of pages specified, where each entry contains a numeric vector of horizontal (x) coordinates separating columns of data for the corresponding page. As a convenience, a list of length 1 can be used to specify the same columns for all (specified) pages. Only specify \code{area} xor \code{columns}.
