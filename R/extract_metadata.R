@@ -1,6 +1,6 @@
 #' @title extract_metadata
 #' @description Extract metadata from a file
-#' @param file A character string specifying the path or URL to a PDF file.
+#' @param file A character string specifying the path or URL to a PDF file, or raw vector with pdf data.
 #' @param password Optionally, a character string containing a user password to access a secured PDF.
 #' @param copy Specifies whether the original local file(s) should be copied to
 #' \code{tempdir()} before processing. \code{FALSE} by default. The argument is

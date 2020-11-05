@@ -14,7 +14,7 @@ extract_text(
 )
 }
 \arguments{
-\item{file}{A character string specifying the path or URL to a PDF file.}
+\item{file}{A character string specifying the path or URL to a PDF file, or raw vector with pdf data.}
 
 \item{pages}{An optional integer vector specifying pages to extract from.}
 
