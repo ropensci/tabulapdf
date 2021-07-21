@@ -10,3 +10,4 @@ man-roxygen/
 appveyor.yml
 ignore/*
 ^docs/
+^\.github$
