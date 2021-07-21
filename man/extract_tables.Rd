@@ -61,7 +61,7 @@ This function mimics the behavior of the Tabula command line utility. It returns
 \code{\link{extract_areas}} implements this functionality in an interactive mode allowing the user to specify extraction areas for each page.
 }
 \examples{
-\donttest{
+\dontrun{
 # simple demo file
 f <- system.file("examples", "data.pdf", package = "tabulizer")
 

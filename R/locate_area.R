@@ -24,7 +24,7 @@
 #' @return For \code{extract_areas}, see \code{\link{extract_tables}}. For \code{locate_areas}, a list of four-element numeric vectors (top,left,bottom,right), one per page of the file.
 #' @author Thomas J. Leeper <thosjleeper@gmail.com>
 #' @examples
-#' \donttest{
+#' \dontrun{
 #' # simple demo file
 #' f <- system.file("examples", "data.pdf", package = "tabulizer")
 #' 

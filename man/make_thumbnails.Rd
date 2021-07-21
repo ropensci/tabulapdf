@@ -45,7 +45,7 @@ This may generate Java \dQuote{INFO} messages in the console,
 which can be safely ignored.
 }
 \examples{
-\donttest{
+\dontrun{
 # simple demo file
 f <- system.file("examples", "data.pdf", package = "tabulizer")
 
