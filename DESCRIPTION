@@ -38,7 +38,8 @@ Suggests:
     knitr,
     miniUI,
     shiny,
-    testthat
+    testthat,
+    rmarkdown
 SystemRequirements: Java (>= 7.0)
 VignetteBuilder: knitr
 RoxygenNote: 6.0.1
