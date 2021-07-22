@@ -6,30 +6,13 @@ init:
         Import-Module '..\appveyor-tool.ps1'
 environment:
   global:
-    WARNINGS_ARE_ERRORS: 1
-    USE_RTOOLS: true
-    JAVA_HOME: 
-
-  matrix:
-  - R_VERSION: devel
-    GCC_PATH: mingw_32
-
-  - R_VERSION: devel
-    R_ARCH: x64
-    GCC_PATH: mingw_64
-
-  - R_VERSION: release
-    R_ARCH: x64
-
-  - R_VERSION: oldrel
-    RTOOLS_VERSION: 32
-    CRAN: http://cran.rstudio.com
+    JAVA_HOME:
 
 install:
   ps: Bootstrap
 
 build_script:
-  - travis-tool.sh install_github ropenscilabs/tabulizerjars
+  - travis-tool.sh install_github ropensci/tabulizerjars
   - travis-tool.sh install_deps
 
 test_script:
