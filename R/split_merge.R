@@ -24,7 +24,7 @@
 #' \code{merge_pdfs}, the value of \code{outfile}.
 #' @author Thomas J. Leeper <thosjleeper@gmail.com>
 #' @examples
-#' \donttest{
+#' \dontrun{
 #' # simple demo file
 #' f <- system.file("examples", "data.pdf", package = "tabulizer")
 #' get_n_pages(file = f)

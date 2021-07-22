@@ -44,7 +44,7 @@ separate one-page doucments. \code{\link{merge_pdfs}} creates a single PDF
 document from multiple separate PDF files.
 }
 \examples{
-\donttest{
+\dontrun{
 # simple demo file
 f <- system.file("examples", "data.pdf", package = "tabulizer")
 get_n_pages(file = f)

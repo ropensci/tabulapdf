@@ -9,7 +9,7 @@
 #' @return A list.
 #' @author Thomas J. Leeper <thosjleeper@gmail.com>
 #' @examples
-#' \donttest{
+#' \dontrun{
 #' # simple demo file
 #' f <- system.file("examples", "data.pdf", package = "tabulizer")
 #' 
