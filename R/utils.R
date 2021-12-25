@@ -19,17 +19,23 @@ localize_file <- function(path, copy = FALSE, quiet = TRUE) {
     path
 }
 
-load_doc <- function(file, password = NULL, copy = FALSE) {
+load_doc <- function(file = NULL, password = NULL, copy = FALSE) {
+  pdfDocument <- new(J("org.apache.pdfbox.pdmodel.PDDocument"))
+  if(typeof(file) != "raw"){
     localfile <- localize_file(path = file, copy = copy)
-    pdfDocument <- new(J("org.apache.pdfbox.pdmodel.PDDocument"))
     fileInputStream <- new(J("java.io.FileInputStream"), name <- localfile)
-    if (is.null(password)) {
-        doc <- pdfDocument$load(input = fileInputStream)
-    } else {
-        doc <- pdfDocument$load(input = fileInputStream, password = password)
-    }
-    pdfDocument$close()
-    doc
+  }
+  else {
+    fileInputStream <- new(J("java.io.ByteArrayInputStream"), buf = rJava::.jbyte(file))
+  }
+  
+  if (is.null(password)) {
+    doc <- pdfDocument$load(input = fileInputStream)
+  } else {
+    doc <- pdfDocument$load(input = fileInputStream, password = password)
+  }
+  pdfDocument$close()
+  doc
 }
 
 make_pages <- function(pages, oe) {

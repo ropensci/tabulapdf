@@ -7,7 +7,7 @@
 extract_metadata(file, password = NULL, copy = FALSE)
 }
 \arguments{
-\item{file}{A character string specifying the path or URL to a PDF file.}
+\item{file}{A character string specifying the path or URL to a PDF file, or raw vector with pdf data.}
 
 \item{password}{Optionally, a character string containing a user password to access a secured PDF.}
 

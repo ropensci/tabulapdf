@@ -1,7 +1,7 @@
 #' @rdname get_page_dims
 #' @title Page length and dimensions
 #' @description Get Page Length and Dimensions
-#' @param file A character string specifying the path or URL to a PDF file.
+#' @param file A character string specifying the path or URL to a PDF file, or raw vector with pdf data.
 #' @param pages An optional integer vector specifying pages to extract from.
 #' @param doc Optionally,, in lieu of \code{file}, an rJava reference to a PDDocument Java object.
 #' @param password Optionally, a character string containing a user password to access a secured PDF.

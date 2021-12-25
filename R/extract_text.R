@@ -1,6 +1,6 @@
 #' @title extract_text
 #' @description Extract text from a file
-#' @param file A character string specifying the path or URL to a PDF file.
+#' @param file A character string specifying the path or URL to a PDF file, or raw vector with pdf data.
 #' @param pages An optional integer vector specifying pages to extract from.
 #' @param area An optional list, of length equal to the number of pages specified, where each entry contains a four-element numeric vector of coordinates (top,left,bottom,right) containing the table for the corresponding page. As a convenience, a list of length 1 can be used to extract the same area from all (specified) pages.
 #' @param password Optionally, a character string containing a user password to access a secured PDF.

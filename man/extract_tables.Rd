@@ -4,14 +4,23 @@
 \alias{extract_tables}
 \title{extract_tables}
 \usage{
-extract_tables(file, pages = NULL, area = NULL, columns = NULL,
-  guess = TRUE, method = c("decide", "lattice", "stream"),
-  output = c("matrix", "data.frame", "character", "asis", "csv", "tsv",
-  "json"), outdir = NULL, password = NULL, encoding = NULL,
-  copy = FALSE, ...)
+extract_tables(
+  file,
+  pages = NULL,
+  area = NULL,
+  columns = NULL,
+  guess = TRUE,
+  method = c("decide", "lattice", "stream"),
+  output = c("matrix", "data.frame", "character", "asis", "csv", "tsv", "json"),
+  outdir = NULL,
+  password = NULL,
+  encoding = NULL,
+  copy = FALSE,
+  ...
+)
 }
 \arguments{
-\item{file}{A character string specifying the path or URL to a PDF file.}
+\item{file}{A character string specifying the path or URL to a PDF file, or raw vector with pdf data.}
 
 \item{pages}{An optional integer vector specifying pages to extract from.}
 

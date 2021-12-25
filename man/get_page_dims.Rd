@@ -10,7 +10,7 @@ get_page_dims(file, doc, pages = NULL, password = NULL, copy = FALSE)
 get_n_pages(file, doc, password = NULL, copy = FALSE)
 }
 \arguments{
-\item{file}{A character string specifying the path or URL to a PDF file.}
+\item{file}{A character string specifying the path or URL to a PDF file, or raw vector with pdf data.}
 
 \item{doc}{Optionally,, in lieu of \code{file}, an rJava reference to a PDDocument Java object.}
 
