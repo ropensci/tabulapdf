@@ -25,7 +25,7 @@
 #' \itemize{
 #'   \item \code{output = "character"} returns a list of single-element character vectors, where each vector is a tab-delimited, line-separate string of concatenated table cells.
 #'   \item \code{output = "data.frame"} attempts to coerce the structure returned by \code{method = "character"} into a list of data.frames and returns character strings where this fails.
-#'   \item \code{output = "csv"} writes the tables to comma-separated (CSV) files using Tabula's CSVWriter method in the same directory as the original PDF. \code{method = "tsv"} does the same but with tab-separated (TSV) files using Tabula's TSVWriter and \code{method = "json"} does the same using Tabula's JSONWriter method. Any of these three methods return the path to the directory containing the extract table files. 
+#'   \item \code{output = "csv"} writes the tables to comma-separated (CSV) files using Tabula's CSVWriter method in the same directory as the original PDF. \code{method = "tsv"} does the same but with tab-separated (TSV) files using Tabula's TSVWriter and \code{method = "json"} does the same using Tabula's JSONWriter method. Any of these three methods return the path to the directory containing the extract table files.
 #'   \item \code{output = "asis"} returns the Java object reference, which can be useful for debugging or for writing a custom parser.
 #' }
 #' \code{\link{extract_areas}} implements this functionality in an interactive mode allowing the user to specify extraction areas for each page.
@@ -36,10 +36,10 @@
 #' \dontrun{
 #' # simple demo file
 #' f <- system.file("examples", "data.pdf", package = "tabulizer")
-#' 
+#'
 #' # extract all tables
 #' extract_tables(f)
-#' 
+#'
 #' # extract tables from only second page
 #' extract_tables(f, pages = 2)
 #'
@@ -48,7 +48,7 @@
 #' extract_tables(f, pages = 2, area = list(c(126, 149, 212, 462)))
 #' ## part of the table
 #' extract_tables(f, pages = 2, area = list(c(126, 284, 174, 417)))
-#' 
+#'
 #' # return data.frames
 #' extract_tables(f, pages = 2, output = "data.frame")
 #' }
@@ -56,7 +56,7 @@
 #' @import tabulizerjars
 #' @importFrom utils read.delim download.file
 #' @importFrom tools file_path_sans_ext
-#' @importFrom rJava J new .jfloat
+#' @importFrom rJava J new .jfloat .jcall
 #' @export
 extract_tables <- function(file,
                            pages = NULL,
@@ -73,7 +73,7 @@ extract_tables <- function(file,
                            ...) {
     method <- match.arg(method)
     output <- match.arg(output)
-    
+
     if (is.null(outdir)) {
       outdir <- normalizePath(tempdir())
     } else {
@@ -83,7 +83,7 @@ extract_tables <- function(file,
     pdfDocument <- load_doc(file, password = password, copy = copy)
     on.exit(pdfDocument$close())
     oe <- new(J("technology.tabula.ObjectExtractor"), pdfDocument)
-    
+
     # parse arguments
     if (is.null(pages)) {
         pageIterator <- oe$extract()
@@ -94,7 +94,7 @@ extract_tables <- function(file,
     npages <- pdfDocument$getNumberOfPages()
     area <- make_area(area = area, pages = pages, npages = npages, target = "tabula")
     columns <- make_columns(columns = columns, pages = pages, npages = npages)
-    
+
     # setup extractors
     basicExtractor <- new(J("technology.tabula.extractors.BasicExtractionAlgorithm"))
     spreadsheetExtractor <- new(J("technology.tabula.extractors.SpreadsheetExtractionAlgorithm"))
@@ -104,15 +104,16 @@ extract_tables <- function(file,
     else if (method == "stream") {
       use <- method
     }
-    
+
     tables <- new(J("java.util.ArrayList"))
     p <- 1L # page number
-    while (pageIterator$hasNext()) {
-        page <- J(pageIterator, "next")
+    while (.jcall(pageIterator, "Z","hasNext")) {
+        page <- .jcall(pageIterator,returnSig = "Ljava/lang/Object;","next")
+
         if (!is.null(area[[p]])) {
             page <- page$getArea(area[[p]])
         }
-        
+
         # decide whether to use spreadsheet or basic extractor
         if (method == "decide") {
             tabular <- spreadsheetExtractor$isTabular(page)
@@ -130,8 +131,8 @@ extract_tables <- function(file,
                 detector <- new(J("technology.tabula.detectors.NurminenDetectionAlgorithm"))
                 guesses <- detector$detect(page)
                 guessesIterator <- guesses$iterator()
-                while (guessesIterator$hasNext()) {
-                    guessRect <- J(guessesIterator, "next")
+                while (.jcall(guessesIterator, "Z","hasNext")) {
+                    guessRect <- .jcall(guessesIterator,returnSig = "Ljava/lang/Object;","next")
                     thisGuess <- page$getArea(guessRect)
                     tables$add(basicExtractor$extract(thisGuess))
                     rm(thisGuess)
@@ -144,12 +145,12 @@ extract_tables <- function(file,
                 }
             }
         }
-        
+
         rm(page)
         p <- p + 1L # iterate page number
     }
     rm(p)
-    
+
     # return output
     switch(tolower(output),
            "csv" = write_csvs(tables, file = file, outdir = outdir, ...),

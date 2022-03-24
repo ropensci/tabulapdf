@@ -5,8 +5,13 @@
 \alias{extract_areas}
 \title{extract_areas}
 \usage{
-locate_areas(file, pages = NULL, resolution = 60L, widget = c("shiny",
-  "native", "reduced"), copy = FALSE)
+locate_areas(
+  file,
+  pages = NULL,
+  resolution = 60L,
+  widget = c("shiny", "native", "reduced"),
+  copy = FALSE
+)
 
 extract_areas(file, pages = NULL, guess = FALSE, copy = FALSE, ...)
 }

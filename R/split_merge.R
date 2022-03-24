@@ -28,10 +28,10 @@
 #' # simple demo file
 #' f <- system.file("examples", "data.pdf", package = "tabulizer")
 #' get_n_pages(file = f)
-#' 
+#'
 #' # split PDF by page
 #' sf <- split_pdf(f)
-#' 
+#'
 #' # merge pdf
 #' mf <- file.path(tempdir(), "merged.pdf")
 #' merge_pdfs(sf, mf)
@@ -53,16 +53,16 @@ split_pdf <- function(file,
     splitArray <- splitter$split(pdfDocument)
     iterator <- splitArray$iterator()
     p <- 1L
-    
+
     fileseq <- formatC(1:splitArray$size(), width = nchar(splitArray$size()), flag = 0)
     if (is.null(outdir)) {
       outdir <- tempdir()
     }
     filename <- paste0(file_path_sans_ext(basename(file)), fileseq, ".pdf")
     outfile <- normalizePath(file.path(outdir, filename), mustWork = FALSE)
-    
-    while (iterator$hasNext()) {
-        doc <- J(iterator, "next")
+
+    while (.jcall(iterator, "Z","hasNext")) {
+        doc <- .jcall(iterator,"Ljava/lang/Object;","next")
         doc$save(outfile[p])
         doc$close()
         p <- p + 1L
