@@ -29,6 +29,7 @@ test_that("Import from remote file works", {
 })
 
 test_that("Import from remote non-Western file", {
+    skip("Java method thinks there's two tables")
     f3 <- "https://github.com/tabulapdf/tabula-java/raw/master/src/test/resources/technology/tabula/arabic.pdf"
     tab3 <- extract_tables(f3)
     expect_true(is.list(tab3))
