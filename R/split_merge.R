@@ -61,8 +61,8 @@ split_pdf <- function(file,
     filename <- paste0(file_path_sans_ext(basename(file)), fileseq, ".pdf")
     outfile <- normalizePath(file.path(outdir, filename), mustWork = FALSE)
 
-    while (.jcall(iterator, "Z","hasNext")) {
-        doc <- .jcall(iterator,"Ljava/lang/Object;","next")
+    while (.jcall(iterator, "Z", "hasNext")) {
+        doc <- .jcall(iterator, "Ljava/lang/Object;", "next")
         doc$save(outfile[p])
         doc$close()
         p <- p + 1L
