@@ -43,4 +43,5 @@ Suggests:
 Remotes: ropensci/tabulizerjars
 SystemRequirements: Java (>= 7.0)
 VignetteBuilder: knitr
-RoxygenNote: 7.1.1
+Encoding: UTF-8
+RoxygenNote: 7.2.0
