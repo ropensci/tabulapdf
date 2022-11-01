@@ -2,10 +2,10 @@
 #' @description Extract tables from a file
 #' @param file A character string specifying the path or URL to a PDF file.
 #' @param pages An optional integer vector specifying pages to extract from.
-#' @param area An optional list, of length equal to the number of pages specified, where each entry contains a four-element numeric vector of coordinates (top,left,bottom,right) containing the table for the corresponding page. As a convenience, a list of length 1 can be used to extract the same area from all (specified) pages. Only specify \code{area} xor \code{columns}.
-#' @param columns An optional list, of length equal to the number of pages specified, where each entry contains a numeric vector of horizontal (x) coordinates separating columns of data for the corresponding page. As a convenience, a list of length 1 can be used to specify the same columns for all (specified) pages. Only specify \code{area} xor \code{columns}.
-#' @param guess A logical indicating whether to guess the locations of tables on each page. If \code{FALSE}, \code{area} or \code{columns} must be specified; if \code{TRUE}, columns is ignored.
-#' @param method A string identifying the prefered method of table extraction.
+#' @param area An optional list, of length equal to the number of pages specified, where each entry contains a four-element numeric vector of coordinates (top,left,bottom,right) containing the table for the corresponding page. As a convenience, a list of length 1 can be used to extract the same area from all (specified) pages. Only specify \code{area} or \code{columns}. Warning: \code{area} is ignored if \code{guess} is \code{TRUE}.
+#' @param columns An optional list, of length equal to the number of pages specified, where each entry contains a numeric vector of horizontal (x) coordinates separating columns of data for the corresponding page. As a convenience, a list of length 1 can be used to specify the same columns for all (specified) pages. Only specify \code{area} or \code{columns}. Warning: \code{columns} is ignored if \code{guess} is \code{TRUE}.
+#' @param guess A logical indicating whether to guess the locations of tables on each page. If \code{FALSE}, \code{area} or \code{columns} must be specified; if \code{TRUE}, \code{area} and \code{columns} are ignored.
+#' @param method A string identifying the preferred method of table extraction.
 #' \itemize{
 #'   \item \code{method = "decide"} (default) automatically decide (for each page) whether spreadsheet-like formatting is present and "lattice" is appropriate
 #'   \item \code{method = "lattice"} use Tabula's spreadsheet extraction algorithm
@@ -74,6 +74,8 @@ extract_tables <- function(file,
     method <- match.arg(method)
     output <- match.arg(output)
 
+    if (isTRUE(guess) && (!is.null(area) || !is.null(columns))) warning("Argument guess is TRUE: arguments area and columns are ignored.")
+    
     if (is.null(outdir)) {
       outdir <- normalizePath(tempdir())
     } else {

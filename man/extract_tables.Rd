@@ -24,13 +24,13 @@ extract_tables(
 
 \item{pages}{An optional integer vector specifying pages to extract from.}
 
-\item{area}{An optional list, of length equal to the number of pages specified, where each entry contains a four-element numeric vector of coordinates (top,left,bottom,right) containing the table for the corresponding page. As a convenience, a list of length 1 can be used to extract the same area from all (specified) pages. Only specify \code{area} xor \code{columns}.}
+\item{area}{An optional list, of length equal to the number of pages specified, where each entry contains a four-element numeric vector of coordinates (top,left,bottom,right) containing the table for the corresponding page. As a convenience, a list of length 1 can be used to extract the same area from all (specified) pages. Only specify \code{area} or \code{columns}. Warning: \code{area} is ignored if \code{guess} is \code{TRUE}.}
 
-\item{columns}{An optional list, of length equal to the number of pages specified, where each entry contains a numeric vector of horizontal (x) coordinates separating columns of data for the corresponding page. As a convenience, a list of length 1 can be used to specify the same columns for all (specified) pages. Only specify \code{area} xor \code{columns}.}
+\item{columns}{An optional list, of length equal to the number of pages specified, where each entry contains a numeric vector of horizontal (x) coordinates separating columns of data for the corresponding page. As a convenience, a list of length 1 can be used to specify the same columns for all (specified) pages. Only specify \code{area} or \code{columns}. Warning: \code{columns} is ignored if \code{guess} is \code{TRUE}.}
 
-\item{guess}{A logical indicating whether to guess the locations of tables on each page. If \code{FALSE}, \code{area} or \code{columns} must be specified; if \code{TRUE}, columns is ignored.}
+\item{guess}{A logical indicating whether to guess the locations of tables on each page. If \code{FALSE}, \code{area} or \code{columns} must be specified; if \code{TRUE}, \code{area} and \code{columns} are ignored.}
 
-\item{method}{A string identifying the prefered method of table extraction.
+\item{method}{A string identifying the preferred method of table extraction.
 \itemize{
   \item \code{method = "decide"} (default) automatically decide (for each page) whether spreadsheet-like formatting is present and "lattice" is appropriate
   \item \code{method = "lattice"} use Tabula's spreadsheet extraction algorithm

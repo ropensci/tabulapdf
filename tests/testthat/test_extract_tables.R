@@ -8,12 +8,17 @@ test_that("It basically works", {
     expect_true(is.matrix(tab1[[1]]))
 })
 
+test_that("Warning for ignored arguments", {
+  expect_warning(extract_tables(sf, area = list(c(1, 2, 3, 4)), guess = TRUE))
+  expect_warning(extract_tables(sf, column = list(c(1, 2, 3, 4)), guess = TRUE))
+})
+
 test_that("Test 'guess' argument", {
     tab1a <- extract_tables(sf, pages = 1, guess = TRUE)
     tab1b <- extract_tables(sf, pages = 1, guess = FALSE)
     expect_true(ncol(tab1a[[1]]) == 10)
     expect_true(ncol(tab1b[[1]]) == 13)
-    
+
     tab2a <- extract_tables(sf, pages = 2, guess = TRUE)
     tab2b <- extract_tables(sf, pages = 2, guess = FALSE)
     expect_true(length(tab2a) == 2)
