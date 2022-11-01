@@ -3,12 +3,12 @@ write_csvs <- function(tables, file, outdir, ...) {
     writer <- new(J("technology.tabula.writers.CSVWriter"))
     tablesIterator <- tables$iterator()
     p <- 1L
-    while (tablesIterator$hasNext()) {
+    while (.jcall(tablesIterator, "Z", "hasNext")) {
         filename <- paste0(tools::file_path_sans_ext(file), "-", p, ".csv")
         outfile <- normalizePath(file.path(outdir, filename), mustWork = FALSE)
         bufferedWriter <- new(J("java.io.BufferedWriter"),
                               new(J("java.io.FileWriter"), outfile))
-        tab <- J(tablesIterator, "next")
+        tab <- .jcall(tablesIterator, "Ljava/lang/Object;", "next")
         writer$write(bufferedWriter, tab)
         rm(tab)
         bufferedWriter$close()
@@ -22,12 +22,12 @@ write_tsvs <- function(tables, file, outdir, ...) {
     writer <- new(J("technology.tabula.writers.TSVWriter"))
     tablesIterator <- tables$iterator()
     p <- 1L
-    while (tablesIterator$hasNext()) {
+    while (.jcall(tablesIterator, "Z", "hasNext")) {
         filename <- paste0(tools::file_path_sans_ext(file), "-", p, ".tsv")
         outfile <- normalizePath(file.path(outdir, filename), mustWork = FALSE)
         bufferedWriter <- new(J("java.io.BufferedWriter"),
                               new(J("java.io.FileWriter"), outfile))
-        tab <- J(tablesIterator, "next")
+        tab <- .jcall(tablesIterator, "Ljava/lang/Object;", "next")
         writer$write(bufferedWriter, tab)
         rm(tab)
         bufferedWriter$close()
@@ -41,12 +41,12 @@ write_jsons <- function(tables, file, outdir, ...) {
     writer <- new(J("technology.tabula.writers.JSONWriter"))
     tablesIterator <- tables$iterator()
     p <- 1L
-    while (tablesIterator$hasNext()) {
+    while (.jcall(tablesIterator, "Z", "hasNext")) {
         filename <- paste0(tools::file_path_sans_ext(file), "-", p, ".json")
         outfile <- normalizePath(file.path(outdir, filename), mustWork = FALSE)
         bufferedWriter <- new(J("java.io.BufferedWriter"),
                               new(J("java.io.FileWriter"), outfile))
-        tab <- J(tablesIterator, "next")
+        tab <- .jcall(tablesIterator, "Ljava/lang/Object;", "next")
         writer$write(bufferedWriter, tab)
         rm(tab)
         bufferedWriter$close()
@@ -59,14 +59,14 @@ list_matrices <- function(tables, encoding = NULL, ...) {
     out <- list()
     n <- 1L
     tablesIterator <- tables$iterator()
-    while (tablesIterator$hasNext()) {
-        nxt <- J(tablesIterator, "next")
-        if (nxt$size() == 0L) {
+    while (.jcall(tablesIterator, "Z", "hasNext")) {
+        nxt <- .jcall(tablesIterator, "Ljava/lang/Object;", "next")
+        if (.jcall(nxt, "I", "size") == 0L) {
             break
         }
-        tab <- nxt$get(0L)
-        out[[n]] <- matrix(NA_character_, 
-                           nrow = tab$getRows()$size(), 
+        tab <- .jcall(nxt, "Ljava/lang/Object;", "get", 0L)
+        out[[n]] <- matrix(NA_character_,
+                           nrow = tab$getRows()$size(),
                            ncol = tab$getCols()$size())
         for (i in seq_len(nrow(out[[n]]))) {
             for (j in seq_len(ncol(out[[n]]))) {

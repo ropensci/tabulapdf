@@ -4,11 +4,20 @@
 \alias{extract_tables}
 \title{extract_tables}
 \usage{
-extract_tables(file, pages = NULL, area = NULL, columns = NULL,
-  guess = TRUE, method = c("decide", "lattice", "stream"),
-  output = c("matrix", "data.frame", "character", "asis", "csv", "tsv",
-  "json"), outdir = NULL, password = NULL, encoding = NULL,
-  copy = FALSE, ...)
+extract_tables(
+  file,
+  pages = NULL,
+  area = NULL,
+  columns = NULL,
+  guess = TRUE,
+  method = c("decide", "lattice", "stream"),
+  output = c("matrix", "data.frame", "character", "asis", "csv", "tsv", "json"),
+  outdir = NULL,
+  password = NULL,
+  encoding = NULL,
+  copy = FALSE,
+  ...
+)
 }
 \arguments{
 \item{file}{A character string specifying the path or URL to a PDF file.}
@@ -55,7 +64,7 @@ This function mimics the behavior of the Tabula command line utility. It returns
 \itemize{
   \item \code{output = "character"} returns a list of single-element character vectors, where each vector is a tab-delimited, line-separate string of concatenated table cells.
   \item \code{output = "data.frame"} attempts to coerce the structure returned by \code{method = "character"} into a list of data.frames and returns character strings where this fails.
-  \item \code{output = "csv"} writes the tables to comma-separated (CSV) files using Tabula's CSVWriter method in the same directory as the original PDF. \code{method = "tsv"} does the same but with tab-separated (TSV) files using Tabula's TSVWriter and \code{method = "json"} does the same using Tabula's JSONWriter method. Any of these three methods return the path to the directory containing the extract table files. 
+  \item \code{output = "csv"} writes the tables to comma-separated (CSV) files using Tabula's CSVWriter method in the same directory as the original PDF. \code{method = "tsv"} does the same but with tab-separated (TSV) files using Tabula's TSVWriter and \code{method = "json"} does the same using Tabula's JSONWriter method. Any of these three methods return the path to the directory containing the extract table files.
   \item \code{output = "asis"} returns the Java object reference, which can be useful for debugging or for writing a custom parser.
 }
 \code{\link{extract_areas}} implements this functionality in an interactive mode allowing the user to specify extraction areas for each page.
