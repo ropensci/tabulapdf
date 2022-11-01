@@ -3,6 +3,7 @@
 * `extract_tables()` gets `outdir` argument for writing out CSV, TSV and JSON
 files.
 * Fixes in vignette.
+* avoid using reflection for Java 17 compatibility.
 
 # CHANGES TO tabulizer 0.2.1
 

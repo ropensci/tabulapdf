@@ -56,7 +56,7 @@
 #' @import tabulizerjars
 #' @importFrom utils read.delim download.file
 #' @importFrom tools file_path_sans_ext
-#' @importFrom rJava J new .jfloat
+#' @importFrom rJava J new .jfloat .jcall
 #' @export
 extract_tables <- function(file,
                            pages = NULL,
@@ -75,7 +75,7 @@ extract_tables <- function(file,
     output <- match.arg(output)
 
     if (isTRUE(guess) && (!is.null(area) || !is.null(columns))) warning("Argument guess is TRUE: arguments area and columns are ignored.")
-
+    
     if (is.null(outdir)) {
       outdir <- normalizePath(tempdir())
     } else {
@@ -109,8 +109,9 @@ extract_tables <- function(file,
 
     tables <- new(J("java.util.ArrayList"))
     p <- 1L # page number
-    while (pageIterator$hasNext()) {
-        page <- J(pageIterator, "next")
+    while (.jcall(pageIterator, "Z", "hasNext")) {
+        page <- .jcall(pageIterator, "Ljava/lang/Object;", "next")
+
         if (!is.null(area[[p]])) {
             page <- page$getArea(area[[p]])
         }
@@ -132,8 +133,8 @@ extract_tables <- function(file,
                 detector <- new(J("technology.tabula.detectors.NurminenDetectionAlgorithm"))
                 guesses <- detector$detect(page)
                 guessesIterator <- guesses$iterator()
-                while (guessesIterator$hasNext()) {
-                    guessRect <- J(guessesIterator, "next")
+                while (.jcall(guessesIterator, "Z", "hasNext")) {
+                    guessRect <- .jcall(guessesIterator, "Ljava/lang/Object;", "next")
                     thisGuess <- page$getArea(guessRect)
                     tables$add(basicExtractor$extract(thisGuess))
                     rm(thisGuess)
