@@ -42,7 +42,8 @@ Suggests:
     miniUI,
     shiny,
     testthat,
-    rmarkdown
+    rmarkdown,
+    covr
 Remotes: ropensci/tabulizerjars
 SystemRequirements: Java (>= 7.0)
 VignetteBuilder: knitr
