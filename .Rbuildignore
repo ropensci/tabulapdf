@@ -11,3 +11,4 @@ appveyor.yml
 ignore/*
 ^docs/
 ^\.github$
+^codecov\.yml$
