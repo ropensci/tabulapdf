@@ -14,8 +14,8 @@ knitr::opts_chunk$set(
 [![CRAN](https://www.r-pkg.org/badges/version/tabulizer)](https://cran.r-project.org/package=tabulizer)
 [![Downloads](https://cranlogs.r-pkg.org/badges/tabulizer)](https://cran.r-project.org/package=tabulizer)
 [![Build Status](https://travis-ci.org/ropensci/tabulizer.png?branch=master)](https://travis-ci.org/ropensci/tabulizer)
-[![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/ropensci/tabulizer?branch=master&svg=true)](https://ci.appveyor.com/project/tpaskhalis/tabulizer)
-[![codecov.io](https://codecov.io/github/ropensci/tabulizer/coverage.svg?branch=master)](https://codecov.io/github/ropensci/tabulizer?branch=master)
+[![R-CMD-check](https://github.com/ropensci/tabulizer/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/ropensci/tabulizer/actions/workflows/R-CMD-check.yaml)
+[![Codecov test coverage](https://codecov.io/gh/ropensci/tabulizer/branch/master/graph/badge.svg)](https://app.codecov.io/gh/ropensci/tabulizer?branch=main)
 [![](https://badges.ropensci.org/42_status.svg)](https://github.com/ropensci/onboarding/issues/42)
 
 **tabulizer** provides R bindings to the [Tabula java library](https://github.com/tabulapdf/tabula-java/), which can be used to computationaly extract tables from PDF documents.
