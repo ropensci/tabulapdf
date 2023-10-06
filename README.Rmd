@@ -26,9 +26,9 @@ Note: tabulizer is released under the MIT license, as is Tabula itself.
 
 tabulizer depends on [rJava](https://cran.r-project.org/package=rJava), which implies a system requirement for Java. This can be frustrating, especially on Windows. The preferred Windows workflow is to use [Chocolatey](https://chocolatey.org/) to obtain, configure, and update Java. You need do this before installing rJava or attempting to use tabulizer. More on [this](#installing-java-on-windows-with-chocolatey) and [troubleshooting](#troubleshooting) below.
 
-To install the latest CRAN version:
+tabulizer is not available on CRAN, but it can be installed from rOpenSci's R-Universe:
 ```{r eval = FALSE}
-install.packages("tabulizer")
+install.packages('tabulizer', repos = c('https://ropensci.r-universe.dev', 'https://cloud.r-project.org'))
 ```
 
 To install the latest development version:
