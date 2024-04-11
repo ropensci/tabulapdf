@@ -1,5 +1,5 @@
 library("testthat")
-library("tabulizer")
+library("tabulapdf")
 
 stop_logging()
-test_check("tabulizer")
+test_check("tabulapdf")

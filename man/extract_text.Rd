@@ -40,7 +40,7 @@ This function converts the contents of a PDF file into a single unstructured cha
 \examples{
 \dontrun{
 # simple demo file
-f <- system.file("examples", "text.pdf", package = "tabulizer")
+f <- system.file("examples", "text.pdf", package = "tabulapdf")
 
 # extract all text
 extract_text(f)
@@ -50,7 +50,6 @@ extract_text(f, pages = 1)
 
 # extract text from selected area only
 extract_text(f, area = list(c(209.4, 140.5, 304.2, 500.8)))
-
 }
 }
 \seealso{

@@ -15,8 +15,8 @@
 #' @examples
 #' \dontrun{
 #' # simple demo file
-#' f <- system.file("examples", "data.pdf", package = "tabulizer")
-#' 
+#' f <- system.file("examples", "data.pdf", package = "tabulapdf")
+#'
 #' get_n_pages(file = f)
 #' get_page_dims(f)
 #' }
@@ -29,16 +29,16 @@ get_page_dims <- function(file, doc, pages = NULL, password = NULL, copy = FALSE
         doc <- load_doc(file, password = password, copy = copy)
         on.exit(doc$close())
     }
-    
+
     if (!is.null(pages)) {
         pages <- as.integer(pages)
     } else {
         pages <- 1L:(get_n_pages(doc = doc))
     }
-    
+
     allpages <- doc$getDocumentCatalog()$getPages()
     lapply(pages, function(x) {
-        thispage <- allpages$get(x-1L)
+        thispage <- allpages$get(x - 1L)
         c(thispage$getMediaBox()$getWidth(), thispage$getMediaBox()$getHeight())
     })
 }

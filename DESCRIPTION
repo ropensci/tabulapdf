@@ -1,19 +1,21 @@
-Package: tabulizer
+Package: tabulapdf
 Type: Package
-Title: Bindings for 'Tabula' PDF Table Extractor Library
-Version: 0.2.3
+Title: Extract tables from PDF documents
+Version: 1.0.5
 Authors@R: c(person("Thomas J.", "Leeper",
                     role = "aut", 
                     email = "thosjleeper@gmail.com",
                     comment = c(ORCID = "0000-0003-4097-6326")),
-             person("Mauricio", "Vargas",
+             person("Mauricio", "Vargas Sepulveda",
                     role = c("aut","cre"), 
-                    email = "hello+r@pacha.dev", 
+                    email = "m.sepulveda@mail.utoronto.ca", 
                     comment = c(ORCID = "0000-0003-1017-7574")),
              person("Tom", "Paskhalis",
                     role = "aut",
                     email = "tpaskhalis@gmail.com",
                     comment = c(ORCID = "0000-0001-9298-8850")),
+             person("Manuel", "Aristaran",
+                    role = "ctb"),
              person("David", "Gohel",
                     role = "ctb",
                     comment = "rOpenSci reviewer"),
@@ -21,18 +23,14 @@ Authors@R: c(person("Thomas J.", "Leeper",
                     role = "ctb",
                     comment = "rOpenSci reviewer"))
 Description: Bindings for the 'Tabula' <http://tabula.technology/> 'Java'
-    library, which can extract tables from PDF documents. The 'tabulizerjars'
-    package <https://github.com/ropensci/tabulizerjars> provides versioned
-    'Java' .jar files, including all dependencies, aligned to releases of
-    'Tabula'.
+    library, which can extract tables from PDF documents.
 License: MIT + file LICENSE
-URL: https://docs.ropensci.org/tabulizer (website)
-    https://github.com/ropensci/tabulizer
-BugReports: https://github.com/ropensci/tabulizer/issues
+URL: https://docs.ropensci.org/tabulapdf (website)
+    https://github.com/ropensci/tabulapdf
+BugReports: https://github.com/ropensci/tabulapdf/issues
 Imports:
     png,
     rJava,
-    tabulizerjars,
     tools,
     utils
 Suggests:
@@ -44,8 +42,10 @@ Suggests:
     testthat,
     rmarkdown,
     covr
-Remotes: ropensci/tabulizerjars
-SystemRequirements: Java (>= 7.0)
+SystemRequirements: Java (>= 7.0):
+    openjdk-11-jdk (deb),
+    java-11-openjdk.x86_64 (rpm),
+    openjdk@11 (brew)
 VignetteBuilder: knitr
 Encoding: UTF-8
-RoxygenNote: 7.2.1
+RoxygenNote: 7.3.1

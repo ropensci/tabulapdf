@@ -54,7 +54,7 @@ In any of these modes, after the areas are selected, \code{extract_areas} passes
 \examples{
 \dontrun{
 # simple demo file
-f <- system.file("examples", "data.pdf", package = "tabulizer")
+f <- system.file("examples", "data.pdf", package = "tabulapdf")
 
 # locate areas only, using Shiny app
 locate_areas(f)

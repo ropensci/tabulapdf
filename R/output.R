@@ -6,8 +6,10 @@ write_csvs <- function(tables, file, outdir, ...) {
     while (.jcall(tablesIterator, "Z", "hasNext")) {
         filename <- paste0(tools::file_path_sans_ext(file), "-", p, ".csv")
         outfile <- normalizePath(file.path(outdir, filename), mustWork = FALSE)
-        bufferedWriter <- new(J("java.io.BufferedWriter"),
-                              new(J("java.io.FileWriter"), outfile))
+        bufferedWriter <- new(
+            J("java.io.BufferedWriter"),
+            new(J("java.io.FileWriter"), outfile)
+        )
         tab <- .jcall(tablesIterator, "Ljava/lang/Object;", "next")
         writer$write(bufferedWriter, tab)
         rm(tab)
@@ -25,8 +27,10 @@ write_tsvs <- function(tables, file, outdir, ...) {
     while (.jcall(tablesIterator, "Z", "hasNext")) {
         filename <- paste0(tools::file_path_sans_ext(file), "-", p, ".tsv")
         outfile <- normalizePath(file.path(outdir, filename), mustWork = FALSE)
-        bufferedWriter <- new(J("java.io.BufferedWriter"),
-                              new(J("java.io.FileWriter"), outfile))
+        bufferedWriter <- new(
+            J("java.io.BufferedWriter"),
+            new(J("java.io.FileWriter"), outfile)
+        )
         tab <- .jcall(tablesIterator, "Ljava/lang/Object;", "next")
         writer$write(bufferedWriter, tab)
         rm(tab)
@@ -44,8 +48,10 @@ write_jsons <- function(tables, file, outdir, ...) {
     while (.jcall(tablesIterator, "Z", "hasNext")) {
         filename <- paste0(tools::file_path_sans_ext(file), "-", p, ".json")
         outfile <- normalizePath(file.path(outdir, filename), mustWork = FALSE)
-        bufferedWriter <- new(J("java.io.BufferedWriter"),
-                              new(J("java.io.FileWriter"), outfile))
+        bufferedWriter <- new(
+            J("java.io.BufferedWriter"),
+            new(J("java.io.FileWriter"), outfile)
+        )
         tab <- .jcall(tablesIterator, "Ljava/lang/Object;", "next")
         writer$write(bufferedWriter, tab)
         rm(tab)
@@ -66,11 +72,12 @@ list_matrices <- function(tables, encoding = NULL, ...) {
         }
         tab <- .jcall(nxt, "Ljava/lang/Object;", "get", 0L)
         out[[n]] <- matrix(NA_character_,
-                           nrow = tab$getRows()$size(),
-                           ncol = tab$getCols()$size())
+            nrow = tab$getRowCount(),
+            ncol = tab$getColCount()
+        )
         for (i in seq_len(nrow(out[[n]]))) {
             for (j in seq_len(ncol(out[[n]]))) {
-                out[[n]][i, j] <- tab$getCell(i-1L, j-1L)$getText()
+                out[[n]][i, j] <- tab$getCell(i - 1L, j - 1L)$getText()
             }
         }
         if (!is.null(encoding)) {

@@ -26,14 +26,14 @@
 #' @examples
 #' \dontrun{
 #' # simple demo file
-#' f <- system.file("examples", "data.pdf", package = "tabulizer")
-#' 
+#' f <- system.file("examples", "data.pdf", package = "tabulapdf")
+#'
 #' # locate areas only, using Shiny app
 #' locate_areas(f)
-#' 
+#'
 #' # locate areas only, using native graphics device
 #' locate_areas(f, widget = "shiny")
-#' 
+#'
 #' # locate areas and extract
 #' extract_areas(f)
 #' }
@@ -55,27 +55,30 @@ locate_areas <- function(file,
         requireNamespace("graphics")
         requireNamespace("grDevices")
     }
-    
+
     file <- localize_file(file, copy = copy)
     # on.exit(unlink(file), add = TRUE)
     dims <- get_page_dims(file, pages = pages)
     paths <- make_thumbnails(file,
-                             outdir = tempdir(),
-                             pages = pages,
-                             format = "png",
-                             resolution = resolution)
+        outdir = tempdir(),
+        pages = pages,
+        format = "png",
+        resolution = resolution
+    )
     on.exit(unlink(paths), add = TRUE)
-    
+
     areas <- rep(list(NULL), length(paths))
     i <- 1
     warnThisTime <- TRUE
     while (TRUE) {
         if (!is.na(paths[i])) {
-            a <- try_area(file = paths[i], 
-                          dims = dims[[i]], 
-                          area = areas[[i]], 
-                          warn = warnThisTime,
-                          widget = match.arg(widget))
+            a <- try_area(
+                file = paths[i],
+                dims = dims[[i]],
+                area = areas[[i]],
+                warn = warnThisTime,
+                widget = match.arg(widget)
+            )
             warnThisTime <- FALSE
             if (!is.null(a[["area"]])) {
                 areas[[i]] <- a[["area"]]
@@ -112,11 +115,13 @@ extract_areas <- function(file,
                           copy = FALSE,
                           ...) {
     areas <- locate_areas(file = file, pages = pages, copy = copy)
-    extract_tables(file = file,
-                   pages = pages,
-                   area = areas,
-                   guess = guess,
-                   ...)
+    extract_tables(
+        file = file,
+        pages = pages,
+        area = areas,
+        guess = guess,
+        ...
+    )
 }
 
 try_area <- function(file, dims, area = NULL, warn = FALSE, widget = c("shiny", "native", "reduced")) {

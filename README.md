@@ -1,45 +1,48 @@
 
-# Extract Tables from PDFs
+# tabulapdf: Extract tables from PDF documents <img src="man/figures/logo.svg" align="right" height="139" alt="" />
 
-[![CRAN](https://www.r-pkg.org/badges/version/tabulizer)](https://cran.r-project.org/package=tabulizer)
-[![Downloads](https://cranlogs.r-pkg.org/badges/tabulizer)](https://cran.r-project.org/package=tabulizer)
-[![Build Status](https://travis-ci.org/ropensci/tabulizer.png?branch=master)](https://travis-ci.org/ropensci/tabulizer)
-[![R-CMD-check](https://github.com/ropensci/tabulizer/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/ropensci/tabulizer/actions/workflows/R-CMD-check.yaml)
-[![Codecov test coverage](https://codecov.io/gh/ropensci/tabulizer/branch/master/graph/badge.svg)](https://app.codecov.io/gh/ropensci/tabulizer?branch=main)
+[![CRAN](https://www.r-pkg.org/badges/version/tabulapdf)](https://cran.r-project.org/package=tabulapdf)
+[![Downloads](https://cranlogs.r-pkg.org/badges/tabulapdf)](https://cran.r-project.org/package=tabulapdf)
+[![Build
+Status](https://travis-ci.org/ropensci/tabulapdf.png?branch=master)](https://travis-ci.org/ropensci/tabulapdf)
+[![R-CMD-check](https://github.com/ropensci/tabulapdf/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/ropensci/tabulapdf/actions/workflows/R-CMD-check.yaml)
+[![Codecov test
+coverage](https://codecov.io/gh/ropensci/tabulapdf/branch/master/graph/badge.svg)](https://app.codecov.io/gh/ropensci/tabulapdf?branch=main)
 [![](https://badges.ropensci.org/42_status.svg)](https://github.com/ropensci/onboarding/issues/42)
 
-**tabulizer** provides R bindings to the [Tabula java
+**tabulapdf** provides R bindings to the [Tabula java
 library](https://github.com/tabulapdf/tabula-java/), which can be used
 to computationaly extract tables from PDF documents.
 
-Note: tabulizer is released under the MIT license, as is Tabula itself.
+Note: tabulapdf is released under the MIT license, as is Tabula itself.
 
 ## Installation
 
-tabulizer depends on [rJava](https://cran.r-project.org/package=rJava),
+tabulapdf depends on [rJava](https://cran.r-project.org/package=rJava),
 which implies a system requirement for Java. This can be frustrating,
 especially on Windows. The preferred Windows workflow is to use
 [Chocolatey](https://chocolatey.org/) to obtain, configure, and update
 Java. You need do this before installing rJava or attempting to use
-tabulizer. More on [this](#installing-java-on-windows-with-chocolatey)
+tabulapdf. More on [this](#installing-java-on-windows-with-chocolatey)
 and [troubleshooting](#troubleshooting) below.
 
-To install the latest CRAN version:
+tabulapdf is not available on CRAN, but it can be installed from
+rOpenSci’s R-Universe:
 
 ``` r
-install.packages("tabulizer")
+install.packages("tabulapdf", repos = c("https://ropensci.r-universe.dev", "https://cloud.r-project.org"))
 ```
 
 To install the latest development version:
 
 ``` r
-if (!require("remotes")) {
-    install.packages("remotes")
-}
+if (!require(remotes)) install.packages("remotes")
+
 # on 64-bit Windows
-remotes::install_github(c("ropensci/tabulizerjars", "ropensci/tabulizer"), INSTALL_opts = "--no-multiarch")
+remotes::install_github(c("ropensci/tabulapdf"), INSTALL_opts = "--no-multiarch")
+
 # elsewhere
-remotes::install_github(c("ropensci/tabulizerjars", "ropensci/tabulizer"))
+remotes::install_github(c("ropensci/tabulapdf"))
 ```
 
 ## Code Examples
@@ -48,8 +51,8 @@ The main function, `extract_tables()` provides an R clone of the Tabula
 command line application:
 
 ``` r
-library("tabulizer")
-f <- system.file("examples", "data.pdf", package = "tabulizer")
+library("tabulapdf")
+f <- system.file("examples", "data.pdf", package = "tabulapdf")
 out1 <- extract_tables(f)
 str(out1)
 ## List of 4
@@ -62,8 +65,7 @@ str(out1)
 By default, it returns the most table-like R structure available: a
 matrix. It can also write the tables to disk or attempt to coerce them
 to data.frames using the `output` argument. It is also possible to
-select tables from only specified pages using the `pages`
-argument.
+select tables from only specified pages using the `pages` argument.
 
 ``` r
 out2 <- extract_tables(f, pages = 1, guess = FALSE, output = "data.frame")
@@ -150,8 +152,7 @@ Java [Apache PDFBox library](https://pdfbox.apache.org/)):
 
 ### Installing Java on Windows with Chocolatey
 
-In command prompt, install Chocolately if you don’t already have
-    it:
+In command prompt, install Chocolately if you don’t already have it:
 
     @powershell -NoProfile -ExecutionPolicy Bypass -Command "iex ((new-object net.webclient).DownloadString('https://chocolatey.org/install.ps1'))" && SET PATH=%PATH%;%ALLUSERSPROFILE%\chocolatey\bin
 
@@ -174,7 +175,7 @@ Files\Java\jdk1.8.0_92`). This can be done:
     Environment Variables` ([instructions
     here](http://superuser.com/a/284351/221772)).
 
-You should now be able to safely open R, and use rJava and tabulizer.
+You should now be able to safely open R, and use rJava and tabulapdf.
 Note, however, that some users report that rather than setting this
 variable, they instead need to delete it (e.g., with
 `Sys.setenv(JAVA_HOME = "")`), so if the above instructions fail, that
@@ -184,13 +185,13 @@ is the next step in troubleshooting.
 
 Some notes for troubleshooting common installation problems:
 
-  - On Mac OS, you may need to install [a particular version of
-    Java](https://support.apple.com/kb/DL1572?locale=en_US) prior to
-    attempting to install tabulizer.
-  - On a Unix-like, you need to ensure that R has been installed with
-    Java support. This can often be fixed by running `R CMD javareconf`
-    on the command line (possibly with `sudo`, etc. depending on your
-    system setup).
+  - On Mac OS and Linux, we tested with OpenJDK version 11. The package
+    is configure to ask for that version of Java. If you have a
+    different version of Java installed, you may need to change the
+    `JAVA_HOME` environment variable to point to the correct version.
+    You need to ensure that R has been installed with Java support. This
+    can often be fixed by running `R CMD javareconf` on the command line
+    (possibly with `sudo`, etc. depending on your system setup).
   - On Windows, make sure you have permission to write to and install
     packages to your R directory before trying to install the package.
     This can be changed from “Properties” on the right-click context
@@ -201,10 +202,9 @@ Some notes for troubleshooting common installation problems:
 ## Meta
 
   - Please [report any issues or
-    bugs](https://github.com/ropensci/tabulizer/issues).
+    bugs](https://github.com/ropensci/tabulapdf/issues).
   - License: MIT
-  - Get citation information for `tabulizer` in R doing
-    `citation(package =
-'tabulizer')`
+  - Get citation information for `tabulapdf` in R doing
+    `citation(package = 'tabulapdf')`
 
 [![rofooter](http://ropensci.org/public_images/github_footer.png)](http://ropensci.org)

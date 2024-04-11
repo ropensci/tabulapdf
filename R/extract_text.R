@@ -14,17 +14,16 @@
 #' @examples
 #' \dontrun{
 #' # simple demo file
-#' f <- system.file("examples", "text.pdf", package = "tabulizer")
-#' 
+#' f <- system.file("examples", "text.pdf", package = "tabulapdf")
+#'
 #' # extract all text
 #' extract_text(f)
-#' 
+#'
 #' # extract all text from page 1 only
 #' extract_text(f, pages = 1)
-#' 
+#'
 #' # extract text from selected area only
 #' extract_text(f, area = list(c(209.4, 140.5, 304.2, 500.8)))
-#' 
 #' }
 #' @seealso \code{\link{extract_tables}}, \code{\link{extract_areas}}, \code{\link{split_pdf}}
 #' @importFrom rJava J new
@@ -35,49 +34,51 @@ extract_text <- function(file,
                          password = NULL,
                          encoding = NULL,
                          copy = FALSE) {
-    pdfDocument <- load_doc(file, password = password, copy = copy)
-    on.exit(pdfDocument$close())
-    
-    if (!is.null(pages)) {
-      tryCatch(pages <- as.integer(pages),
-               error = function(e) {
-                 stop("'pages' should be an integer or coercible to integer.")})
-    }
-    
-    if (!is.null(area)) {
-      stripper <- new(J("org.apache.pdfbox.text.PDFTextStripperByArea"))
-    } else {
-      stripper <- new(J("org.apache.pdfbox.text.PDFTextStripper"))
-    }
-    
-    if (!is.null(area)) {
-      npages <- pdfDocument$getNumberOfPages()
-      area <- make_area(area = area, pages = pages, npages = npages, target = "java")
-      if (!is.null(pages)) {
-        pageIndex <- pages - 1L
-      } else {
-        pageIndex <- seq_len(npages) - 1L
+  pdfDocument <- load_doc(file, password = password, copy = copy)
+  on.exit(pdfDocument$close())
+
+  if (!is.null(pages)) {
+    tryCatch(pages <- as.integer(pages),
+      error = function(e) {
+        stop("'pages' should be an integer or coercible to integer.")
       }
-      out <- unlist(Map(function(x, y) {
-        PDPage <- pdfDocument$getPage(x)
-        region <- "text"
-        stripper$removeRegion(region)
-        stripper$addRegion(region, y)
-        stripper$extractRegions(PDPage)
-        stripper$getTextForRegion(region)
-      }, pageIndex, area))
-    } else if (!is.null(pages) && is.null(area)) {
-        out <- unlist(lapply(pages, function(x) {
-            stripper$setStartPage(x)
-            stripper$setEndPage(x)
-            stripper$getText(pdfDocument)
-        }))
+    )
+  }
+
+  if (!is.null(area)) {
+    stripper <- new(J("org.apache.pdfbox.text.PDFTextStripperByArea"))
+  } else {
+    stripper <- new(J("org.apache.pdfbox.text.PDFTextStripper"))
+  }
+
+  if (!is.null(area)) {
+    npages <- pdfDocument$getNumberOfPages()
+    area <- make_area(area = area, pages = pages, npages = npages, target = "java")
+    if (!is.null(pages)) {
+      pageIndex <- pages - 1L
     } else {
-        out <- stripper$getText(pdfDocument)
+      pageIndex <- seq_len(npages) - 1L
     }
-    
-    if (!is.null(encoding)) {
-        Encoding(out) <- encoding
-    }
-    out
+    out <- unlist(Map(function(x, y) {
+      PDPage <- pdfDocument$getPage(x)
+      region <- "text"
+      stripper$removeRegion(region)
+      stripper$addRegion(region, y)
+      stripper$extractRegions(PDPage)
+      stripper$getTextForRegion(region)
+    }, pageIndex, area))
+  } else if (!is.null(pages) && is.null(area)) {
+    out <- unlist(lapply(pages, function(x) {
+      stripper$setStartPage(x)
+      stripper$setEndPage(x)
+      stripper$getText(pdfDocument)
+    }))
+  } else {
+    out <- stripper$getText(pdfDocument)
+  }
+
+  if (!is.null(encoding)) {
+    Encoding(out) <- encoding
+  }
+  out
 }

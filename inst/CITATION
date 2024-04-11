@@ -1,15 +1,19 @@
-citHeader("To cite package 'tabulizer' in publications use:")
-     
- year <- sub(".*(2[[:digit:]]{3})-.*", "\\1", meta$Date, perl = TRUE)
- vers <- paste("R package version", meta$Version)
- 
- citEntry(entry="Manual",
-		  title = "tabulizer: Bindings for Tabula PDF Table Extractor Library",
-		  author = personList(as.person("Thomas J. Leeper")),
-		  year = year,
-		  note = vers,
-		  textVersion =
-		  paste("Thomas J. Leeper (",
-				year,
-				"). tabulizer: Bindings for Tabula PDF Table Extractor Library. ",
-				vers, ".", sep=""))
+citHeader("To cite package 'tabulapdf' in publications use:")
+
+year <- sub(".*(2[[:digit:]]{3})-.*", "\\1", meta$Date, perl = TRUE)
+vers <- paste("R package version", meta$Version)
+
+citEntry(
+  entry = "Manual",
+  title = "tabulapdf: Bindings for Tabula PDF Table Extractor Library",
+  author = personList(as.person("Thomas J. Leeper")),
+  year = year,
+  note = vers,
+  textVersion =
+    paste("Thomas J. Leeper (",
+      year,
+      "). tabulapdf: Bindings for Tabula PDF Table Extractor Library. ",
+      vers, ".",
+      sep = ""
+    )
+)

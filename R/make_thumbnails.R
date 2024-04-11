@@ -25,8 +25,8 @@
 #' @examples
 #' \dontrun{
 #' # simple demo file
-#' f <- system.file("examples", "data.pdf", package = "tabulizer")
-#' 
+#' f <- system.file("examples", "data.pdf", package = "tabulapdf")
+#'
 #' make_thumbnails(f)
 #' }
 #' @importFrom tools file_path_sans_ext
@@ -44,13 +44,13 @@ make_thumbnails <- function(file,
     file <- localize_file(file, copy = copy)
     pdfDocument <- load_doc(file, password = password, copy = copy)
     on.exit(pdfDocument$close())
-    
+
     if (!is.null(pages)) {
         pages <- as.integer(pages)
     } else {
         pages <- 1L:(get_n_pages(doc = pdfDocument))
     }
-    
+
     format <- match.arg(format)
     fileseq <- formatC(pages, width = max(nchar(pages)), flag = 0)
     if (is.null(outdir)) {
@@ -62,13 +62,17 @@ make_thumbnails <- function(file,
     for (i in seq_along(pages)) {
         pageIndex <- pages[i] - 1L
         PDFRenderer <- new(J("org.apache.pdfbox.rendering.PDFRenderer"),
-                           document = pdfDocument)
+            document = pdfDocument
+        )
         BufferedImage <- PDFRenderer$renderImageWithDPI(pageIndex,
-                                                        scale = .jfloat(resolution))
+            scale = .jfloat(resolution)
+        )
         JavaFile <- new(J("java.io.File"), pathname = outfile[i])
-        J("javax.imageio.ImageIO")$write(BufferedImage,
-                                         format,
-                                         JavaFile)
+        J("javax.imageio.ImageIO")$write(
+            BufferedImage,
+            format,
+            JavaFile
+        )
     }
     ifelse(file.exists(outfile), outfile, NA_character_)
 }

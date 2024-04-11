@@ -19,7 +19,7 @@ Put your code here:
 library("rJava")
 
 ## load package
-library("tabulizer")
+library("tabulapdf")
 
 ## code goes here
 

@@ -72,7 +72,7 @@ This function mimics the behavior of the Tabula command line utility. It returns
 \examples{
 \dontrun{
 # simple demo file
-f <- system.file("examples", "data.pdf", package = "tabulizer")
+f <- system.file("examples", "data.pdf", package = "tabulapdf")
 
 # extract all tables
 extract_tables(f)

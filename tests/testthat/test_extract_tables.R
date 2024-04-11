@@ -1,6 +1,6 @@
 context("Minimum functionality of extract_tables")
 
-sf <- system.file("examples", "data.pdf", package = "tabulizer")
+sf <- system.file("examples", "data.pdf", package = "tabulapdf")
 
 test_that("It basically works", {
     tab1 <- extract_tables(sf)
@@ -9,8 +9,8 @@ test_that("It basically works", {
 })
 
 test_that("Warning for ignored arguments", {
-  expect_warning(extract_tables(sf, area = list(c(1, 2, 3, 4)), guess = TRUE))
-  expect_warning(extract_tables(sf, column = list(c(1, 2, 3, 4)), guess = TRUE))
+    expect_warning(extract_tables(sf, area = list(c(1, 2, 3, 4)), guess = TRUE))
+    expect_warning(extract_tables(sf, column = list(c(1, 2, 3, 4)), guess = TRUE))
 })
 
 test_that("Test 'guess' argument", {
@@ -73,11 +73,11 @@ test_that("Extract from encrypted PDF", {
 })
 
 test_that("Test 'copy' argument", {
-  fls <- list.files(tempdir())
-  filepath <- file.path(tempdir(), basename(sf))
-  tab7 <- extract_tables(sf, copy = TRUE)
-  fls2 <- list.files(tempdir())
-  expect_identical(length(fls) + 1L, length(fls2))
-  expect_true(file.exists(filepath))
-  unlink(filepath)
+    fls <- list.files(tempdir())
+    filepath <- file.path(tempdir(), basename(sf))
+    tab7 <- extract_tables(sf, copy = TRUE)
+    fls2 <- list.files(tempdir())
+    expect_identical(length(fls) + 1L, length(fls2))
+    expect_true(file.exists(filepath))
+    unlink(filepath)
 })

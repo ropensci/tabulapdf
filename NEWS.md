@@ -1,3 +1,11 @@
+# CHANGES TO tabulapdf 1.0.5
+
+* Package renamed to `tabulapdf`
+* New maintainer: @pachadotdev
+* Updated to use tabula-java 1.0.5
+* Updated the methods in `extract_tables()`
+* The version now follows the version of tabula-java
+
 # CHANGES TO tabulizer 0.2.2
 
 * `extract_tables()` gets `outdir` argument for writing out CSV, TSV and JSON

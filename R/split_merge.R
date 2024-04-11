@@ -26,7 +26,7 @@
 #' @examples
 #' \dontrun{
 #' # simple demo file
-#' f <- system.file("examples", "data.pdf", package = "tabulizer")
+#' f <- system.file("examples", "data.pdf", package = "tabulapdf")
 #' get_n_pages(file = f)
 #'
 #' # split PDF by page
@@ -56,7 +56,7 @@ split_pdf <- function(file,
 
     fileseq <- formatC(1:splitArray$size(), width = nchar(splitArray$size()), flag = 0)
     if (is.null(outdir)) {
-      outdir <- tempdir()
+        outdir <- tempdir()
     }
     filename <- paste0(file_path_sans_ext(basename(file)), fileseq, ".pdf")
     outfile <- normalizePath(file.path(outdir, filename), mustWork = FALSE)

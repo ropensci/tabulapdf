@@ -35,7 +35,7 @@
 #' @examples
 #' \dontrun{
 #' # simple demo file
-#' f <- system.file("examples", "data.pdf", package = "tabulizer")
+#' f <- system.file("examples", "data.pdf", package = "tabulapdf")
 #'
 #' # extract all tables
 #' extract_tables(f)
@@ -53,7 +53,6 @@
 #' extract_tables(f, pages = 2, output = "data.frame")
 #' }
 #' @seealso \code{\link{extract_areas}}, \code{\link{get_page_dims}}, \code{\link{make_thumbnails}}, \code{\link{split_pdf}}
-#' @import tabulizerjars
 #' @importFrom utils read.delim download.file
 #' @importFrom tools file_path_sans_ext
 #' @importFrom rJava J new .jfloat .jcall
@@ -64,103 +63,105 @@ extract_tables <- function(file,
                            columns = NULL,
                            guess = TRUE,
                            method = c("decide", "lattice", "stream"),
-                           output = c("matrix", "data.frame", "character",
-                                      "asis", "csv", "tsv", "json"),
+                           output = c(
+                             "matrix", "data.frame", "character",
+                             "asis", "csv", "tsv", "json"
+                           ),
                            outdir = NULL,
                            password = NULL,
                            encoding = NULL,
                            copy = FALSE,
                            ...) {
-    method <- match.arg(method)
-    output <- match.arg(output)
+  method <- match.arg(method)
+  output <- match.arg(output)
 
-    if (isTRUE(guess) && (!is.null(area) || !is.null(columns))) warning("Argument guess is TRUE: arguments area and columns are ignored.")
-    
-    if (is.null(outdir)) {
-      outdir <- normalizePath(tempdir())
+  if (isTRUE(guess) && (!is.null(area) || !is.null(columns))) warning("Argument guess is TRUE: arguments area and columns are ignored.")
+
+  if (is.null(outdir)) {
+    outdir <- normalizePath(tempdir())
+  } else {
+    outdir <- normalizePath(outdir)
+  }
+
+  pdfDocument <- load_doc(file, password = password, copy = copy)
+  on.exit(pdfDocument$close())
+  oe <- new(J("technology.tabula.ObjectExtractor"), pdfDocument)
+
+  # parse arguments
+  if (is.null(pages)) {
+    pageIterator <- oe$extract()
+  } else {
+    pages <- as.integer(pages)
+    pageIterator <- oe$extract(make_pages(pages))
+  }
+  npages <- pdfDocument$getNumberOfPages()
+  area <- make_area(area = area, pages = pages, npages = npages, target = "tabula")
+  columns <- make_columns(columns = columns, pages = pages, npages = npages)
+
+  # setup extractors
+  basicExtractor <- new(J("technology.tabula.extractors.BasicExtractionAlgorithm"))
+  spreadsheetExtractor <- new(J("technology.tabula.extractors.SpreadsheetExtractionAlgorithm"))
+  if (method == "lattice") {
+    use <- method
+  } else if (method == "stream") {
+    use <- method
+  }
+
+  tables <- new(J("java.util.ArrayList"))
+  p <- 1L # page number
+  while (.jcall(pageIterator, "Z", "hasNext")) {
+    page <- .jcall(pageIterator, "Ljava/lang/Object;", "next")
+
+    if (!is.null(area[[p]])) {
+      page <- page$getArea(area[[p]])
+    }
+
+    # decide whether to use spreadsheet or basic extractor
+    if (method == "decide") {
+      tabular <- spreadsheetExtractor$isTabular(page)
+      if (identical(FALSE, tabular)) {
+        use <- "stream"
+      } else {
+        use <- "lattice"
+      }
+    }
+    if (isTRUE(guess) && use == "lattice") {
+      tables$add(spreadsheetExtractor$extract(page))
     } else {
-      outdir <- normalizePath(outdir)
-    }
-
-    pdfDocument <- load_doc(file, password = password, copy = copy)
-    on.exit(pdfDocument$close())
-    oe <- new(J("technology.tabula.ObjectExtractor"), pdfDocument)
-
-    # parse arguments
-    if (is.null(pages)) {
-        pageIterator <- oe$extract()
-    } else {
-        pages <- as.integer(pages)
-        pageIterator <- oe$extract(make_pages(pages))
-    }
-    npages <- pdfDocument$getNumberOfPages()
-    area <- make_area(area = area, pages = pages, npages = npages, target = "tabula")
-    columns <- make_columns(columns = columns, pages = pages, npages = npages)
-
-    # setup extractors
-    basicExtractor <- new(J("technology.tabula.extractors.BasicExtractionAlgorithm"))
-    spreadsheetExtractor <- new(J("technology.tabula.extractors.SpreadsheetExtractionAlgorithm"))
-    if (method == "lattice") {
-      use <- method
-    }
-    else if (method == "stream") {
-      use <- method
-    }
-
-    tables <- new(J("java.util.ArrayList"))
-    p <- 1L # page number
-    while (.jcall(pageIterator, "Z", "hasNext")) {
-        page <- .jcall(pageIterator, "Ljava/lang/Object;", "next")
-
-        if (!is.null(area[[p]])) {
-            page <- page$getArea(area[[p]])
+      if (isTRUE(guess)) {
+        # detect table locations
+        detector <- new(J("technology.tabula.detectors.NurminenDetectionAlgorithm"))
+        guesses <- detector$detect(page)
+        guessesIterator <- guesses$iterator()
+        while (.jcall(guessesIterator, "Z", "hasNext")) {
+          guessRect <- .jcall(guessesIterator, "Ljava/lang/Object;", "next")
+          thisGuess <- page$getArea(guessRect)
+          tables$add(basicExtractor$extract(thisGuess))
+          rm(thisGuess)
         }
-
-        # decide whether to use spreadsheet or basic extractor
-        if (method == "decide") {
-            tabular <- spreadsheetExtractor$isTabular(page)
-            if (identical(FALSE, tabular)) {
-              use <- "stream"
-            } else {
-              use <- "lattice"
-            }
-        }
-        if (isTRUE(guess) && use == "lattice") {
-            tables$add(spreadsheetExtractor$extract(page))
+      } else {
+        if (is.null(columns[[p]])) {
+          tables$add(basicExtractor$extract(page))
         } else {
-            if (isTRUE(guess)) {
-                # detect table locations
-                detector <- new(J("technology.tabula.detectors.NurminenDetectionAlgorithm"))
-                guesses <- detector$detect(page)
-                guessesIterator <- guesses$iterator()
-                while (.jcall(guessesIterator, "Z", "hasNext")) {
-                    guessRect <- .jcall(guessesIterator, "Ljava/lang/Object;", "next")
-                    thisGuess <- page$getArea(guessRect)
-                    tables$add(basicExtractor$extract(thisGuess))
-                    rm(thisGuess)
-                }
-            } else {
-                if (is.null(columns[[p]])) {
-                    tables$add(basicExtractor$extract(page))
-                } else {
-                    tables$add(basicExtractor$extract(page, columns[[p]]))
-                }
-            }
+          tables$add(basicExtractor$extract(page, columns[[p]]))
         }
-
-        rm(page)
-        p <- p + 1L # iterate page number
+      }
     }
-    rm(p)
 
-    # return output
-    switch(tolower(output),
-           "csv" = write_csvs(tables, file = file, outdir = outdir, ...),
-           "tsv" = write_tsvs(tables, file = file, outdir = outdir, ...),
-           "json" = write_jsons(tables, file = file, outdir = outdir, ...),
-           "character" = list_characters(tables, encoding = encoding, ...),
-           "matrix" = list_matrices(tables, encoding = encoding, ...),
-           "data.frame" = list_data_frames(tables, encoding = encoding, ...),
-           "asis" = tables,
-           tables)
+    rm(page)
+    p <- p + 1L # iterate page number
+  }
+  rm(p)
+
+  # return output
+  switch(tolower(output),
+    "csv" = write_csvs(tables, file = file, outdir = outdir, ...),
+    "tsv" = write_tsvs(tables, file = file, outdir = outdir, ...),
+    "json" = write_jsons(tables, file = file, outdir = outdir, ...),
+    "character" = list_characters(tables, encoding = encoding, ...),
+    "matrix" = list_matrices(tables, encoding = encoding, ...),
+    "data.frame" = list_data_frames(tables, encoding = encoding, ...),
+    "asis" = tables,
+    tables
+  )
 }
