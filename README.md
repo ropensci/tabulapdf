@@ -156,21 +156,21 @@ In command prompt, install Chocolately if you don’t already have it:
 
     @powershell -NoProfile -ExecutionPolicy Bypass -Command "iex ((new-object net.webclient).DownloadString('https://chocolatey.org/install.ps1'))" && SET PATH=%PATH%;%ALLUSERSPROFILE%\chocolatey\bin
 
-Then, install java using Chocolately’s `choco install` command:
+Then, install java using the following command:
 
-    choco install jdk7 -y
+    choco install openjdk11
 
 You may also need to then set the `JAVA_HOME` environment variable to
 the path to your Java installation (e.g., `C:\Program
-Files\Java\jdk1.8.0_92`). This can be done:
+Files\Java\jdk-11\bin`). This can be done:
 
 1.  within R using `Sys.setenv(JAVA_HOME = "C:/Program
-    Files/Java/jdk1.8.0_92")` (note slashes), or
+    Files/Java/jdk-11/bin")` (note slashes), or
 2.  from command prompt using the `setx` command: `setx JAVA_HOME
-    C:\Program Files\Java\jdk1.8.0_92`, or
+    C:\Program Files\Java\jdk-11\bin`, or
 3.  from PowerShell, using the .NET framework:
     `[Environment]::SetEnvironmentVariable("JAVA_HOME", "C:\Program
-    Files\Java\jdk1.8.0_92", "User")`, or
+    Files\Java\jdk-11\bin", "User")`, or
 4.  from the Start Menu, via `Control Panel » System » Advanced »
     Environment Variables` ([instructions
     here](http://superuser.com/a/284351/221772)).
@@ -180,6 +180,12 @@ Note, however, that some users report that rather than setting this
 variable, they instead need to delete it (e.g., with
 `Sys.setenv(JAVA_HOME = "")`), so if the above instructions fail, that
 is the next step in troubleshooting.
+
+From PowerShell, you should see something like this after running `java
+-version`:
+
+    OpenJDK Runtime Environment (build 11.0.22+7-post-Ubuntu-0ubuntu222.04.1)
+    OpenJDK 64-Bit Server VM (build 11.0.22+7-post-Ubuntu-0ubuntu222.04.1, mixed mode, sharing)
 
 ### Troubleshooting
 
