@@ -1,4 +1,4 @@
-devtools::install()
+# devtools::install()
 
 library(tabulapdf)
 
