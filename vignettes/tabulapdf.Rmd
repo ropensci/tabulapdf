@@ -23,7 +23,7 @@ The `pages` argument allows you to select which pages to attempt to extract tabl
 It is possible to specify a remote file, which will be copied to R's temporary directory before processing:
 
 ```{r}
-f2 <- "https://github.com/ropensci/tabulapdf/raw/master/inst/examples/data.pdf"
+f2 <- "https://raw.githubusercontent.com/ropensci/tabulapdf/main/inst/examples/data.pdf"
 extract_tables(f2, pages = 2)
 ```
 
