@@ -7,10 +7,19 @@ vignette: >
   \usepackage[utf8]{inputenc}
 ---
 
-**tabulapdf** provides R bindings to the [Tabula java library](https://github.com/tabulapdf/tabula-java/), which can be used to computationally extract tables from PDF documents. The main function `extract_tables()` mimics the command-line behavior of the Tabula, by extracting all tables from a PDF file and, by default, returns those tables as a list of character matrices in R.
+**tabulapdf** provides R bindings to the
+[Tabula java library](https://github.com/tabulapdf/tabula-java/), which can be
+used to computationally extract tables from PDF documents. The main function
+`extract_tables()` mimics the command-line behavior of the Tabula, by extracting
+all tables from a PDF file and, by default, returns those tables as a list of
+character tibbles in R.
 
 ```{r}
 library("tabulapdf")
+
+# set Java memory limit to 600 MB (optional)
+options(java.parameters = "-Xmx600m")
+
 f <- system.file("examples", "data.pdf", package = "tabulapdf")
 
 # extract table from first page of example PDF
@@ -18,9 +27,13 @@ tab <- extract_tables(f, pages = 1)
 head(tab[[1]])
 ```
 
-The `pages` argument allows you to select which pages to attempt to extract tables from. By default, Tabula (and thus tabulapdf) checks every page for tables using a detection algorithm and returns all of them. `pages` can be an integer vector of any length; pages are indexed from 1.
+The `pages` argument allows you to select which pages to attempt to extract
+tables from. By default, Tabula (and thus tabulapdf) checks every page for
+tables using a detection algorithm and returns all of them. `pages` can be an
+integer vector of any length; pages are indexed from 1.
 
-It is possible to specify a remote file, which will be copied to R's temporary directory before processing:
+It is possible to specify a remote file, which will be copied to R's temporary
+directory before processing:
 
 ```{r}
 f2 <- "https://raw.githubusercontent.com/ropensci/tabulapdf/main/inst/examples/data.pdf"
@@ -57,58 +70,110 @@ extract_tables(f2, pages = 2, method = "lattice")
 extract_tables(f2, pages = 2, method = "stream")
 ```
 
-## Modifying the Return Value ##
+## Modifying the Return Value
 
-By default, `extract_tables()` returns a list of character matrices. This is because many tables might be malformed or irregular and thus not be easily coerced to an R data.frame. This can easily be changed by specifying the `output` argument:
+By default, `extract_tables()` returns a list of character tibbles. This is
+because many tables might be malformed or irregular and thus not be easily
+coerced to an R data.frame. This can easily be changed by specifying the
+`output` argument:
 
 ```{r}
 # attempt to coerce tables to data.frames
-extract_tables(f, pages = 2, output = "tibble")
+extract_tables(f, pages = 2)
 ```
 
-Tabula itself implements three "writer" methods that write extracted tables to disk as CSV, TSV, or JSON files. These can be specified by `output = "csv"`, `output = "tsv"`, and `output = "json"`, respectively. For CSV and TSV, one file is written to disk for each table and R session's temporary directory `tempdir()` is used by default (alternatively, the directory can be specified through `output` argument). For JSON, one file is written containing information about all tables. For these methods, `extract_tables()` returns a path to the directory containing the output files.
+Tabula itself implements three "writer" methods that write extracted tables to
+disk as CSV, TSV, or JSON files. These can be specified by `output = "csv"`,
+`output = "tsv"`, and `output = "json"`, respectively. For CSV and TSV, one file
+is written to disk for each table and R session's temporary directory
+`tempdir()` is used by default (alternatively, the directory can be specified
+through `output` argument). For JSON, one file is written containing information
+about all tables. For these methods, `extract_tables()` returns a path to the
+directory containing the output files.
 
 ```{r}
 # extract tables to CSVs
 extract_tables(f, output = "csv")
 ```
 
-If none of the standard methods works well, you can specify `output = "asis"` to return an rJava "jobjRef" object, which is a pointer to a Java ArrayList of Tabula Table objects. Working with that object might be quite awkward as it requires knowledge of Java and Tabula's internals, but might be useful to advanced users for debugging purposes.
+If none of the standard methods works well, you can specify `output = "asis"` to
+return an rJava "jobjRef" object, which is a pointer to a Java ArrayList of
+Tabula Table objects. Working with that object might be quite awkward as it
+requires knowledge of Java and Tabula's internals, but might be useful to
+advanced users for debugging purposes.
 
-## Extracting Areas ##
+## Extracting Areas
 
-By default, tabulapdf uses Tabula's table detection algorithm to automatically identify tables within each page of a PDF. This automatic detection can be toggled off by setting `guess = FALSE` and specifying an "area" within each PDF page to extract the table from. Here is a comparison of the default settings, versus extracting from two alternative areas within a page:
+By default, tabulapdf uses Tabula's table detection algorithm to automatically
+identify tables within each page of a PDF. This automatic detection can be
+toggled off by setting `guess = FALSE` and specifying an "area" within each PDF
+page to extract the table from. Here is a comparison of the default settings,
+versus extracting from two alternative areas within a page:
 
 ```{r}
-str(extract_tables(f, pages = 2, guess = TRUE, output = "tibble"))
-str(extract_tables(f, pages = 2, area = list(c(126, 149, 212, 462)), guess = FALSE, output = "tibble"))
-str(extract_tables(f, pages = 2, area = list(c(126, 284, 174, 417)), guess = FALSE, output = "tibble"))
+# this does not return the desired tables on page 2
+extract_tables(f, pages = 2, guess = TRUE)
 ```
 
-The `area` argument should be a list either of length 1 (to use the same area for each specified page) or equal to the number of pages specified. This also means that you can extract multiple areas from one page, but specifying the page twice and indicating the two areas separately:
+The `area` argument should be a list either of length 1 (to use the same area
+for each specified page) or equal to the number of pages specified. This also
+means that you can extract multiple areas from one page, but specifying the page
+twice and indicating the two areas separately:
 
 ```{r}
-a2 <- list(c(126, 149, 212, 462), c(126, 284, 174, 417))
-str(extract_tables(f, pages = c(2, 2), area = a2, guess = FALSE, output = "tibble"))
+# this returns the desired tables on page 2
+extract_tables(
+  f,
+  pages = c(2, 2),
+  area = list(c(58, 125, 182, 488), c(387, 125, 513, 492)),
+  guess = FALSE
+)
 ```
 
-## Interactive Table Extraction ##
+## Interactive Table Extraction
 
-In addition to the programmatic extraction offered by `extract_tables()`, it is also possible to work interactively with PDFs via the `extract_areas()` function. This function triggers a process by which each (specified) page of a PDF is converted to a PNG image file and then loaded as an R graphic. From there, you can use your mouse to specify upper-left and lower-right bounds of an area on each page. Pages are cycled through automatically and, after selecting areas for each page, those areas are extracted auto-magically (and the return value is the same as for `extract_tables()`). Here's a shot of it in action:
+In addition to the programmatic extraction offered by `extract_tables()`, it is
+also possible to work interactively with PDFs via the `extract_areas()`
+function. This function triggers a process by which each (specified) page of a
+PDF is converted to a PNG image file and then loaded as an R graphic. From
+there, you can use your mouse to specify upper-left and lower-right bounds of an
+area on each page. Pages are cycled through automatically and, after selecting
+areas for each page, those areas are extracted auto-magically (and the return
+value is the same as for `extract_tables()`).
 
-[![extract_areas()](http://i.imgur.com/USTyQl7.gif)](http://i.imgur.com/USTyQl7.gif)
+`locate_areas()` handles the area identification process without performing the
+extraction, which may be useful as a debugger, or simply to define areas to be
+used in a programmatic extraction.
 
-`locate_areas()` handles the area identification process without performing the extraction, which may be useful as a debugger, or simply to define areas to be used in a programmatic extraction.
+```{r}
+# same as the previous example
+# use locate_areas(f, pages = 2) to select the area in the web app
+# don't forget to click "done" when you're finished selecting areas
 
-## Miscellaneous Functionality ##
+# first_table <- locate_areas(f, pages = 2)
+# second_table <- locate_areas(f, pages = 2)
+first_table <- c(58.15032, 125.26869, 182.02355, 488.12966)
+second_table <- c(387.7791, 125.2687, 513.7519, 492.3246)
 
-Tabula is built on top of the [Java PDFBox library](https://pdfbox.apache.org/)), which provides low-level functionality for working with PDFs. A few of these tools are exposed through tabulapdf, as they might be useful for debugging or generally for working with PDFs. These functions include:
+extract_tables(f, pages = 2, area = list(first_table), guess = FALSE)
+extract_tables(f, pages = 2, area = list(second_table), guess = FALSE)
 
+# alternatively, use extract_areas(f, pages = 2) to do the same in less steps
+```
 
- - `extract_text()` converts the text of an entire file or specified pages into an R character vector.
+## Miscellaneous Functionality
+
+Tabula is built on top of the
+[Java PDFBox library](https://pdfbox.apache.org/)), which provides low-level
+functionality for working with PDFs. A few of these tools are exposed through
+tabulapdf, as they might be useful for debugging or generally for working with
+PDFs. These functions include:
+
+ - `extract_text()` converts the text of an entire file or specified pages into
+    an R character vector.
  - `split_pdf()` and `merge_pdfs()` split and merge PDF documents, respectively.
  - `extract_metadata()` extracts PDF metadata as a list.
  - `get_n_pages()` determines the number of pages in a document.
- - `get_page_dims()` determines the width and height of each page in pt (the unit used by `area` and `columns` arguments).
+ - `get_page_dims()` determines the width and height of each page in pt (the
+    unit used by `area` and `columns` arguments).
  - `make_thumbnails()` converts specified pages of a PDF file to image files.
-
