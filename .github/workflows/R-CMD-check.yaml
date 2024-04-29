@@ -48,7 +48,8 @@ jobs:
           key: ${{ runner.os }}-${{ hashFiles('.github/R-version') }}-1-${{ hashFiles('.github/depends.Rds') }}
           restore-keys: ${{ runner.os }}-${{ hashFiles('.github/R-version') }}-1-
 
-      - name: Install Quarto
+      - name: Install Quarto (Ubuntu)
+        if: runner.os == 'Linux'
         uses: quarto-dev/quarto-actions/setup@v2
         with:
           tinytex: true
