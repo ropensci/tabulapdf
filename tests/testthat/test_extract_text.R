@@ -5,28 +5,28 @@ sf <- system.file("examples", "text.pdf", package = "tabulapdf")
 test_that("Text can be extracted from the whole document", {
   txt <- extract_text(sf, encoding = "UTF-8")
   txt <- gsub("[\r\n]", " ", txt)
-  txt <- gsub("\\s$", "", txt)
+  txt <- gsub("\\s+$", "", txt)
   expect_identical(txt, "42 is the number from which the meaning of life, the universe, and everything can be derived. 42 is the number from which the meaning of life, the universe, and everything can be derived.")
 })
 
 test_that("'page' argument in extract_text works", {
   txt <- extract_text(sf, pages = 1, encoding = "UTF-8")
   txt <- gsub("[\r\n]", " ", txt)
-  txt <- gsub("\\s$", "", txt)
+  txt <- gsub("\\s+$", "", txt)
   expect_identical(txt, "42 is the number from which the meaning of life, the universe, and everything can be derived.")
 })
 
 test_that("'area' argument in extract_text works", {
   txt <- extract_text(sf, area = list(c(10, 15, 100, 550)), encoding = "UTF-8")
   txt <- gsub("[\r\n]", " ", txt)
-  txt <- gsub("\\s$", "", txt)
+  txt <- gsub("\\s+$", "", txt)
   expect_identical(txt[1], "42 is the number from which the meaning of life, the universe, and everything can be derived.")
 })
 
 test_that("'area' and 'page' arguments in extract_text work together", {
   txt <- extract_text(sf, pages = 1, area = list(c(10, 15, 100, 550)), encoding = "UTF-8")
   txt <- gsub("[\r\n]", " ", txt)
-  txt <- gsub("\\s$", "", txt)
+  txt <- gsub("\\s+$", "", txt)
   expect_identical(txt, "42 is the number from which the meaning of life, the universe, and everything can be derived.")
 })
 
@@ -39,7 +39,7 @@ test_that("Multiple pages with different areas can be extracted", {
     ), encoding = "UTF-8"
   )
   txt <- gsub("[\r\n]", " ", txt)
-  txt <- gsub("\\s$", "", txt)
+  txt <- gsub("\\s+$", "", txt)
 
   expect_identical(
     txt,
