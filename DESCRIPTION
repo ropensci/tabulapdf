@@ -1,6 +1,6 @@
 Package: tabulapdf
 Type: Package
-Title: Extract tables from PDF documents
+Title: Extract Tables from PDF Documents
 Version: 1.0.5-2
 Authors@R: c(person("Thomas J.", "Leeper",
                     role = "aut", 
@@ -24,7 +24,7 @@ Authors@R: c(person("Thomas J.", "Leeper",
                     comment = "rOpenSci reviewer"))
 Description: Bindings for the 'Tabula' <http://tabula.technology/> 'Java'
     library, which can extract tables from PDF documents.
-License: MIT + file LICENSE
+License: Apache License (>= 2)
 URL: https://docs.ropensci.org/tabulapdf (website)
     https://github.com/ropensci/tabulapdf
 BugReports: https://github.com/ropensci/tabulapdf/issues
