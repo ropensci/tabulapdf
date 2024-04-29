@@ -63,7 +63,7 @@ By default, `extract_tables()` returns a list of character matrices. This is bec
 
 ```{r}
 # attempt to coerce tables to data.frames
-extract_tables(f, pages = 2, output = "data.frame")
+extract_tables(f, pages = 2, output = "tibble")
 ```
 
 Tabula itself implements three "writer" methods that write extracted tables to disk as CSV, TSV, or JSON files. These can be specified by `output = "csv"`, `output = "tsv"`, and `output = "json"`, respectively. For CSV and TSV, one file is written to disk for each table and R session's temporary directory `tempdir()` is used by default (alternatively, the directory can be specified through `output` argument). For JSON, one file is written containing information about all tables. For these methods, `extract_tables()` returns a path to the directory containing the output files.
@@ -80,16 +80,16 @@ If none of the standard methods works well, you can specify `output = "asis"` to
 By default, tabulapdf uses Tabula's table detection algorithm to automatically identify tables within each page of a PDF. This automatic detection can be toggled off by setting `guess = FALSE` and specifying an "area" within each PDF page to extract the table from. Here is a comparison of the default settings, versus extracting from two alternative areas within a page:
 
 ```{r}
-str(extract_tables(f, pages = 2, guess = TRUE, output = "data.frame"))
-str(extract_tables(f, pages = 2, area = list(c(126, 149, 212, 462)), guess = FALSE, output = "data.frame"))
-str(extract_tables(f, pages = 2, area = list(c(126, 284, 174, 417)), guess = FALSE, output = "data.frame"))
+str(extract_tables(f, pages = 2, guess = TRUE, output = "tibble"))
+str(extract_tables(f, pages = 2, area = list(c(126, 149, 212, 462)), guess = FALSE, output = "tibble"))
+str(extract_tables(f, pages = 2, area = list(c(126, 284, 174, 417)), guess = FALSE, output = "tibble"))
 ```
 
 The `area` argument should be a list either of length 1 (to use the same area for each specified page) or equal to the number of pages specified. This also means that you can extract multiple areas from one page, but specifying the page twice and indicating the two areas separately:
 
 ```{r}
 a2 <- list(c(126, 149, 212, 462), c(126, 284, 174, 417))
-str(extract_tables(f, pages = c(2, 2), area = a2, guess = FALSE, output = "data.frame"))
+str(extract_tables(f, pages = c(2, 2), area = a2, guess = FALSE, output = "tibble"))
 ```
 
 ## Interactive Table Extraction ##

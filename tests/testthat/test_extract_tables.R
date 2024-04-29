@@ -5,7 +5,7 @@ sf <- system.file("examples", "data.pdf", package = "tabulapdf")
 test_that("It basically works", {
     tab1 <- extract_tables(sf)
     expect_true(is.list(tab1))
-    expect_true(is.matrix(tab1[[1]]))
+    expect_true(is.data.frame(tab1[[1]]))
 })
 
 test_that("Warning for ignored arguments", {
@@ -30,7 +30,7 @@ test_that("Import from remote file works", {
     tab2 <- extract_tables(f2)
     expect_true(is.list(tab2))
     expect_true(length(tab2) == 2)
-    expect_true(is.matrix(tab2[[1]]))
+    expect_true(is.data.frame(tab2[[1]]))
 })
 
 test_that("Import from remote non-Western file", {
@@ -38,18 +38,18 @@ test_that("Import from remote non-Western file", {
     tab3 <- extract_tables(f3)
     expect_true(is.list(tab3))
     expect_true(length(tab3) == 1)
-    expect_true(is.matrix(tab3[[1]]))
+    expect_true(is.data.frame(tab3[[1]]))
 })
 
 test_that("Test 'area' argument", {
     a4a <- list(c(122, 149, 536, 576))
-    tab4a <- extract_tables(sf, pages = 1, area = a4a, guess = FALSE, output = "data.frame")
+    tab4a <- extract_tables(sf, pages = 1, area = a4a, guess = FALSE, output = "tibble")
     expect_true(is.list(tab4a))
     expect_true(is.data.frame(tab4a[[1]]))
     expect_true(nrow(tab4a[[1]]) == 32)
     expect_true(ncol(tab4a[[1]]) == 12)
     a4b <- list(c(122, 149, 251, 464))
-    tab4b <- extract_tables(sf, pages = 1, area = a4b, guess = FALSE, output = "data.frame")
+    tab4b <- extract_tables(sf, pages = 1, area = a4b, guess = FALSE, output = "tibble")
     expect_true(is.list(tab4b))
     expect_true(is.data.frame(tab4b[[1]]))
     expect_true(nrow(tab4b[[1]]) == 9)
@@ -61,7 +61,7 @@ test_that("Test 'columns' argument", {
     expect_true(is.list(tab5))
     expect_true(length(tab5) == 1)
     expect_true(ncol(tab5[[1]]) == 2)
-    expect_true(nrow(tab5[[1]]) == 34)
+    expect_true(nrow(tab5[[1]]) == 33)
 })
 
 test_that("Extract from encrypted PDF", {
@@ -69,7 +69,7 @@ test_that("Extract from encrypted PDF", {
     expect_error(extract_tables(f6, password = "wrongpassword"))
     tab6 <- extract_tables(f6, password = "userpassword")
     expect_true(is.list(tab6))
-    expect_true(is.matrix(tab6[[1]]))
+    expect_true(is.data.frame(tab6[[1]]))
 })
 
 test_that("Test 'copy' argument", {

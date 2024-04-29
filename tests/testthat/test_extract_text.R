@@ -4,53 +4,39 @@ sf <- system.file("examples", "text.pdf", package = "tabulapdf")
 
 test_that("Text can be extracted from the whole document", {
   txt <- extract_text(sf, encoding = "UTF-8")
-  cite <- paste(format(citation(), style = "citation"), collapse = "")
-  striptxt <- gsub("[[:space:]+]", "", txt)
-  stripcite <- gsub("[[:space:]+]", "", cite)
-  expect_identical(nchar(striptxt), 2L * nchar(stripcite))
+  expect_identical(txt, "42 is the number from which the meaning of life, the universe, and everything can be derived.\n42 is the number from which the meaning of life, the universe, and everything can be derived.\n")
 })
 
 test_that("'page' argument in extract_text works", {
   txt <- extract_text(sf, pages = 1, encoding = "UTF-8")
-  cite <- paste(format(citation(), style = "citation"), collapse = "")
-  striptxt <- gsub("[[:space:]+]", "", txt)
-  stripcite <- gsub("[[:space:]+]", "", cite)
-  expect_identical(nchar(striptxt), nchar(stripcite))
+  expect_identical(txt, "42 is the number from which the meaning of life, the universe, and everything can be derived.\n")
 })
 
 test_that("'area' argument in extract_text works", {
-  txt <- extract_text(sf, area = list(c(209.4, 140.5, 304.2, 500.8)), encoding = "UTF-8")
-  txt <- paste(txt, collapse = "")
-  bibtex <- paste(as.character(toBibtex(citation())), collapse = "")
-  striptxt <- gsub("[[:space:]+]", "", txt)
-  stripbib <- gsub("[[:space:]+]", "", bibtex)
-  expect_identical(nchar(striptxt), 2L * nchar(stripbib))
+  txt <- extract_text(sf, area = list(c(10, 15, 100, 550)), encoding = "UTF-8")
+  expect_identical(txt[1], "42 is the number from which the meaning of life, the universe, and everything can be derived.\n")
 })
 
 test_that("'area' and 'page' arguments in extract_text work together", {
-  txt <- extract_text(sf, pages = 1, area = list(c(209.4, 140.5, 304.2, 500.8)), encoding = "UTF-8")
-  bibtex <- paste(as.character(toBibtex(citation())), collapse = "")
-  striptxt <- gsub("[[:space:]+]", "", txt)
-  stripbib <- gsub("[[:space:]+]", "", bibtex)
-  expect_identical(nchar(striptxt), nchar(stripbib))
+  txt <- extract_text(sf, pages = 1, area = list(c(10, 15, 100, 550)), encoding = "UTF-8")
+  expect_identical(txt, "42 is the number from which the meaning of life, the universe, and everything can be derived.\n")
 })
 
 test_that("Multiple pages with different areas can be extracted", {
   txt <- extract_text(sf,
     pages = c(1, 2),
     area = list(
-      c(124, 131, 341.6, 504.3),
-      c(209.4, 140.5, 304.2, 500.8)
+      c(10, 15, 100, 550),
+      c(10, 15, 100, 500)
     ), encoding = "UTF-8"
   )
-  txt <- paste(txt, collapse = "")
-  cite <- paste(format(citation(), style = "citation"), collapse = "")
-  bibtex <- paste(as.character(toBibtex(citation())), collapse = "")
-  striptxt <- gsub("[[:space:]+]", "", txt)
-  stripcite <- gsub("[[:space:]+]", "", cite)
-  stripbib <- gsub("[[:space:]+]", "", bibtex)
-  bothpages <- paste0(stripcite, stripbib)
-  expect_identical(nchar(striptxt), nchar(bothpages))
+  expect_identical(
+    txt,
+    c(
+      "42 is the number from which the meaning of life, the universe, and everything can be derived.\n",
+      "42 is the number from which the meaning of life, the universe, and everything can be deriv\n"
+    )
+  )
 })
 
 test_that("Test 'copy' argument", {

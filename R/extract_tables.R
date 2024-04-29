@@ -23,8 +23,8 @@
 #' @param \dots These are additional arguments passed to the internal functions dispatched by \code{method}.
 #' @details This function mimics the behavior of the Tabula command line utility. It returns a list of R character matrices containing tables extracted from a file by default. This response behavior can be changed by using the following options.
 #' \itemize{
+#'   \item \code{output = "tibble"} attempts to coerce the structure returned by \code{method = "character"} into a list of tibbles and returns character strings where this fails.
 #'   \item \code{output = "character"} returns a list of single-element character vectors, where each vector is a tab-delimited, line-separate string of concatenated table cells.
-#'   \item \code{output = "data.frame"} attempts to coerce the structure returned by \code{method = "character"} into a list of data.frames and returns character strings where this fails.
 #'   \item \code{output = "csv"} writes the tables to comma-separated (CSV) files using Tabula's CSVWriter method in the same directory as the original PDF. \code{method = "tsv"} does the same but with tab-separated (TSV) files using Tabula's TSVWriter and \code{method = "json"} does the same using Tabula's JSONWriter method. Any of these three methods return the path to the directory containing the extract table files.
 #'   \item \code{output = "asis"} returns the Java object reference, which can be useful for debugging or for writing a custom parser.
 #' }
@@ -49,11 +49,12 @@
 #' ## part of the table
 #' extract_tables(f, pages = 2, area = list(c(126, 284, 174, 417)))
 #'
-#' # return data.frames
-#' extract_tables(f, pages = 2, output = "data.frame")
+#' # return tibbles
+#' extract_tables(f, pages = 2, output = "tibble")
 #' }
 #' @seealso \code{\link{extract_areas}}, \code{\link{get_page_dims}}, \code{\link{make_thumbnails}}, \code{\link{split_pdf}}
-#' @importFrom utils read.delim download.file
+#' @importFrom utils download.file
+#' @importFrom readr read_delim
 #' @importFrom tools file_path_sans_ext
 #' @importFrom rJava J new .jfloat .jcall
 #' @export
@@ -64,7 +65,7 @@ extract_tables <- function(file,
                            guess = TRUE,
                            method = c("decide", "lattice", "stream"),
                            output = c(
-                             "matrix", "data.frame", "character",
+                             "tibble", "matrix", "character",
                              "asis", "csv", "tsv", "json"
                            ),
                            outdir = NULL,
@@ -160,7 +161,7 @@ extract_tables <- function(file,
     "json" = write_jsons(tables, file = file, outdir = outdir, ...),
     "character" = list_characters(tables, encoding = encoding, ...),
     "matrix" = list_matrices(tables, encoding = encoding, ...),
-    "data.frame" = list_data_frames(tables, encoding = encoding, ...),
+    "tibble" = list_data_frames(tables, encoding = encoding, ...),
     "asis" = tables,
     tables
   )

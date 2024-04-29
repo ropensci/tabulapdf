@@ -1,3 +1,9 @@
+# CHANGES TO tabulapdf 1.0.5-2
+
+* Uses readr for a much faster parsing of extracted tables.
+* The default output format is now a list of tibbles.
+* All tests pass.
+
 # CHANGES TO tabulapdf 1.0.5
 
 * Package renamed to `tabulapdf`

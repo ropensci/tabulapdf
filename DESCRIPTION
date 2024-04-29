@@ -1,7 +1,7 @@
 Package: tabulapdf
 Type: Package
 Title: Extract tables from PDF documents
-Version: 1.0.5
+Version: 1.0.5-2
 Authors@R: c(person("Thomas J.", "Leeper",
                     role = "aut", 
                     email = "thosjleeper@gmail.com",
@@ -30,6 +30,7 @@ URL: https://docs.ropensci.org/tabulapdf (website)
 BugReports: https://github.com/ropensci/tabulapdf/issues
 Imports:
     png,
+    readr,
     rJava,
     tools,
     utils

@@ -89,17 +89,17 @@ list_matrices <- function(tables, encoding = NULL, ...) {
     out
 }
 
-list_characters <- function(tables, sep = "\t", encoding = NULL, ...) {
+list_characters <- function(tables, delim = "\t", encoding = NULL, ...) {
     m <- list_matrices(tables, encoding = encoding, ...)
     lapply(m, function(x) {
-        paste0(apply(x, 1, paste, collapse = sep), collapse = "\n")
+        paste0(apply(x, 1, paste, collapse = delim), collapse = "\n")
     })
 }
 
-list_data_frames <- function(tables, sep = "\t", stringsAsFactors = FALSE, encoding = NULL, ...) {
-    char <- list_characters(tables = tables, sep = sep, encoding = encoding)
+list_data_frames <- function(tables, delim = "\t", encoding = NULL, ...) {
+    char <- list_characters(tables = tables, delim = delim, encoding = encoding)
     lapply(char, function(x) {
-        o <- try(read.delim(text = x, stringsAsFactors = stringsAsFactors, ...))
+        o <- try(read_delim(file = x, delim = delim))
         if (inherits(o, "try-error")) {
             return(x)
         } else {
