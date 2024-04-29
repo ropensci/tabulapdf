@@ -48,14 +48,14 @@ jobs:
           key: ${{ runner.os }}-${{ hashFiles('.github/R-version') }}-1-${{ hashFiles('.github/depends.Rds') }}
           restore-keys: ${{ runner.os }}-${{ hashFiles('.github/R-version') }}-1-
 
-      - name: Install Java
+      - name: Install Java (Ubuntu)
         if: runner.os == 'Linux'
         run: sudo apt-get install -y default-jre-headless
 
-      - name: Install Java
+      - name: Install Java (Windows)
         if: runner.os == 'Windows'
         run: |
-          choco install jre8 --no-progress -y
+          choco install openjdk11 --no-progress -y
           echo "JAVA_HOME=" >> $env:GITHUB_ENV
 
       - name: Install dependencies
