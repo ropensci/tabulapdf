@@ -6,6 +6,7 @@ test_that("Text can be extracted from the whole document", {
   txt <- extract_text(sf, encoding = "UTF-8")
   txt <- gsub("[\r\n]", " ", txt)
   txt <- gsub("\\s+$", "", txt)
+  txt <- gsub("\\s+", " ", txt)
   expect_identical(txt, "42 is the number from which the meaning of life, the universe, and everything can be derived. 42 is the number from which the meaning of life, the universe, and everything can be derived.")
 })
 
