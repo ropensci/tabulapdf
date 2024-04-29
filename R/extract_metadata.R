@@ -23,6 +23,18 @@ extract_metadata <- function(file, password = NULL, copy = FALSE) {
     on.exit(pdfDocument$close())
 
     info <- pdfDocument$getDocumentInformation()
+
+    info_creation_date <- info$getCreationDate()
+    info_modification_date <- info$getModificationDate()
+
+    if (!is.null(info_creation_date)) {
+        info_creation_date <- info_creation_date$getTime()$toString()
+    }
+
+    if (!is.null(info_modification_date)) {
+        info_modification_date <- info_modification_date$getTime()$toString()
+    }
+
     list(
         pages = pdfDocument$getNumberOfPages(),
         title = info$getTitle(),
@@ -31,8 +43,8 @@ extract_metadata <- function(file, password = NULL, copy = FALSE) {
         keywords = info$getKeywords(),
         creator = info$getCreator(),
         producer = info$getProducer(),
-        created = info$getCreationDate()$getTime()$toString(),
-        modified = info$getModificationDate()$getTime()$toString(),
+        created = info_creation_date,
+        modified = info_modification_date,
         trapped = info$getTrapped()
     )
 }

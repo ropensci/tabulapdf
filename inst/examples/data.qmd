@@ -1,0 +1,33 @@
+---
+format: pdf
+---
+
+\pagenumbering{gobble}
+
+```{r, echo=FALSE}
+library(xtable)
+library(datasets)
+options(xtable.comment = FALSE)
+```
+
+```{r, results="asis", echo=FALSE}
+print(xtable(mtcars, align = "|l|r|r|r|r|r|r|r|r|r|r|r|"), include.rownames = FALSE)
+```
+
+\clearpage
+
+```{r, results="asis", echo=FALSE}
+print(xtable(head(iris), align = "|l|r|r|r|r|r|"), include.rownames = FALSE)
+```
+
+\vspace{20em}
+
+```{r, results="asis", echo=FALSE}
+print(xtable(tail(iris), align = "|l|r|r|r|r|r|"), include.rownames = FALSE)
+```
+
+\clearpage
+
+```{r, results="asis", echo=FALSE}
+print(xtable(ToothGrowth[1:15, ], align = "|l|r|r|r|"), include.rownames = FALSE)
+```
