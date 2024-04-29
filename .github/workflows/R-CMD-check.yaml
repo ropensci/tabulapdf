@@ -56,7 +56,6 @@ jobs:
         if: runner.os == 'Windows'
         run: |
           choco install openjdk11 --no-progress -y
-          echo "JAVA_HOME=" >> $env:GITHUB_ENV
 
       - name: Install dependencies
         run: |
