@@ -96,10 +96,10 @@ list_characters <- function(tables, delim = "\t", encoding = NULL, ...) {
     })
 }
 
-list_data_frames <- function(tables, delim = "\t", encoding = NULL, ...) {
+list_tibbles <- function(tables, delim = "\t", encoding = NULL, col_names = TRUE, ...) {
     char <- list_characters(tables = tables, delim = delim, encoding = encoding)
     lapply(char, function(x) {
-        o <- try(read_delim(file = x, delim = delim, show_col_types = FALSE))
+        o <- try(read_delim(file = x, delim = delim, show_col_types = FALSE, col_names = col_names))
         if (inherits(o, "try-error")) {
             return(x)
         } else {

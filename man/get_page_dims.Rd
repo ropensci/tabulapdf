@@ -41,7 +41,7 @@ get_page_dims(f)
 }
 }
 \references{
-\href{http://tabula.technology/}{Tabula}
+\href{https://tabula.technology/}{Tabula}
 }
 \seealso{
 \code{\link{extract_tables}}, \code{\link{extract_text}}, \code{\link{make_thumbnails}}

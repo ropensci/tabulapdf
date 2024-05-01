@@ -10,7 +10,7 @@
 #' ignored if \code{file} is URL.
 #' @details \code{get_n_pages} returns the page length of a PDF document. \code{get_page_dims} extracts the dimensions of specified pages in a PDF document. This can be useful for figuring out how to specify the \code{area} argument in \code{\link{extract_tables}}
 #' @return For \code{get_n_pages}, an integer. For \code{get_page_dims}, a list of two-element numeric vectors specifying the width and height of each page, respectively.
-#' @references \href{http://tabula.technology/}{Tabula}
+#' @references \href{https://tabula.technology/}{Tabula}
 #' @author Thomas J. Leeper <thosjleeper@gmail.com>
 #' @examples
 #' \dontrun{

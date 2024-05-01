@@ -11,8 +11,8 @@ test_that("Make list of matrices", {
     t1 <- tabulapdf:::list_matrices(tabs)
     expect_true(is.list(t1))
     expect_true(is.matrix(t1[[1]]))
-    expect_true(ncol(t1[[1]]) == 11)
-    expect_true(nrow(t1[[1]]) == 33)
+    expect_true(ncol(t1[[1]]) == 12)
+    expect_true(nrow(t1[[1]]) == 6)
 })
 
 test_that("Make list of character vectors", {
@@ -21,8 +21,8 @@ test_that("Make list of character vectors", {
     expect_true(is.character(t2[[1]]))
 })
 
-test_that("Make list of data.frames", {
-    t3 <- tabulapdf:::list_data_frames(tabs)
+test_that("Make list of tibbles", {
+    t3 <- tabulapdf:::list_tibbles(tabs)
     expect_true(is.list(t3))
     expect_true(is.data.frame(t3[[1]]))
 })

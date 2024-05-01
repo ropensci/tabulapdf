@@ -22,12 +22,12 @@ Authors@R: c(person("Thomas J.", "Leeper",
              person("Lincoln", "Mullen",
                     role = "ctb",
                     comment = "rOpenSci reviewer"))
-Description: Bindings for the 'Tabula' <http://tabula.technology/> 'Java'
+Description: Bindings for the 'Tabula' <https://tabula.technology/> 'Java'
     library, which can extract tables from PDF documents.
 License: Apache License (>= 2)
-URL: https://docs.ropensci.org/tabulapdf (website)
-    https://github.com/ropensci/tabulapdf
-BugReports: https://github.com/ropensci/tabulapdf/issues
+URL: https://docs.ropensci.org/tabulapdf/ (website)
+    https://github.com/ropensci/tabulapdf/
+BugReports: https://github.com/ropensci/tabulapdf/issues/
 Imports:
     png,
     readr,

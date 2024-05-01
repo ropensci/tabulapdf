@@ -30,15 +30,15 @@ R session's temporary directory.
 
 # CHANGES TO tabulizer 0.2.0
 
-* Upgrade to PDFBox 2/Tabula 1.0.1 ([#48](https://github.com/ropensci/tabulizer/issues/48))
+* Upgrade to PDFBox 2/Tabula 1.0.1 ([#48](https://github.com/ropensci/tabulapdf/issues/48))
 * `method` argument is changed to `output` in `extract_tables()`.
 * New `method` argument reflects method of extraction as in Tabula command-line Java utility.
 * `extract_text()` accepts `area` as argument.
 
 # CHANGES TO tabulizer 0.1.24
 
-* Switch to using new document loading algorithm and localize all remote URLs. ([#40](https://github.com/ropensci/tabulizer/issues/40))
-* Removed kind of annoying message about overwriting a temporary file. ([#36](https://github.com/ropensci/tabulizer/issues/36))
+* Switch to using new document loading algorithm and localize all remote URLs. ([#40](https://github.com/ropensci/tabulapdf/issues/40))
+* Removed kind of annoying message about overwriting a temporary file. ([#36](https://github.com/ropensci/tabulapdf/issues/36))
 
 # CHANGES TO tabulizer 0.1.23
 

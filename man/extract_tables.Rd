@@ -9,6 +9,7 @@ extract_tables(
   pages = NULL,
   area = NULL,
   columns = NULL,
+  col_names = TRUE,
   guess = TRUE,
   method = c("decide", "lattice", "stream"),
   output = c("tibble", "matrix", "character", "asis", "csv", "tsv", "json"),
@@ -27,6 +28,8 @@ extract_tables(
 \item{area}{An optional list, of length equal to the number of pages specified, where each entry contains a four-element numeric vector of coordinates (top,left,bottom,right) containing the table for the corresponding page. As a convenience, a list of length 1 can be used to extract the same area from all (specified) pages. Only specify \code{area} or \code{columns}. Warning: \code{area} is ignored if \code{guess} is \code{TRUE}.}
 
 \item{columns}{An optional list, of length equal to the number of pages specified, where each entry contains a numeric vector of horizontal (x) coordinates separating columns of data for the corresponding page. As a convenience, a list of length 1 can be used to specify the same columns for all (specified) pages. Only specify \code{area} or \code{columns}. Warning: \code{columns} is ignored if \code{guess} is \code{TRUE}.}
+
+\item{col_names}{A logical indicating whether to include column names in the output tibbles. Default is \code{TRUE}.}
 
 \item{guess}{A logical indicating whether to guess the locations of tables on each page. If \code{FALSE}, \code{area} or \code{columns} must be specified; if \code{TRUE}, \code{area} and \code{columns} are ignored.}
 
@@ -91,7 +94,7 @@ extract_tables(f, pages = 2, output = "tibble")
 }
 }
 \references{
-\href{http://tabula.technology/}{Tabula}
+\href{https://tabula.technology/}{Tabula}
 }
 \seealso{
 \code{\link{extract_areas}}, \code{\link{get_page_dims}}, \code{\link{make_thumbnails}}, \code{\link{split_pdf}}

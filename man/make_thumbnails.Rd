@@ -60,7 +60,7 @@ make_thumbnails(f)
 }
 }
 \references{
-\href{http://tabula.technology/}{Tabula}
+\href{https://tabula.technology/}{Tabula}
 }
 \seealso{
 \code{\link{extract_tables}}, \code{\link{extract_text}},

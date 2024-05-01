@@ -2,8 +2,8 @@
 # tabulapdf: Extract tables from PDF documents <img src="man/figures/logo.svg" align="right" height="139" alt="" />
 
 [![R-CMD-check](https://github.com/ropensci/tabulapdf/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/ropensci/tabulapdf/actions/workflows/R-CMD-check.yaml)
-[![](https://badges.ropensci.org/42_status.svg)](https://github.com/ropensci/onboarding/issues/42)
-[![BuyMeACoffee](https://raw.githubusercontent.com/pachadotdev/buymeacoffee-badges/main/bmc-donate-yellow.svg)](https://www.buymeacoffee.com/pacha)
+[![](https://badges.ropensci.org/42_status.svg)](https://github.com/ropensci/software-review/issues/42)
+[![BuyMeACoffee](https://raw.githubusercontent.com/pachadotdev/buymeacoffee-badges/main/bmc-donate-yellow.svg)](https://buymeacoffee.com/pacha)
 
 **tabulapdf** provides R bindings to the [Tabula java
 library](https://github.com/tabulapdf/tabula-java/), which can be used

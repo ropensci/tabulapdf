@@ -20,7 +20,7 @@
 #' @note This may generate Java \dQuote{INFO} messages in the console,
 #' which can be safely ignored.
 #' @return A character vector of file paths.
-#' @references \href{http://tabula.technology/}{Tabula}
+#' @references \href{https://tabula.technology/}{Tabula}
 #' @author Thomas J. Leeper <thosjleeper@gmail.com>
 #' @examples
 #' \dontrun{

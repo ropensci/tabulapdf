@@ -4,6 +4,7 @@
 #' @param pages An optional integer vector specifying pages to extract from.
 #' @param area An optional list, of length equal to the number of pages specified, where each entry contains a four-element numeric vector of coordinates (top,left,bottom,right) containing the table for the corresponding page. As a convenience, a list of length 1 can be used to extract the same area from all (specified) pages. Only specify \code{area} or \code{columns}. Warning: \code{area} is ignored if \code{guess} is \code{TRUE}.
 #' @param columns An optional list, of length equal to the number of pages specified, where each entry contains a numeric vector of horizontal (x) coordinates separating columns of data for the corresponding page. As a convenience, a list of length 1 can be used to specify the same columns for all (specified) pages. Only specify \code{area} or \code{columns}. Warning: \code{columns} is ignored if \code{guess} is \code{TRUE}.
+#' @param col_names A logical indicating whether to include column names in the output tibbles. Default is \code{TRUE}.
 #' @param guess A logical indicating whether to guess the locations of tables on each page. If \code{FALSE}, \code{area} or \code{columns} must be specified; if \code{TRUE}, \code{area} and \code{columns} are ignored.
 #' @param method A string identifying the preferred method of table extraction.
 #' \itemize{
@@ -30,7 +31,7 @@
 #' }
 #' \code{\link{extract_areas}} implements this functionality in an interactive mode allowing the user to specify extraction areas for each page.
 #' @return By default, a list of character matrices. This can be changed by specifying an alternative value of \code{method} (see Details).
-#' @references \href{http://tabula.technology/}{Tabula}
+#' @references \href{https://tabula.technology/}{Tabula}
 #' @author Thomas J. Leeper <thosjleeper@gmail.com>, Tom Paskhalis <tpaskhalis@gmail.com>
 #' @examples
 #' \dontrun{
@@ -62,6 +63,7 @@ extract_tables <- function(file,
                            pages = NULL,
                            area = NULL,
                            columns = NULL,
+                           col_names = TRUE,
                            guess = TRUE,
                            method = c("decide", "lattice", "stream"),
                            output = c(
@@ -161,7 +163,7 @@ extract_tables <- function(file,
     "json" = write_jsons(tables, file = file, outdir = outdir, ...),
     "character" = list_characters(tables, encoding = encoding, ...),
     "matrix" = list_matrices(tables, encoding = encoding, ...),
-    "tibble" = list_data_frames(tables, encoding = encoding, ...),
+    "tibble" = list_tibbles(tables, encoding = encoding, col_names = col_names, ...),
     "asis" = tables,
     tables
   )

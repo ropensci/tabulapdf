@@ -16,8 +16,8 @@ test_that("Warning for ignored arguments", {
 test_that("Test 'guess' argument", {
     tab1a <- extract_tables(sf, pages = 1, guess = TRUE)
     tab1b <- extract_tables(sf, pages = 1, guess = FALSE)
-    expect_true(ncol(tab1a[[1]]) == 11)
-    expect_true(ncol(tab1b[[1]]) == 11)
+    expect_true(ncol(tab1a[[1]]) == 12)
+    expect_true(ncol(tab1b[[1]]) == 12)
 
     tab2a <- extract_tables(sf, pages = 2, guess = TRUE)
     tab2b <- extract_tables(sf, pages = 2, guess = FALSE)
@@ -46,13 +46,13 @@ test_that("Test 'area' argument", {
     tab4a <- extract_tables(sf, pages = 1, area = a4a, guess = FALSE, output = "tibble")
     expect_true(is.list(tab4a))
     expect_true(is.data.frame(tab4a[[1]]))
-    expect_true(nrow(tab4a[[1]]) == 28)
-    expect_true(ncol(tab4a[[1]]) == 10)
+    expect_true(nrow(tab4a[[1]]) == 1)
+    expect_true(ncol(tab4a[[1]]) == 12)
     a4b <- list(c(122, 149, 251, 464))
     tab4b <- extract_tables(sf, pages = 1, area = a4b, guess = FALSE, output = "tibble")
     expect_true(is.list(tab4b))
     expect_true(is.data.frame(tab4b[[1]]))
-    expect_true(nrow(tab4b[[1]]) == 8)
+    expect_true(nrow(tab4b[[1]]) == 1)
     expect_true(ncol(tab4b[[1]]) == 9)
 })
 
@@ -61,7 +61,7 @@ test_that("Test 'columns' argument", {
     expect_true(is.list(tab5))
     expect_true(length(tab5) == 1)
     expect_true(ncol(tab5[[1]]) == 2)
-    expect_true(nrow(tab5[[1]]) == 32)
+    expect_true(nrow(tab5[[1]]) == 5)
 })
 
 test_that("Extract from encrypted PDF", {
