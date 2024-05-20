@@ -73,25 +73,11 @@ This function mimics the behavior of the Tabula command line utility. It returns
 \code{\link{extract_areas}} implements this functionality in an interactive mode allowing the user to specify extraction areas for each page.
 }
 \examples{
-\dontrun{
 # simple demo file
-f <- system.file("examples", "data.pdf", package = "tabulapdf")
-
-# extract all tables
-extract_tables(f)
+f <- system.file("examples", "mtcars.pdf", package = "tabulapdf")
 
 # extract tables from only second page
 extract_tables(f, pages = 2)
-
-# extract areas from a page
-## full table
-extract_tables(f, pages = 2, area = list(c(126, 149, 212, 462)))
-## part of the table
-extract_tables(f, pages = 2, area = list(c(126, 284, 174, 417)))
-
-# return tibbles
-extract_tables(f, pages = 2, output = "tibble")
-}
 }
 \references{
 \href{https://tabula.technology/}{Tabula}

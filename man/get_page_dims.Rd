@@ -32,13 +32,11 @@ Get Page Length and Dimensions
 \code{get_n_pages} returns the page length of a PDF document. \code{get_page_dims} extracts the dimensions of specified pages in a PDF document. This can be useful for figuring out how to specify the \code{area} argument in \code{\link{extract_tables}}
 }
 \examples{
-\dontrun{
 # simple demo file
-f <- system.file("examples", "data.pdf", package = "tabulapdf")
+f <- system.file("examples", "mtcars.pdf", package = "tabulapdf")
 
 get_n_pages(file = f)
 get_page_dims(f)
-}
 }
 \references{
 \href{https://tabula.technology/}{Tabula}

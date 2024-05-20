@@ -48,8 +48,8 @@ command line application:
 ``` r
 library(tabulapdf)
 f <- system.file("examples", "data.pdf", package = "tabulapdf")
-out1 <- extract_tables(f)
-out1[[1]]
+out <- extract_tables(f)
+out[[1]]
 
 # # A tibble: 32 × 11
 #      mpg   cyl  disp    hp  drat    wt  qsec    vs    am  gear  carb
@@ -68,94 +68,8 @@ out1[[1]]
 # # ℹ Use `print(n = ...)` to see more rows
 ```
 
-By default, it returns a list of tibbles. It can also write the tables
-to disk or attempt to coerce them to a list of matrices using the
-`output` argument. It is also possible to select tables from only
-specified pages using the `pages` argument.
-
-``` r
-out2 <- extract_tables(f, pages = 1, guess = FALSE, output = "tibble")
-out2[[1]]
-
-# # A tibble: 32 × 11
-#      mpg   cyl  disp    hp  drat    wt  qsec    vs    am  gear  carb
-#    <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl>
-#  1  21       6  160    110  3.9   2.62  16.5     0     1     4     4
-#  2  21       6  160    110  3.9   2.88  17.0     0     1     4     4
-#  3  22.8     4  108     93  3.85  2.32  18.6     1     1     4     1
-#  4  21.4     6  258    110  3.08  3.21  19.4     1     0     3     1
-#  5  18.7     8  360    175  3.15  3.44  17.0     0     0     3     2
-#  6  18.1     6  225    105  2.76  3.46  20.2     1     0     3     1
-#  7  14.3     8  360    245  3.21  3.57  15.8     0     0     3     4
-#  8  24.4     4  147.    62  3.69  3.19  20       1     0     4     2
-#  9  22.8     4  141.    95  3.92  3.15  22.9     1     0     4     2
-# 10  19.2     6  168.   123  3.92  3.44  18.3     1     0     4     4
-# # ℹ 22 more rows
-# # ℹ Use `print(n = ...)` to see more rows
-```
-
-It is also possible to manually specify smaller areas within pages to
-look for tables using the `area` and `columns` arguments to
-`extract_tables()`. This facilitates extraction from smaller portions of
-a page, such as when a table is embeded in a larger section of text or
-graphics.
-
-Another function, `extract_areas()` implements this through an
-interactive style in which each page of the PDF is loaded as an R
-graphic and the user can use their mouse to specify upper-left and
-lower-right bounds of an area. Those areas are then extracted
-auto-magically (and the return value is the same as for
-`extract_tables()`). Here’s a shot of it in action:
-
-![extract\_areas()](https://i.imgur.com/USTyQl7.gif)
-
-`locate_areas()` handles the area identification process without
-performing the extraction, which may be useful as a debugger.
-
-`extract_text()` simply returns text, possibly separately for each
-(specified) page:
-
-``` r
-out3 <- extract_text(f, page = 3)
-cat(out3, sep = "\n")
-
-# len supp dose
-# 4.20 VC 0.50
-# 11.50 VC 0.50
-# 7.30 VC 0.50
-# 5.80 VC 0.50
-# 6.40 VC 0.50
-# 10.00 VC 0.50
-# 11.20 VC 0.50
-# 11.20 VC 0.50
-# 5.20 VC 0.50
-# 7.00 VC 0.50
-# 16.50 VC 1.00
-# 16.50 VC 1.00
-# 15.20 VC 1.00
-# 17.30 VC 1.00
-# 22.50 VC 1.00
-```
-
-Note that for large PDF files, it is possible to run up against Java
-memory constraints, leading to a `java.lang.OutOfMemoryError: Java heap
-space` error message. Memory can be increased using
-`options(java.parameters = "-Xmx16000m")` set to some reasonable amount
-of memory.
-
-Some other utility functions are also provided (and made possible by the
-Java [Apache PDFBox library](https://pdfbox.apache.org/)):
-
-  - `extract_text()` converts the text of an entire file or specified
-    pages into an R character vector.
-  - `split_pdf()` and `merge_pdfs()` split and merge PDF documents,
-    respectively.
-  - `extract_metadata()` extracts PDF metadata as a list.
-  - `get_n_pages()` determines the number of pages in a document.
-  - `get_page_dims()` determines the width and height of each page in pt
-    (the unit used by `area` and `columns` arguments).
-  - `make_thumbnails()` converts specified pages of a PDF file to image
-    files.
+The vignette provides more examples and details on how to use the
+package.
 
 ## Installing Java on Windows with Chocolatey
 
@@ -207,4 +121,4 @@ launching R (again, from the right-click context menu).
     `citation(package = 'tabulapdf')`
   - License: Apache
 
-[![rofooter](http://ropensci.org/public_images/github_footer.png)](http://ropensci.org)
+[![rofooter](https://ropensci.org/public_images/github_footer.png)](https://ropensci.org)

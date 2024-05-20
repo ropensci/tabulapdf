@@ -52,12 +52,10 @@ This may generate Java \dQuote{INFO} messages in the console,
 which can be safely ignored.
 }
 \examples{
-\dontrun{
 # simple demo file
-f <- system.file("examples", "data.pdf", package = "tabulapdf")
+f <- system.file("examples", "mtcars.pdf", package = "tabulapdf")
 
 make_thumbnails(f)
-}
 }
 \references{
 \href{https://tabula.technology/}{Tabula}

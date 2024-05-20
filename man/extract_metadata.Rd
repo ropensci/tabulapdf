@@ -25,12 +25,10 @@ Extract metadata from a file
 This function extracts metadata from a PDF
 }
 \examples{
-\dontrun{
 # simple demo file
-f <- system.file("examples", "data.pdf", package = "tabulapdf")
+f <- system.file("examples", "mtcars.pdf", package = "tabulapdf")
 
 extract_metadata(f)
-}
 }
 \seealso{
 \code{\link{extract_tables}}, \code{\link{extract_areas}}, \code{\link{extract_text}}, \code{\link{split_pdf}}

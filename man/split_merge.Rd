@@ -44,9 +44,8 @@ separate one-page doucments. \code{\link{merge_pdfs}} creates a single PDF
 document from multiple separate PDF files.
 }
 \examples{
-\dontrun{
 # simple demo file
-f <- system.file("examples", "data.pdf", package = "tabulapdf")
+f <- system.file("examples", "mtcars.pdf", package = "tabulapdf")
 get_n_pages(file = f)
 
 # split PDF by page
@@ -56,7 +55,6 @@ sf <- split_pdf(f)
 mf <- file.path(tempdir(), "merged.pdf")
 merge_pdfs(sf, mf)
 get_n_pages(mf)
-}
 }
 \seealso{
 \code{\link{extract_areas}}, \code{\link{get_page_dims}},

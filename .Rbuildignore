@@ -14,8 +14,6 @@ ignore/*
 ^codecov\.yml$
 ^dev$
 ^README\.html$
-^inst/examples/data\.qmd$
-^inst/examples/text\.qmd$
 ^LICENSE\.md$
 ^install\.ps1$
 ^article$

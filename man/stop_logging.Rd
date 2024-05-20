@@ -19,9 +19,7 @@ This function turns off the somewhat verbose rJava logging, most of which is uni
 This resets a global Java setting and may affect logging of other rJava operations, requiring a restart of R.
 }
 \examples{
-\dontrun{
 stop_logging()
-}
 }
 \author{
 Thomas J. Leeper <thosjleeper@gmail.com>

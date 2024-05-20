@@ -1,3 +1,3 @@
 .onAttach <- function(libname, pkgname) {
-    stop_logging()
+  stop_logging()
 }

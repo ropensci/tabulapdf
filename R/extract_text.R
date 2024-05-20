@@ -12,9 +12,8 @@
 #' @return If \code{pages = NULL} (the default), a length 1 character vector, otherwise a vector of length \code{length(pages)}.
 #' @author Thomas J. Leeper <thosjleeper@gmail.com>
 #' @examples
-#' \dontrun{
 #' # simple demo file
-#' f <- system.file("examples", "text.pdf", package = "tabulapdf")
+#' f <- system.file("examples", "fortytwo.pdf", package = "tabulapdf")
 #'
 #' # extract all text
 #' extract_text(f)
@@ -24,7 +23,6 @@
 #'
 #' # extract text from selected area only
 #' extract_text(f, area = list(c(209.4, 140.5, 304.2, 500.8)))
-#' }
 #' @seealso \code{\link{extract_tables}}, \code{\link{extract_areas}}, \code{\link{split_pdf}}
 #' @importFrom rJava J new
 #' @export

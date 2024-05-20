@@ -34,25 +34,11 @@
 #' @references \href{https://tabula.technology/}{Tabula}
 #' @author Thomas J. Leeper <thosjleeper@gmail.com>, Tom Paskhalis <tpaskhalis@gmail.com>
 #' @examples
-#' \dontrun{
 #' # simple demo file
-#' f <- system.file("examples", "data.pdf", package = "tabulapdf")
-#'
-#' # extract all tables
-#' extract_tables(f)
+#' f <- system.file("examples", "mtcars.pdf", package = "tabulapdf")
 #'
 #' # extract tables from only second page
 #' extract_tables(f, pages = 2)
-#'
-#' # extract areas from a page
-#' ## full table
-#' extract_tables(f, pages = 2, area = list(c(126, 149, 212, 462)))
-#' ## part of the table
-#' extract_tables(f, pages = 2, area = list(c(126, 284, 174, 417)))
-#'
-#' # return tibbles
-#' extract_tables(f, pages = 2, output = "tibble")
-#' }
 #' @seealso \code{\link{extract_areas}}, \code{\link{get_page_dims}}, \code{\link{make_thumbnails}}, \code{\link{split_pdf}}
 #' @importFrom utils download.file
 #' @importFrom readr read_delim

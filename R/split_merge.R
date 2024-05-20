@@ -24,9 +24,8 @@
 #' \code{merge_pdfs}, the value of \code{outfile}.
 #' @author Thomas J. Leeper <thosjleeper@gmail.com>
 #' @examples
-#' \dontrun{
 #' # simple demo file
-#' f <- system.file("examples", "data.pdf", package = "tabulapdf")
+#' f <- system.file("examples", "mtcars.pdf", package = "tabulapdf")
 #' get_n_pages(file = f)
 #'
 #' # split PDF by page
@@ -36,7 +35,6 @@
 #' mf <- file.path(tempdir(), "merged.pdf")
 #' merge_pdfs(sf, mf)
 #' get_n_pages(mf)
-#' }
 #' @seealso \code{\link{extract_areas}}, \code{\link{get_page_dims}},
 #' \code{\link{make_thumbnails}}
 #' @importFrom rJava J new
@@ -46,39 +44,39 @@ split_pdf <- function(file,
                       outdir = NULL,
                       password = NULL,
                       copy = FALSE) {
-    file <- localize_file(file, copy = copy)
-    pdfDocument <- load_doc(file, password = password)
-    on.exit(pdfDocument$close())
-    splitter <- new(J("org.apache.pdfbox.multipdf.Splitter"))
-    splitArray <- splitter$split(pdfDocument)
-    iterator <- splitArray$iterator()
-    p <- 1L
+  file <- localize_file(file, copy = copy)
+  pdfDocument <- load_doc(file, password = password)
+  on.exit(pdfDocument$close())
+  splitter <- new(J("org.apache.pdfbox.multipdf.Splitter"))
+  splitArray <- splitter$split(pdfDocument)
+  iterator <- splitArray$iterator()
+  p <- 1L
 
-    fileseq <- formatC(1:splitArray$size(), width = nchar(splitArray$size()), flag = 0)
-    if (is.null(outdir)) {
-        outdir <- tempdir()
-    }
-    filename <- paste0(file_path_sans_ext(basename(file)), fileseq, ".pdf")
-    outfile <- normalizePath(file.path(outdir, filename), mustWork = FALSE)
+  fileseq <- formatC(1:splitArray$size(), width = nchar(splitArray$size()), flag = 0)
+  if (is.null(outdir)) {
+    outdir <- tempdir()
+  }
+  filename <- paste0(file_path_sans_ext(basename(file)), fileseq, ".pdf")
+  outfile <- normalizePath(file.path(outdir, filename), mustWork = FALSE)
 
-    while (.jcall(iterator, "Z", "hasNext")) {
-        doc <- .jcall(iterator, "Ljava/lang/Object;", "next")
-        doc$save(outfile[p])
-        doc$close()
-        p <- p + 1L
-        rm(doc)
-    }
-    outfile
+  while (.jcall(iterator, "Z", "hasNext")) {
+    doc <- .jcall(iterator, "Ljava/lang/Object;", "next")
+    doc$save(outfile[p])
+    doc$close()
+    p <- p + 1L
+    rm(doc)
+  }
+  outfile
 }
 
 #' @rdname split_merge
 #' @export
 merge_pdfs <- function(file, outfile, copy = FALSE) {
-    outfile <- normalizePath(outfile, mustWork = FALSE)
-    file <- unlist(lapply(file, localize_file, copy = copy))
-    merger <- new(J("org.apache.pdfbox.multipdf.PDFMergerUtility"))
-    merger$setDestinationFileName(outfile)
-    lapply(file, merger$addSource)
-    merger$mergeDocuments()
-    outfile
+  outfile <- normalizePath(outfile, mustWork = FALSE)
+  file <- unlist(lapply(file, localize_file, copy = copy))
+  merger <- new(J("org.apache.pdfbox.multipdf.PDFMergerUtility"))
+  merger$setDestinationFileName(outfile)
+  lapply(file, merger$addSource)
+  merger$mergeDocuments()
+  outfile
 }

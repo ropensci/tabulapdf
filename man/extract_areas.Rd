@@ -52,18 +52,18 @@ In \emph{reduced functionality mode} (where \code{widget = "reduced"} or on plat
 In any of these modes, after the areas are selected, \code{extract_areas} passes these user-defined areas to \code{\link{extract_tables}}. \code{locate_areas} implements the interactive component only, without actually extracting; this might be useful for interactive work that needs some modification before executing \code{extract_tables} computationally.
 }
 \examples{
-\dontrun{
-# simple demo file
-f <- system.file("examples", "data.pdf", package = "tabulapdf")
+if (interactive()) {
+  # simple demo file
+  f <- system.file("examples", "mtcars.pdf", package = "tabulapdf")
 
-# locate areas only, using Shiny app
-locate_areas(f)
+  # locate areas only, using Shiny app
+  locate_areas(f)
 
-# locate areas only, using native graphics device
-locate_areas(f, widget = "shiny")
+  # locate areas only, using native graphics device
+  locate_areas(f, widget = "shiny")
 
-# locate areas and extract
-extract_areas(f)
+  # locate areas and extract
+  extract_areas(f)
 }
 }
 \seealso{

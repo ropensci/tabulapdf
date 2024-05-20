@@ -24,18 +24,18 @@
 #' @return For \code{extract_areas}, see \code{\link{extract_tables}}. For \code{locate_areas}, a list of four-element numeric vectors (top,left,bottom,right), one per page of the file.
 #' @author Thomas J. Leeper <thosjleeper@gmail.com>
 #' @examples
-#' \dontrun{
-#' # simple demo file
-#' f <- system.file("examples", "data.pdf", package = "tabulapdf")
+#' if (interactive()) {
+#'   # simple demo file
+#'   f <- system.file("examples", "mtcars.pdf", package = "tabulapdf")
 #'
-#' # locate areas only, using Shiny app
-#' locate_areas(f)
+#'   # locate areas only, using Shiny app
+#'   locate_areas(f)
 #'
-#' # locate areas only, using native graphics device
-#' locate_areas(f, widget = "shiny")
+#'   # locate areas only, using native graphics device
+#'   locate_areas(f, widget = "shiny")
 #'
-#' # locate areas and extract
-#' extract_areas(f)
+#'   # locate areas and extract
+#'   extract_areas(f)
 #' }
 #' @seealso \code{\link{extract_tables}}, \code{\link{make_thumbnails}}, , \code{\link{get_page_dims}}
 #' @importFrom tools file_path_sans_ext
@@ -49,62 +49,62 @@ locate_areas <- function(file,
                          resolution = 60L,
                          widget = c("shiny", "native", "reduced"),
                          copy = FALSE) {
-    if (!interactive()) {
-        stop("locate_areas() is only available in an interactive session")
-    } else {
-        requireNamespace("graphics")
-        requireNamespace("grDevices")
-    }
+  if (!interactive()) {
+    stop("locate_areas() is only available in an interactive session")
+  } else {
+    requireNamespace("graphics")
+    requireNamespace("grDevices")
+  }
 
-    file <- localize_file(file, copy = copy)
-    # on.exit(unlink(file), add = TRUE)
-    dims <- get_page_dims(file, pages = pages)
-    paths <- make_thumbnails(file,
-        outdir = tempdir(),
-        pages = pages,
-        format = "png",
-        resolution = resolution
-    )
-    on.exit(unlink(paths), add = TRUE)
+  file <- localize_file(file, copy = copy)
+  # on.exit(unlink(file), add = TRUE)
+  dims <- get_page_dims(file, pages = pages)
+  paths <- make_thumbnails(file,
+    outdir = tempdir(),
+    pages = pages,
+    format = "png",
+    resolution = resolution
+  )
+  on.exit(unlink(paths), add = TRUE)
 
-    areas <- rep(list(NULL), length(paths))
-    i <- 1
-    warnThisTime <- TRUE
-    while (TRUE) {
-        if (!is.na(paths[i])) {
-            a <- try_area(
-                file = paths[i],
-                dims = dims[[i]],
-                area = areas[[i]],
-                warn = warnThisTime,
-                widget = match.arg(widget)
-            )
-            warnThisTime <- FALSE
-            if (!is.null(a[["area"]])) {
-                areas[[i]] <- a[["area"]]
-            }
-            if (tolower(a[["key"]]) %in% c("del", "delete", "ctrl-h")) {
-                areas[i] <- list(NULL)
-                next
-            } else if (tolower(a[["key"]]) %in% c("home")) {
-                i <- 1
-                next
-            } else if (tolower(a[["key"]]) %in% c("end")) {
-                i <- length(paths)
-                next
-            } else if (tolower(a[["key"]]) %in% c("pgup", "page_up", "up", "left")) {
-                i <- if (i == 1) 1 else i - 1
-                next
-            } else if (tolower(a[["key"]]) %in% c("q")) {
-                break
-            }
-        }
-        i <- i + 1
-        if (i > length(paths)) {
-            break
-        }
+  areas <- rep(list(NULL), length(paths))
+  i <- 1
+  warnThisTime <- TRUE
+  while (TRUE) {
+    if (!is.na(paths[i])) {
+      a <- try_area(
+        file = paths[i],
+        dims = dims[[i]],
+        area = areas[[i]],
+        warn = warnThisTime,
+        widget = match.arg(widget)
+      )
+      warnThisTime <- FALSE
+      if (!is.null(a[["area"]])) {
+        areas[[i]] <- a[["area"]]
+      }
+      if (tolower(a[["key"]]) %in% c("del", "delete", "ctrl-h")) {
+        areas[i] <- list(NULL)
+        next
+      } else if (tolower(a[["key"]]) %in% c("home")) {
+        i <- 1
+        next
+      } else if (tolower(a[["key"]]) %in% c("end")) {
+        i <- length(paths)
+        next
+      } else if (tolower(a[["key"]]) %in% c("pgup", "page_up", "up", "left")) {
+        i <- if (i == 1) 1 else i - 1
+        next
+      } else if (tolower(a[["key"]]) %in% c("q")) {
+        break
+      }
     }
-    return(areas)
+    i <- i + 1
+    if (i > length(paths)) {
+      break
+    }
+  }
+  return(areas)
 }
 
 #' @rdname extract_areas
@@ -114,25 +114,25 @@ extract_areas <- function(file,
                           guess = FALSE,
                           copy = FALSE,
                           ...) {
-    areas <- locate_areas(file = file, pages = pages, copy = copy)
-    extract_tables(
-        file = file,
-        pages = pages,
-        area = areas,
-        guess = guess,
-        ...
-    )
+  areas <- locate_areas(file = file, pages = pages, copy = copy)
+  extract_tables(
+    file = file,
+    pages = pages,
+    area = areas,
+    guess = guess,
+    ...
+  )
 }
 
 try_area <- function(file, dims, area = NULL, warn = FALSE, widget = c("shiny", "native", "reduced")) {
-    widget <- match.arg(widget)
-    if (widget == "shiny") {
-        try_area_shiny(file = file, dims = dims, area = area)
+  widget <- match.arg(widget)
+  if (widget == "shiny") {
+    try_area_shiny(file = file, dims = dims, area = area)
+  } else {
+    if (widget == "reduced" || !length(grDevices::dev.capabilities()[["events"]])) {
+      try_area_reduced(file = file, dims = dims, area = area, warn = warn)
     } else {
-        if (widget == "reduced" || !length(grDevices::dev.capabilities()[["events"]])) {
-            try_area_reduced(file = file, dims = dims, area = area, warn = warn)
-        } else {
-            try_area_full(file = file, dims = dims, area = area)
-        }
+      try_area_full(file = file, dims = dims, area = area)
     }
+  }
 }

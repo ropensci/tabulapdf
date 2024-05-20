@@ -1,29 +1,35 @@
 Package: tabulapdf
 Type: Package
 Title: Extract Tables from PDF Documents
-Version: 1.0.5-2
-Authors@R: c(person("Thomas J.", "Leeper",
-                    role = "aut", 
-                    email = "thosjleeper@gmail.com",
-                    comment = c(ORCID = "0000-0003-4097-6326")),
-             person("Mauricio", "Vargas Sepulveda",
-                    role = c("aut","cre"), 
-                    email = "m.sepulveda@mail.utoronto.ca", 
-                    comment = c(ORCID = "0000-0003-1017-7574")),
-             person("Tom", "Paskhalis",
-                    role = "aut",
-                    email = "tpaskhalis@gmail.com",
-                    comment = c(ORCID = "0000-0001-9298-8850")),
-             person("Manuel", "Aristaran",
-                    role = "ctb"),
-             person("David", "Gohel",
-                    role = "ctb",
-                    comment = "rOpenSci reviewer"),
-             person("Lincoln", "Mullen",
-                    role = "ctb",
-                    comment = "rOpenSci reviewer"))
 Description: Bindings for the 'Tabula' <https://tabula.technology/> 'Java'
-    library, which can extract tables from PDF documents.
+    library, which can extract tables from PDF files. This tool can reduce time
+    and effort in data extraction processes in fields like investigative
+    journalism. It allows for automatic and manual table extraction, the latter
+    facilitated through a 'Shiny' interface, enabling manual areas selection\
+    with a computer mouse for data retrieval.
+Version: 1.0.5-2
+Authors@R: c(
+    person("Thomas J.", "Leeper",
+            role = "aut", 
+            email = "thosjleeper@gmail.com",
+            comment = c(ORCID = "0000-0003-4097-6326")),
+    person("Mauricio", "Vargas Sepulveda",
+            role = c("aut","cre"), 
+            email = "m.sepulveda@mail.utoronto.ca", 
+            comment = c(ORCID = "0000-0003-1017-7574")),
+    person("Tom", "Paskhalis",
+            role = "aut",
+            email = "tpaskhalis@gmail.com",
+            comment = c(ORCID = "0000-0001-9298-8850")),
+    person("Manuel", "Aristaran",
+            role = "ctb"),
+    person("David", "Gohel",
+            role = "ctb",
+            comment = "rOpenSci reviewer"),
+    person("Lincoln", "Mullen",
+            role = "ctb",
+            comment = "rOpenSci reviewer")
+    )
 License: Apache License (>= 2)
 URL: https://docs.ropensci.org/tabulapdf/ (website)
     https://github.com/ropensci/tabulapdf/

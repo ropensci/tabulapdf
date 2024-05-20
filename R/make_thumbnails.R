@@ -23,12 +23,10 @@
 #' @references \href{https://tabula.technology/}{Tabula}
 #' @author Thomas J. Leeper <thosjleeper@gmail.com>
 #' @examples
-#' \dontrun{
 #' # simple demo file
-#' f <- system.file("examples", "data.pdf", package = "tabulapdf")
+#' f <- system.file("examples", "mtcars.pdf", package = "tabulapdf")
 #'
 #' make_thumbnails(f)
-#' }
 #' @importFrom tools file_path_sans_ext
 #' @importFrom rJava J new .jfloat
 #' @seealso \code{\link{extract_tables}}, \code{\link{extract_text}},
@@ -41,38 +39,38 @@ make_thumbnails <- function(file,
                             resolution = 72,
                             password = NULL,
                             copy = FALSE) {
-    file <- localize_file(file, copy = copy)
-    pdfDocument <- load_doc(file, password = password, copy = copy)
-    on.exit(pdfDocument$close())
+  file <- localize_file(file, copy = copy)
+  pdfDocument <- load_doc(file, password = password, copy = copy)
+  on.exit(pdfDocument$close())
 
-    if (!is.null(pages)) {
-        pages <- as.integer(pages)
-    } else {
-        pages <- 1L:(get_n_pages(doc = pdfDocument))
-    }
+  if (!is.null(pages)) {
+    pages <- as.integer(pages)
+  } else {
+    pages <- 1L:(get_n_pages(doc = pdfDocument))
+  }
 
-    format <- match.arg(format)
-    fileseq <- formatC(pages, width = max(nchar(pages)), flag = 0)
-    if (is.null(outdir)) {
-        outdir <- tempdir()
-    }
-    filename <- paste0(file_path_sans_ext(basename(file)), fileseq, ".", format)
-    outfile <- normalizePath(file.path(outdir, filename), mustWork = FALSE)
+  format <- match.arg(format)
+  fileseq <- formatC(pages, width = max(nchar(pages)), flag = 0)
+  if (is.null(outdir)) {
+    outdir <- tempdir()
+  }
+  filename <- paste0(file_path_sans_ext(basename(file)), fileseq, ".", format)
+  outfile <- normalizePath(file.path(outdir, filename), mustWork = FALSE)
 
-    for (i in seq_along(pages)) {
-        pageIndex <- pages[i] - 1L
-        PDFRenderer <- new(J("org.apache.pdfbox.rendering.PDFRenderer"),
-            document = pdfDocument
-        )
-        BufferedImage <- PDFRenderer$renderImageWithDPI(pageIndex,
-            scale = .jfloat(resolution)
-        )
-        JavaFile <- new(J("java.io.File"), pathname = outfile[i])
-        J("javax.imageio.ImageIO")$write(
-            BufferedImage,
-            format,
-            JavaFile
-        )
-    }
-    ifelse(file.exists(outfile), outfile, NA_character_)
+  for (i in seq_along(pages)) {
+    pageIndex <- pages[i] - 1L
+    PDFRenderer <- new(J("org.apache.pdfbox.rendering.PDFRenderer"),
+      document = pdfDocument
+    )
+    BufferedImage <- PDFRenderer$renderImageWithDPI(pageIndex,
+      scale = .jfloat(resolution)
+    )
+    JavaFile <- new(J("java.io.File"), pathname = outfile[i])
+    J("javax.imageio.ImageIO")$write(
+      BufferedImage,
+      format,
+      JavaFile
+    )
+  }
+  ifelse(file.exists(outfile), outfile, NA_character_)
 }

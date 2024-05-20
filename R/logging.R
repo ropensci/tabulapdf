@@ -5,12 +5,10 @@
 #' @return \code{NULL}, invisibly.
 #' @author Thomas J. Leeper <thosjleeper@gmail.com>
 #' @examples
-#' \dontrun{
 #' stop_logging()
-#' }
 #' @importFrom rJava J
 #' @export
 stop_logging <- function() {
-    J("java.util.logging.LogManager")$getLogManager()$reset()
-    invisible(NULL)
+  J("java.util.logging.LogManager")$getLogManager()$reset()
+  invisible(NULL)
 }

@@ -1,6 +1,6 @@
 context("Minimum functionality of extract_text")
 
-sf <- system.file("examples", "text.pdf", package = "tabulapdf")
+sf <- system.file("examples", "fortytwo.pdf", package = "tabulapdf")
 
 test_that("Text can be extracted from the whole document", {
   txt <- extract_text(sf, encoding = "UTF-8")

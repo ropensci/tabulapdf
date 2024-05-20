@@ -1,6 +1,6 @@
 context("Test Split/Merge")
 
-sf <- system.file("examples", "data.pdf", package = "tabulapdf")
+sf <- system.file("examples", "mtcars.pdf", package = "tabulapdf")
 
 test_that("Splitting works", {
   s <- split_pdf(sf)

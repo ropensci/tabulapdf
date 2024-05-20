@@ -13,42 +13,40 @@
 #' @references \href{https://tabula.technology/}{Tabula}
 #' @author Thomas J. Leeper <thosjleeper@gmail.com>
 #' @examples
-#' \dontrun{
 #' # simple demo file
-#' f <- system.file("examples", "data.pdf", package = "tabulapdf")
+#' f <- system.file("examples", "mtcars.pdf", package = "tabulapdf")
 #'
 #' get_n_pages(file = f)
 #' get_page_dims(f)
-#' }
 #' @importFrom tools file_path_sans_ext
 #' @importFrom rJava J new
 #' @seealso \code{\link{extract_tables}}, \code{\link{extract_text}}, \code{\link{make_thumbnails}}
 #' @export
 get_page_dims <- function(file, doc, pages = NULL, password = NULL, copy = FALSE) {
-    if (!missing(file)) {
-        doc <- load_doc(file, password = password, copy = copy)
-        on.exit(doc$close())
-    }
+  if (!missing(file)) {
+    doc <- load_doc(file, password = password, copy = copy)
+    on.exit(doc$close())
+  }
 
-    if (!is.null(pages)) {
-        pages <- as.integer(pages)
-    } else {
-        pages <- 1L:(get_n_pages(doc = doc))
-    }
+  if (!is.null(pages)) {
+    pages <- as.integer(pages)
+  } else {
+    pages <- 1L:(get_n_pages(doc = doc))
+  }
 
-    allpages <- doc$getDocumentCatalog()$getPages()
-    lapply(pages, function(x) {
-        thispage <- allpages$get(x - 1L)
-        c(thispage$getMediaBox()$getWidth(), thispage$getMediaBox()$getHeight())
-    })
+  allpages <- doc$getDocumentCatalog()$getPages()
+  lapply(pages, function(x) {
+    thispage <- allpages$get(x - 1L)
+    c(thispage$getMediaBox()$getWidth(), thispage$getMediaBox()$getHeight())
+  })
 }
 
 #' @rdname get_page_dims
 #' @export
 get_n_pages <- function(file, doc, password = NULL, copy = FALSE) {
-    if (!missing(file)) {
-        doc <- load_doc(file, password = password, copy = copy)
-        on.exit(doc$close())
-    }
-    doc$getNumberOfPages()
+  if (!missing(file)) {
+    doc <- load_doc(file, password = password, copy = copy)
+    on.exit(doc$close())
+  }
+  doc$getNumberOfPages()
 }
