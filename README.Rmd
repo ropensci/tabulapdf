@@ -119,6 +119,18 @@ directory before trying to install the package. This can be changed from
 write permission by choosing "Run as administrator" when launching R (again,
 from the right-click context menu).
 
+## Debugging
+
+Load the package like this:
+
+```r
+devtools::load_all()
+libname = "/home/pacha/R/x86_64-pc-linux-gnu-library/4.4"
+pkgname = "tabulapdf"
+rJava::.jpackage(pkgname, jars = "*", lib.loc = libname)
+rJava::J("java.lang.System")$setProperty("java.awt.headless", "true")
+```
+
 ## Meta
 
 * Please [report any issues or bugs](https://github.com/ropensci/tabulapdf/issues).
