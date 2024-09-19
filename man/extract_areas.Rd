@@ -8,6 +8,7 @@
 locate_areas(
   file,
   pages = NULL,
+  thumbnails = NULL,
   resolution = 60L,
   widget = c("shiny", "native", "reduced"),
   copy = FALSE
@@ -19,6 +20,8 @@ extract_areas(file, pages = NULL, guess = FALSE, copy = FALSE, ...)
 \item{file}{A character string specifying the path to a PDF file. This can also be a URL, in which case the file will be downloaded to the R temporary directory using \code{download.file}.}
 
 \item{pages}{An optional integer vector specifying pages to extract from. To extract multiple tables from a given page, repeat the page number (e.g., \code{c(1,2,2,3)}).}
+
+\item{thumbnails}{A directory containing prefetched thumbnails created with the function \code{\link{make_thumbnails}}. This will greatly increase loading speed.}
 
 \item{resolution}{An integer specifying the resolution of the PNG images conversions. A low resolution is used by default to speed image loading.}
 

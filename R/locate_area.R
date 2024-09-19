@@ -3,6 +3,7 @@
 #' @description Interactively identify areas and extract
 #' @param file A character string specifying the path to a PDF file. This can also be a URL, in which case the file will be downloaded to the R temporary directory using \code{download.file}.
 #' @param pages An optional integer vector specifying pages to extract from. To extract multiple tables from a given page, repeat the page number (e.g., \code{c(1,2,2,3)}).
+#' @param thumbnails A directory containing prefetched thumbnails created with the function \code{\link{make_thumbnails}}. This will greatly increase loading speed.
 #' @param resolution An integer specifying the resolution of the PNG images conversions. A low resolution is used by default to speed image loading.
 #' @param guess See \code{\link{extract_tables}} (note the different default value).
 #' @param widget A one-element character vector specifying the type of \dQuote{widget} to use for locating the areas. The default (\dQuote{shiny}) is a shiny widget. The alternatives are a widget based on the native R graphics device (\dQuote{native}, where available), or a very reduced functionality model (\dQuote{reduced}).
@@ -46,6 +47,7 @@
 #' @export
 locate_areas <- function(file,
                          pages = NULL,
+                         thumbnails = NULL,
                          resolution = 60L,
                          widget = c("shiny", "native", "reduced"),
                          copy = FALSE) {
@@ -59,12 +61,19 @@ locate_areas <- function(file,
   file <- localize_file(file, copy = copy)
   # on.exit(unlink(file), add = TRUE)
   dims <- get_page_dims(file, pages = pages)
-  paths <- make_thumbnails(file,
-    outdir = tempdir(),
-    pages = pages,
-    format = "png",
-    resolution = resolution
-  )
+  if (!is.null(thumbnails)) {
+    filelist <- list.files(path.expand(thumbnails), pattern = "\\.png$", ignore.case = TRUE, full.names = TRUE)
+    file.copy(filelist, tempdir(), overwrite = T)
+    paths <- file.path(tempdir(), basename(filelist))
+    cat("fetching files")
+  } else if (is.null(pages)) {
+    paths <- make_thumbnails(file,
+      outdir = tempdir(),
+      pages = pages,
+      format = "png",
+      resolution = resolution
+    )
+  }
   on.exit(unlink(paths), add = TRUE)
 
   areas <- rep(list(NULL), length(paths))
