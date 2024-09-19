@@ -147,8 +147,8 @@ The selection from Figure 1 can be used to extract the tables as follows:
 
 ```{r}
 # manual selection, result transcribed below
-# first_table <- locate_areas(f, pages = 2)
-# second_table <- locate_areas(f, pages = 2)
+# first_table <- locate_areas(f, pages = 2)[[1]]
+# second_table <- locate_areas(f, pages = 2)[[1]]
 
 first_table <- c(58.15032, 125.26869, 182.02355, 488.12966)
 second_table <- c(387.7791, 125.2687, 513.7519, 492.3246)

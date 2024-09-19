@@ -61,12 +61,13 @@ locate_areas <- function(file,
   file <- localize_file(file, copy = copy)
   # on.exit(unlink(file), add = TRUE)
   dims <- get_page_dims(file, pages = pages)
+
   if (!is.null(thumbnails)) {
     filelist <- list.files(path.expand(thumbnails), pattern = "\\.png$", ignore.case = TRUE, full.names = TRUE)
     file.copy(filelist, tempdir(), overwrite = T)
     paths <- file.path(tempdir(), basename(filelist))
     cat("fetching files")
-  } else if (is.null(pages)) {
+  } else {
     paths <- make_thumbnails(file,
       outdir = tempdir(),
       pages = pages,
@@ -127,6 +128,7 @@ extract_areas <- function(file,
   extract_tables(
     file = file,
     pages = pages,
+    thumbnails = NULL,
     area = areas,
     guess = guess,
     ...

@@ -28,7 +28,9 @@ Authors@R: c(
             comment = "rOpenSci reviewer"),
     person("Lincoln", "Mullen",
             role = "ctb",
-            comment = "rOpenSci reviewer")
+            comment = "rOpenSci reviewer"),
+    person("Munk School of Global Affairs and Public Policy",
+            role = "fnd")
     )
 License: Apache License (>= 2)
 URL: https://docs.ropensci.org/tabulapdf/ (website)
