@@ -1,3 +1,11 @@
+# CHANGES TO tabulapdf 1.0.5-4
+
+* Faster Shiny interface (parts of PR #56, @jkeuskamp)
+
+# CHANGES TO tabulapdf 1.0.5-3
+
+* CRAN release after the previous package was archived.
+
 # CHANGES TO tabulapdf 1.0.5-2
 
 * Uses readr for a much faster parsing of extracted tables.
