@@ -37,7 +37,7 @@
 #' get_n_pages(mf)
 #' @seealso \code{\link{extract_areas}}, \code{\link{get_page_dims}},
 #' \code{\link{make_thumbnails}}
-#' @importFrom rJava J new
+#' @importFrom rJava J new .jcall .jnull
 #' @importFrom tools file_path_sans_ext
 #' @export
 split_pdf <- function(file,
@@ -76,7 +76,13 @@ merge_pdfs <- function(file, outfile, copy = FALSE) {
   file <- unlist(lapply(file, localize_file, copy = copy))
   merger <- new(J("org.apache.pdfbox.multipdf.PDFMergerUtility"))
   merger$setDestinationFileName(outfile)
-  lapply(file, merger$addSource)
-  merger$mergeDocuments()
+
+  # Add source files to the merger
+  lapply(file, function(f) merger$addSource(new(J("java.io.File"), f)))
+
+  # Merge the documents using null for StreamCacheCreateFunction
+  streamCacheCreateFunction <- .jnull("org.apache.pdfbox.io.RandomAccessStreamCache$StreamCacheCreateFunction")
+  merger$mergeDocuments(streamCacheCreateFunction)
+
   outfile
 }

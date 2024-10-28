@@ -23,14 +23,12 @@ localize_file <- function(path, copy = FALSE, quiet = TRUE) {
 
 load_doc <- function(file, password = NULL, copy = FALSE) {
   localfile <- localize_file(path = file, copy = copy)
-  pdfDocument <- new(J("org.apache.pdfbox.pdmodel.PDDocument"))
-  fileInputStream <- new(J("java.io.FileInputStream"), name <- localfile)
+  fileJ <- new(J("java.io.File"), localfile)
   if (is.null(password)) {
-    doc <- pdfDocument$load(input = fileInputStream)
+    doc <- J("org.apache.pdfbox.Loader")$loadPDF(fileJ)
   } else {
-    doc <- pdfDocument$load(input = fileInputStream, password = password)
+    doc <- J("org.apache.pdfbox.Loader")$loadPDF(fileJ, password)
   }
-  pdfDocument$close()
   doc
 }
 

@@ -120,7 +120,19 @@ extract_tables <- function(file,
       if (isTRUE(guess)) {
         # detect table locations
         detector <- new(J("technology.tabula.detectors.NurminenDetectionAlgorithm"))
+
+        # hide commons logging
+        # tmp_log <- tempfile()
+        # sink()
+        # sink(tmp_log, type = "output")
+        # sink(tmp_log, type = "message")
+
         guesses <- detector$detect(page)
+
+        # sink()
+        # sink(type = "output")
+        # sink(type = "message")
+
         guessesIterator <- guesses$iterator()
         while (.jcall(guessesIterator, "Z", "hasNext")) {
           guessRect <- .jcall(guessesIterator, "Ljava/lang/Object;", "next")
