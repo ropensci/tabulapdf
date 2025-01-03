@@ -36,7 +36,6 @@
 #' @examples
 #' # simple demo file
 #' f <- system.file("examples", "mtcars.pdf", package = "tabulapdf")
-#'
 #' # extract tables from only second page
 #' extract_tables(f, pages = 2)
 #' @seealso \code{\link{extract_areas}}, \code{\link{get_page_dims}}, \code{\link{make_thumbnails}}, \code{\link{split_pdf}}

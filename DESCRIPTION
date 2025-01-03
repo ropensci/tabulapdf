@@ -7,7 +7,7 @@ Description: Bindings for the 'Tabula' <https://tabula.technology/> 'Java'
     journalism. It allows for automatic and manual table extraction, the latter
     facilitated through a 'Shiny' interface, enabling manual areas selection\
     with a computer mouse for data retrieval.
-Version: 1.0.5-4
+Version: 1.0.5-5
 Authors@R: c(
     person("Thomas J.", "Leeper",
             role = "aut", 
@@ -57,4 +57,4 @@ SystemRequirements: Java (>= 7.0):
     openjdk@11 (brew)
 VignetteBuilder: knitr
 Encoding: UTF-8
-RoxygenNote: 7.3.1
+RoxygenNote: 7.3.2

@@ -15,7 +15,6 @@
 #' @examples
 #' # simple demo file
 #' f <- system.file("examples", "mtcars.pdf", package = "tabulapdf")
-#'
 #' get_n_pages(file = f)
 #' get_page_dims(f)
 #' @importFrom tools file_path_sans_ext

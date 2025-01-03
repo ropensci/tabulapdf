@@ -25,8 +25,9 @@
 #' @examples
 #' # simple demo file
 #' f <- system.file("examples", "mtcars.pdf", package = "tabulapdf")
-#'
-#' make_thumbnails(f)
+#' 
+#' # extract thumbnails from the first page
+#' make_thumbnails(f, page = 1)
 #' @importFrom tools file_path_sans_ext
 #' @importFrom rJava J new .jfloat
 #' @seealso \code{\link{extract_tables}}, \code{\link{extract_text}},

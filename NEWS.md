@@ -1,3 +1,7 @@
+# CHANGES TO tabulapdf 1.0.5-5
+
+* Updated tests to use offline files.
+
 # CHANGES TO tabulapdf 1.0.5-4
 
 * Faster Shiny interface (parts of PR #56, @jkeuskamp)

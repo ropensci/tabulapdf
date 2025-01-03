@@ -21,10 +21,14 @@ Java. You need do this before installing rJava or attempting to use
 tabulapdf. More on [this](#installing-java-on-windows-with-chocolatey)
 and [troubleshooting](#troubleshooting) below.
 
-tabulapdf is not available on CRAN, but it can be installed from
+tabulapdf is available on CRAN, and it can also be installed from
 rOpenSci’s R-Universe:
 
 ``` r
+# either
+install.packages("tabulapdf")
+
+# or
 install.packages("tabulapdf", repos = c("https://ropensci.r-universe.dev", "https://cloud.r-project.org"))
 ```
 
@@ -112,6 +116,18 @@ directory before trying to install the package. This can be changed from
 “Properties” on the right-click context menu. Alternatively, you can
 ensure write permission by choosing “Run as administrator” when
 launching R (again, from the right-click context menu).
+
+## Debugging
+
+Load the package like this:
+
+``` r
+devtools::load_all()
+libname = "/home/pacha/R/x86_64-pc-linux-gnu-library/4.4"
+pkgname = "tabulapdf"
+rJava::.jpackage(pkgname, jars = "*", lib.loc = libname)
+rJava::J("java.lang.System")$setProperty("java.awt.headless", "true")
+```
 
 ## Meta
 

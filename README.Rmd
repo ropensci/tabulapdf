@@ -29,9 +29,13 @@ You need do this before installing rJava or attempting to use tabulapdf. More on
 [this](#installing-java-on-windows-with-chocolatey) and
 [troubleshooting](#troubleshooting) below.
 
-tabulapdf is not available on CRAN, but it can be installed from rOpenSci's
+tabulapdf is available on CRAN, and it can also be installed from rOpenSci's
 R-Universe:
 ```r
+# either
+install.packages("tabulapdf")
+
+# or
 install.packages("tabulapdf", repos = c("https://ropensci.r-universe.dev", "https://cloud.r-project.org"))
 ```
 
